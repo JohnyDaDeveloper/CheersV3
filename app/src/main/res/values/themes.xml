@@ -1,0 +1,47 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Cheers.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorToolbar">?colorPrimary</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?colorToolbar</item>
+        <item name="colorOnToolbar">?colorOnPrimary</item>
+
+        <item name="spacingDefault">10dp</item>
+        <item name="drawerArrowStyle">@style/Theme.Cheers.ArrowStyle</item>
+    </style>
+
+    <style name="Theme.Cheers.Base.Light" parent="Theme.Cheers.Base">
+
+    </style>
+
+    <style name="Theme.Cheers.Default" parent="Theme.Cheers.Base.Light">
+        <item name="colorPrimary">@color/light_colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/light_colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="colorSecondary">@color/light_colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/light_colorSecondaryVariant</item>
+        <item name="colorSecondaryTransparent">@color/light_colorSecondaryTransparent</item>
+
+        <item name="colorOnSecondary">@color/black</item>
+    </style>
+
+    <style name="Theme.Cheers.SplashTheme" parent="Theme.Cheers.Default">
+        <item name="android:windowBackground">@drawable/splashscreen_icon</item>
+        <item name="android:navigationBarColor">@color/light_colorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Cheers.Large" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textColor">?colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.Cheers.Medium" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">?colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.Cheers.Small" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">?colorOnSurface</item>
+    </style>
+
+    <style name="Theme.Cheers.ArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">?colorOnToolbar</item>
+    </style>
+</resources>

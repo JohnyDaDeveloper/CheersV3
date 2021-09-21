@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+        android:id="@+id/nameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="?spacingDefault"
+        android:hint="@string/dialog_new_counter_name"
+        android:maxLines="1"
+        android:inputType="text"
+        android:completionThreshold="1"
+        android:textAppearance="@style/TextAppearance.Cheers.Medium" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="30dp">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/alcoholEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="?spacingDefault"
+                android:hint="@string/dialog_new_counter_alcohol"
+                android:inputType="numberSigned|number|numberDecimal"
+                android:gravity="end"
+                android:layout_toStartOf="@id/percentTextView"
+                android:layout_centerVertical="true"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Cheers.Medium" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/percentTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/percent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:textAppearance="@style/TextAppearance.Cheers.Medium" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/volumeEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/dialog_new_counter_volume"
+                android:inputType="numberSigned|number|numberDecimal"
+                android:gravity="end"
+                android:layout_marginEnd="?spacingDefault"
+                android:layout_toStartOf="@id/literTextView"
+                android:layout_centerVertical="true"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Cheers.Medium" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/literTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/liter"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:textAppearance="@style/TextAppearance.Cheers.Medium" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

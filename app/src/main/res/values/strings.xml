@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Cheers</string>
+
+    <string name="nav_counters">Counters</string>
+
+    <string name="add_counter_menu_item">Add counter</string>
+    <string name="delete_counter_menu_item">Delete counter</string>
+    <string name="stop_counter_menu_item">Stop counter</string>
+
+    <string name="plus" translatable="false">+</string>
+    <string name="minus" translatable="false">-</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="percent" translatable="false">%</string>
+    <string name="liter" translatable="false">L</string>
+    <string name="delete">Delete</string>
+    <string name="stop">Stop</string>
+
+    <string name="menu_header_text">Menu</string>
+
+    <string name="dialog_new_counter_title">New counter</string>
+    <string name="dialog_new_counter_name">Name</string>
+    <string name="dialog_new_counter_alcohol">Alcohol</string>
+    <string name="dialog_new_counter_volume">Volume</string>
+
+    <string name="dialog_confirm_counter_delete_title">Delete counter \"%s\"?</string>
+    <string name="dialog_confirm_counter_stop_title">Stop counter \"%s\"?</string>
+</resources>

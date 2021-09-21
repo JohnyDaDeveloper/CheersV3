@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Cheers.Base.Dark" parent="Theme.Cheers.Base">
+
+    </style>
+
+    <style name="Theme.Cheers.Default" parent="Theme.Cheers.Base.Dark">
+        <item name="colorPrimary">@color/dark_colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/dark_colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/black</item>
+
+        <item name="colorSecondary">@color/dark_colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/dark_colorSecondaryVariant</item>
+        <item name="colorSecondaryTransparent">@color/dark_colorSecondaryTransparent</item>
+
+        <item name="colorOnSecondary">@color/black</item>
+    </style>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Na zdraví!</string>
+    <string name="nav_counters">Počítadla</string>
+    <string name="add_counter_menu_item">Přidat počítadlo</string>
+    <string name="delete_counter_menu_item">Smazat počítadlo</string>
+    <string name="stop_counter_menu_item">Zastavit počítadlo</string>
+    <string name="create">Vytvořit</string>
+    <string name="cancel">Zrušit</string>
+    <string name="delete">Smazat</string>
+    <string name="stop">Zastavit</string>
+    <string name="menu_header_text">Menu</string>
+    <string name="dialog_new_counter_title">Nové počítadlo</string>
+    <string name="dialog_new_counter_name">Název</string>
+    <string name="dialog_new_counter_alcohol">Alkohol</string>
+    <string name="dialog_new_counter_volume">Obsah</string>
+    <string name="dialog_confirm_counter_delete_title">Smazat počítadlo \"%s\"?</string>
+    <string name="dialog_confirm_counter_stop_title">Zastavit počítadlo \"%s\"?</string>
+</resources>
