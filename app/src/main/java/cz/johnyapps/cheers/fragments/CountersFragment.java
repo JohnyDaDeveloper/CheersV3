@@ -84,16 +84,18 @@ public class CountersFragment extends Fragment {
     }
 
     private void stopCounter(@Nullable CounterWithBeverage counterWithBeverage) {
-        Counter counter = counterWithBeverage.getCounter();
-        Beverage beverage = counterWithBeverage.getBeverage();
 
-        if (counterWithBeverage != null && counter != null && beverage != null) {
+
+        if (counterWithBeverage != null) {
             View root = getView();
 
             if (root == null) {
                 Logger.w(TAG, "stopCounter: root is null");
                 return;
             }
+
+            Counter counter = counterWithBeverage.getCounter();
+            Beverage beverage = counterWithBeverage.getBeverage();
 
             Context context = root.getContext();
             CustomDialogBuilder builder = new CustomDialogBuilder(context);
@@ -103,10 +105,6 @@ public class CountersFragment extends Fragment {
                             counterWithBeverage))
                     .setNeutralButton(R.string.cancel, (dialog, which) -> {})
                     .create().show();
-        } else if (beverage == null) {
-            Logger.w(TAG, "stopCounter: Beverage is null");
-        } else if (counter == null) {
-            Logger.w(TAG, "stopCounter: Counter is null");
         } else {
             Logger.w(TAG, "stopCounter: None CounterWithBeverage selected");
         }
@@ -122,16 +120,16 @@ public class CountersFragment extends Fragment {
     }
 
     private void deleteCounter(@Nullable CounterWithBeverage counterWithBeverage) {
-        Counter counter = counterWithBeverage.getCounter();
-        Beverage beverage = counterWithBeverage.getBeverage();
-
-        if (counterWithBeverage != null && counter != null && beverage != null) {
+        if (counterWithBeverage != null) {
             View root = getView();
 
             if (root == null) {
                 Logger.w(TAG, "deleteCounter: root is null");
                 return;
             }
+            Counter counter = counterWithBeverage.getCounter();
+            Beverage beverage = counterWithBeverage.getBeverage();
+
 
             Context context = root.getContext();
             CustomDialogBuilder builder = new CustomDialogBuilder(context);
@@ -141,10 +139,6 @@ public class CountersFragment extends Fragment {
                             counterWithBeverage))
                     .setNeutralButton(R.string.cancel, (dialog, which) -> {})
                     .create().show();
-        } else if (beverage == null) {
-            Logger.w(TAG, "deleteCounter: Beverage is null");
-        } else if (counter == null) {
-            Logger.w(TAG, "deleteCounter: Counter is null");
         } else {
             Logger.w(TAG, "deleteCounter: None CounterWithBeverage selected");
         }
@@ -166,7 +160,10 @@ public class CountersFragment extends Fragment {
             return;
         }
 
-        NewCounterDialog newCounterDialog = new NewCounterDialog(root.getContext());
+        List<Beverage> beverages = viewModel.getBeverages().getValue();
+        Beverage previousBeverage = beverages == null ? null : beverages.get(beverages.size() - 1);
+
+        NewCounterDialog newCounterDialog = new NewCounterDialog(root.getContext(), previousBeverage);
         newCounterDialog.show(counterWithBeverage -> {
             List<CounterWithBeverage> countersWithBeverages = viewModel.addCounterWithBeverage(counterWithBeverage);
 
@@ -174,7 +171,7 @@ public class CountersFragment extends Fragment {
             countersRecyclerView.scrollToPosition(countersWithBeverages.size() - 1);
 
             saveCounter(root.getContext(), counterWithBeverage);
-        });
+        }, viewModel::addBeverage);
     }
 
     private void saveCounter(@NonNull Context context, @NonNull CounterWithBeverage countersWithBeverages) {

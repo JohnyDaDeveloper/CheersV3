@@ -33,9 +33,9 @@ public class CounterView extends LinearLayout {
 
     @Nullable
     private CounterWithBeverage counterWithBeverage;
-
     @Nullable
-    private OnLongClickListener onPlusMinusLongClickListener = null;
+    private OnPassClickListener onPassClickListener;
+    private boolean passClicks = false;
 
     public CounterView(@NonNull Context context) {
         super(context);
@@ -61,23 +61,47 @@ public class CounterView extends LinearLayout {
         valueTextView = root.findViewById(R.id.valueTextView);
 
         plusTextView = root.findViewById(R.id.plusTextView);
-        plusTextView.setOnClickListener(v -> changeCounterValue(1));
-        plusTextView.setOnLongClickListener(onPlusMinusLongClickListener);
+        plusTextView.setOnLongClickListener(v -> {
+            if (onPassClickListener != null) {
+                onPassClickListener.onClick(v);
+            }
+
+            return false;
+        });
 
         minusTextView = root.findViewById(R.id.minusTextView);
-        minusTextView.setOnClickListener(v -> changeCounterValue(-1));
-        minusTextView.setOnLongClickListener(onPlusMinusLongClickListener);
+        minusTextView.setOnLongClickListener(v -> {
+            if (onPassClickListener != null) {
+                onPassClickListener.onClick(v);
+            }
+
+            return false;
+        });
+
+        setPassClicks(passClicks);
     }
 
-    public void setOnPlusMinusLongClickListener(@Nullable OnLongClickListener onPlusMinusLongClickListener) {
-        this.onPlusMinusLongClickListener = onPlusMinusLongClickListener;
+    public void setOnPassClickListener(@Nullable OnPassClickListener onPassClickListener) {
+        this.onPassClickListener = onPassClickListener;
 
         if (plusTextView != null) {
-            plusTextView.setOnLongClickListener(onPlusMinusLongClickListener);
+            plusTextView.setOnLongClickListener(v -> {
+                if (this.onPassClickListener != null) {
+                    this.onPassClickListener.onClick(v);
+                }
+
+                return false;
+            });
         }
 
         if (minusTextView != null) {
-            minusTextView.setOnLongClickListener(onPlusMinusLongClickListener);
+            minusTextView.setOnLongClickListener(v -> {
+                if (this.onPassClickListener != null) {
+                    this.onPassClickListener.onClick(v);
+                }
+
+                return false;
+            });
         }
     }
 
@@ -111,23 +135,44 @@ public class CounterView extends LinearLayout {
     private void fillCounter(@NonNull CounterWithBeverage counterWithBeverage) {
         Beverage beverage = counterWithBeverage.getBeverage();
         Counter counter = counterWithBeverage.getCounter();
+        int textColor = beverage.getTextColor();
 
-        if (beverage != null) {
-            int textColor = beverage.getTextColor();
+        nameTextView.setTextColor(textColor);
+        valueTextView.setTextColor(textColor);
+        plusTextView.setTextColor(textColor);
+        minusTextView.setTextColor(textColor);
 
-            nameTextView.setTextColor(textColor);
-            valueTextView.setTextColor(textColor);
-            plusTextView.setTextColor(textColor);
-            minusTextView.setTextColor(textColor);
-
-            counterCardView.setCardBackgroundColor(beverage.getColor());
-            nameTextView.setText(String.format(TimeUtils.getLocale(),
-                    "%s %s%s",
-                    beverage.getName(),
-                    TextUtils.decimalToStringWithTwoDecimalDigits(counter.getVolume()),
-                    getContext().getResources().getString(R.string.liter)));
-        }
+        counterCardView.setCardBackgroundColor(beverage.getColor());
+        nameTextView.setText(String.format(TimeUtils.getLocale(),
+                "%s %s%s",
+                beverage.getName(),
+                TextUtils.decimalToStringWithTwoDecimalDigits(counter.getVolume()),
+                getContext().getResources().getString(R.string.liter)));
 
         valueTextView.setText(String.valueOf(counter.getCount()));
+    }
+
+    public void setPassClicks(boolean passClicks) {
+        this.passClicks = passClicks;
+
+        if (passClicks) {
+            plusTextView.setOnClickListener(v -> {
+                if (onPassClickListener != null) {
+                    onPassClickListener.onClick(v);
+                }
+            });
+            minusTextView.setOnClickListener(v -> {
+                if (onPassClickListener != null) {
+                    onPassClickListener.onClick(v);
+                }
+            });
+        } else {
+            plusTextView.setOnClickListener(v -> changeCounterValue(1));
+            minusTextView.setOnClickListener(v -> changeCounterValue(-1));
+        }
+    }
+
+    public interface OnPassClickListener {
+        void onClick(@NonNull View v);
     }
 }

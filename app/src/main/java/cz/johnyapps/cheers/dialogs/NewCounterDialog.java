@@ -33,10 +33,13 @@ public class NewCounterDialog {
     private AlertDialog alertDialog;
     @Nullable
     private Beverage selectedBeverage;
+    @Nullable
+    private final Beverage previousBeverage;
 
-    public NewCounterDialog(@NonNull Context context) {
+    public NewCounterDialog(@NonNull Context context, @Nullable Beverage previousBeverage) {
         this.context = context;
         this.adapter = new ItemsWithIdAdapter<>(context, this::setBeverage);
+        this.previousBeverage = previousBeverage;
 
         GetBeverageNamesWithIdsTask task = new GetBeverageNamesWithIdsTask(context);
         task.setOnCompleteListener(new BaseDatabaseTask.OnCompleteListener<List<Beverage>>() {
@@ -61,11 +64,13 @@ public class NewCounterDialog {
         task.execute();
     }
 
-    public void show(@NonNull OnCounterCreatedListener onCounterCreatedListener) {
-        show(onCounterCreatedListener, null, -1, -1);
+    public void show(@NonNull OnCounterCreatedListener onCounterCreatedListener,
+                     @NonNull OnBeverageCreatedListener onBeverageCreatedListener) {
+        show(onCounterCreatedListener, onBeverageCreatedListener, null, -1, -1);
     }
 
     public void show(@NonNull OnCounterCreatedListener onCounterCreatedListener,
+                     @NonNull OnBeverageCreatedListener onBeverageCreatedListener,
                      @Nullable String name,
                      float alcohol,
                      float volume) {
@@ -74,7 +79,10 @@ public class NewCounterDialog {
                 .setCancelable(false)
                 .setView(R.layout.dialog_new_counter)
                 .setPositiveButton(R.string.create, (dialog, which) ->
-                        createCounter((AlertDialog) dialog, onCounterCreatedListener))
+                        createCounter((AlertDialog) dialog,
+                                previousBeverage,
+                                onCounterCreatedListener,
+                                onBeverageCreatedListener))
                 .setNeutralButton(R.string.cancel, (dialog, which) -> {});
 
         alertDialog = builder.create();
@@ -116,7 +124,9 @@ public class NewCounterDialog {
     }
 
     private void createCounter(@NonNull AlertDialog alertDialog,
-                               @NonNull OnCounterCreatedListener onCounterCreatedListener) {
+                               @Nullable Beverage previousBeverage,
+                               @NonNull OnCounterCreatedListener onCounterCreatedListener,
+                               @NonNull OnBeverageCreatedListener onBeverageCreatedListener) {
         AutoCompleteTextView nameEditText = alertDialog.findViewById(R.id.nameEditText);
         String name = nameEditText.getText() == null ? null : nameEditText.getText().toString();
 
@@ -129,12 +139,13 @@ public class NewCounterDialog {
         float volume = toFloat(volumeString, -1);
 
         if (name == null || name.isEmpty() || volume < 0) {
-            show(onCounterCreatedListener, name, alcohol, volume);
+            show(onCounterCreatedListener, onBeverageCreatedListener, name, alcohol, volume);
         } else {
             Beverage beverage;
 
             if (selectedBeverage == null) {
-                beverage = new Beverage(name, ThemeUtils.getRandomColor(), Color.BLACK, alcohol);
+                int color = previousBeverage == null ? ThemeUtils.getRandomColor() : previousBeverage.getColor();
+                beverage = new Beverage(name, ThemeUtils.getNextColor(color), Color.BLACK, alcohol);
             } else {
                 beverage = selectedBeverage;
             }
@@ -158,5 +169,9 @@ public class NewCounterDialog {
 
     public interface OnCounterCreatedListener {
         void onCreated(@NonNull CounterWithBeverage counterWithBeverage);
+    }
+
+    public interface OnBeverageCreatedListener {
+        void onCreated(@NonNull Beverage beverage);
     }
 }

@@ -7,7 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cz.johnyapps.cheers.ItemWithId;
+import cz.johnyapps.cheers.entities.Tag;
 import cz.johnyapps.cheers.tools.TextUtils;
 
 @Entity(tableName = "beverage_table")
@@ -22,6 +26,8 @@ public class Beverage implements ItemWithId {
     @ColorInt
     private int textColor;
     private float alcohol;
+    @NonNull
+    private List<Tag> tags = new ArrayList<>();
 
     public Beverage(@NonNull String name,
                     @ColorInt int color,
@@ -88,5 +94,18 @@ public class Beverage implements ItemWithId {
 
     public void setAlcohol(float alcohol) {
         this.alcohol = alcohol;
+    }
+
+    @NonNull
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(@NonNull List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public void addTag(@NonNull Tag tag) {
+        this.tags.add(tag);
     }
 }

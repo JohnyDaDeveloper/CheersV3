@@ -2,6 +2,7 @@
     <string name="app_name">Cheers</string>
 
     <string name="nav_counters">Counters</string>
+    <string name="nav_beverage_database">Beverage database</string>
 
     <string name="add_counter_menu_item">Add counter</string>
     <string name="delete_counter_menu_item">Delete counter</string>

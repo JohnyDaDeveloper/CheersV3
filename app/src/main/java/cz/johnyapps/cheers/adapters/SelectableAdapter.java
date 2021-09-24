@@ -24,14 +24,20 @@ public abstract class SelectableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
 
     @Override
     public void onBindViewHolder(@NonNull VIEW_HOLDER holder, int position) {
-        if (selectedItem != null && selectedItem.getPosition() == position) {
+        boolean selected = selectedItem != null && selectedItem.getPosition() == position;
+
+        if (selected) {
             holder.itemView.setForeground(ResourcesCompat.getDrawable(getContext().getResources(),
                     R.drawable.selected_item_background,
                     getContext().getTheme()));
         } else {
             holder.itemView.setForeground(null);
         }
+
+        onBindViewHolder(holder, position, selected);
     }
+
+    public abstract void onBindViewHolder(@NonNull VIEW_HOLDER holder, int position, boolean selected);
 
     @Override
     public void update(@Nullable DATA data) {
@@ -89,6 +95,11 @@ public abstract class SelectableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
             root.setOnLongClickListener(v -> {
                 selectPosition(getAdapterPosition());
                 return false;
+            });
+            root.setOnClickListener(v -> {
+                if (selectedItem != null) {
+                    selectPosition(getAdapterPosition());
+                }
             });
         }
     }

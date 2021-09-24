@@ -1,0 +1,77 @@
+package cz.johnyapps.cheers.entities;
+
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.johnyapps.cheers.ItemWithId;
+
+@Entity(tableName = "tag_table")
+public class Tag implements ItemWithId {
+    @Ignore
+    private static final String ID = "id";
+    @Ignore
+    private static final String NAME = "name";
+
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+
+    @NonNull
+    private String name;
+
+    public Tag(long id, @NonNull String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Tag(@NonNull String name) {
+        this.name = name;
+    }
+
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @NonNull
+    @Override
+    public String getText(@NonNull Context context) {
+        return getName();
+    }
+
+    @NonNull
+    public JSONObject toJson() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(ID, id);
+        jsonObject.put(NAME, name);
+
+        return jsonObject;
+    }
+
+    @NonNull
+    public static Tag fromJson(@NonNull JSONObject jsonObject) throws JSONException {
+        long id = jsonObject.getLong(ID);
+        String name = jsonObject.getString(NAME);
+
+        return new Tag(id, name);
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @NonNull
+    public String getName() {
+        return name;
+    }
+
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+}

@@ -1,7 +1,6 @@
 package cz.johnyapps.cheers.entities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
@@ -14,10 +13,10 @@ public class CounterWithBeverage {
     private Counter counter;
 
     @Relation(parentColumn = "beverageId", entityColumn = "id")
-    @Nullable
+    @NonNull
     private Beverage beverage;
 
-    public CounterWithBeverage(@NonNull Counter counter, @Nullable Beverage beverage) {
+    public CounterWithBeverage(@NonNull Counter counter, @NonNull Beverage beverage) {
         this.counter = counter;
         this.beverage = beverage;
     }
@@ -31,12 +30,12 @@ public class CounterWithBeverage {
         this.counter = counter;
     }
 
-    @Nullable
+    @NonNull
     public Beverage getBeverage() {
         return beverage;
     }
 
-    public void setBeverage(@Nullable Beverage beverage) {
+    public void setBeverage(@NonNull Beverage beverage) {
         this.beverage = beverage;
     }
 }

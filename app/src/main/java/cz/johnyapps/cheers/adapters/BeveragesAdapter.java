@@ -1,0 +1,65 @@
+package cz.johnyapps.cheers.adapters;
+
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cz.johnyapps.cheers.R;
+import cz.johnyapps.cheers.entities.beverage.Beverage;
+
+public class BeveragesAdapter extends SelectableAdapter<BeveragesAdapter.BeverageViewHolder, Beverage, List<Beverage>> {
+    @NonNull
+    private List<Beverage> beverages;
+
+    public BeveragesAdapter(@NonNull Context context,
+                            @Nullable List<Beverage> beverages,
+                            @NonNull OnSelectListener<Beverage> onSelectListener) {
+        super(context, onSelectListener);
+        this.beverages = beverages == null ? new ArrayList<>() : beverages;
+    }
+
+    @NonNull
+    @Override
+    public Beverage getItem(int position) {
+        return beverages.get(position);
+    }
+
+    @Override
+    protected void onUpdate(@Nullable List<Beverage> beverages) {
+        this.beverages = beverages == null ? new ArrayList<>() : beverages;
+    }
+
+    @NonNull
+    @Override
+    public BeverageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new BeverageViewHolder(getInflater().inflate(R.layout.item_beverage, parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BeverageViewHolder holder, int position, boolean selected) {
+        Beverage beverage = getItem(position);
+        holder.nameTextView.setText(beverage.getName());
+    }
+
+    @Override
+    public int getItemCount() {
+        return beverages.size();
+    }
+
+    public class BeverageViewHolder extends SelectableAdapter<BeverageViewHolder, Beverage, List<Beverage>>.SelectableViewHolder {
+        AppCompatTextView nameTextView;
+
+        public BeverageViewHolder(@NonNull View root) {
+            super(root);
+
+            nameTextView = root.findViewById(R.id.nameTextView);
+        }
+    }
+}

@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.johnyapps.cheers.database.tasks.BaseDatabaseTask;
+import cz.johnyapps.cheers.database.tasks.GetBeveragesTask;
 import cz.johnyapps.cheers.database.tasks.GetCountersWithBeveragesTask;
 import cz.johnyapps.cheers.entities.CounterWithBeverage;
+import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.tools.Logger;
 
 public class MainViewModel extends AndroidViewModel {
@@ -24,9 +26,15 @@ public class MainViewModel extends AndroidViewModel {
     @NonNull
     private final MutableLiveData<CounterWithBeverage> selectedCounterWithBeverage = new MutableLiveData<>();
 
+    @NonNull
+    private final MutableLiveData<List<Beverage>> beverages = new MutableLiveData<>();
+    @NonNull
+    private final MutableLiveData<Beverage> selectedBeverage = new MutableLiveData<>();
+
     public MainViewModel(@NonNull Application application) {
         super(application);
         fetchCounters();
+        fetchBeverages();
     }
 
     private void fetchCounters() {
@@ -40,6 +48,28 @@ public class MainViewModel extends AndroidViewModel {
             @Override
             public void onFailure(@Nullable Exception e) {
                 Logger.e(TAG, "fetchCounters: Failed to fetch counters", e);
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+        task.execute();
+    }
+
+    private void fetchBeverages() {
+        GetBeveragesTask task = new GetBeveragesTask(getApplication());
+        task.setOnCompleteListener(new BaseDatabaseTask.OnCompleteListener<List<Beverage>>() {
+            @Override
+            public void onSuccess(@Nullable List<Beverage> beverages) {
+                Logger.d(TAG, "onSuccess: %s", beverages == null ? null : beverages.size());
+                setBeverages(beverages);
+            }
+
+            @Override
+            public void onFailure(@Nullable Exception e) {
+                Logger.e(TAG, "onFailure: Failed to fetch beverages", e);
             }
 
             @Override
@@ -76,8 +106,7 @@ public class MainViewModel extends AndroidViewModel {
         List<CounterWithBeverage> countersWithBeverages = this.countersWithBeverages.getValue();
 
         if (countersWithBeverages != null) {
-            boolean removed = countersWithBeverages.remove(counterWithBeverage);
-            Logger.d(TAG, "removeCounterWithBeverage: %s", removed);
+            countersWithBeverages.remove(counterWithBeverage);
         }
 
         setCountersWithBeverages(countersWithBeverages);
@@ -90,5 +119,34 @@ public class MainViewModel extends AndroidViewModel {
 
     public void setSelectedCounterWithBeverage(@Nullable CounterWithBeverage selectedCounterWithBeverage) {
         this.selectedCounterWithBeverage.setValue(selectedCounterWithBeverage);
+    }
+
+    @NonNull
+    public LiveData<List<Beverage>> getBeverages() {
+        return beverages;
+    }
+
+    public void setBeverages(@Nullable List<Beverage> beverages) {
+        this.beverages.setValue(beverages);
+    }
+
+    public void addBeverage(@NonNull Beverage beverage) {
+        List<Beverage> beverages = this.beverages.getValue();
+
+        if (beverages == null) {
+            beverages = new ArrayList<>();
+        }
+
+        beverages.add(beverage);
+        setBeverages(beverages);
+    }
+
+    @NonNull
+    public LiveData<Beverage> getSelectedBeverage() {
+        return selectedBeverage;
+    }
+
+    public void setSelectedBeverage(@Nullable Beverage selectedBeverage) {
+        this.selectedBeverage.setValue(selectedBeverage);
     }
 }

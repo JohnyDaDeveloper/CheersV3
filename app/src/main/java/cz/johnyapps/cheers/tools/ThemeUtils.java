@@ -30,6 +30,15 @@ public class ThemeUtils {
     }
 
     @ColorInt
+    public static int getNextColor(@ColorInt int color) {
+        int red = Math.round(Color.red(color) * 1.3f % 125) + 130;
+        int green = Math.round(Color.green(color) * 1.5f % 125) + 130;
+        int blue = Math.round(Color.blue(color) * 1.7f % 125) + 130;
+
+        return Color.rgb(red, green, blue);
+    }
+
+    @ColorInt
     public static int getRandomColor() {
         Random random = new Random();
 
