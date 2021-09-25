@@ -8,6 +8,7 @@
     <string name="delete_counter_menu_item">Delete counter</string>
     <string name="stop_counter_menu_item">Stop counter</string>
     <string name="edit_beverage_menu_item">Edit beverage</string>
+    <string name="add_beverage_menu_item">Add beverage</string>
 
     <string name="plus" translatable="false">+</string>
     <string name="minus" translatable="false">-</string>

@@ -1,5 +1,6 @@
 package cz.johnyapps.cheers.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import cz.johnyapps.cheers.database.tasks.InsertBeverageTask;
 import cz.johnyapps.cheers.dialogs.EditBeverageDialog;
 import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.tools.Logger;
+import cz.johnyapps.cheers.tools.ThemeUtils;
 import cz.johnyapps.cheers.viewmodels.MainViewModel;
 
 public class BeverageDatabaseFragment extends Fragment {
@@ -51,7 +53,14 @@ public class BeverageDatabaseFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         Beverage selectedBeverage = viewModel.getSelectedBeverage().getValue();
 
-        if (selectedBeverage != null) {
+        if (selectedBeverage == null) {
+            inflater.inflate(R.menu.beverages_menu, menu);
+
+            menu.findItem(R.id.addBeverageMenuItem).setOnMenuItemClickListener(item -> {
+                addBeverage();
+                return false;
+            });
+        } else {
             inflater.inflate(R.menu.selected_beverage_menu, menu);
 
             menu.findItem(R.id.editBeverageMenuItem).setOnMenuItemClickListener(item -> {
@@ -61,6 +70,24 @@ public class BeverageDatabaseFragment extends Fragment {
         }
 
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void addBeverage() {
+        View root = getView();
+
+        if (root == null) {
+            Logger.w(TAG, "addBeverage: root is null");
+            return;
+        }
+
+        Beverage beverage = new Beverage("", ThemeUtils.getRandomColor(), Color.BLACK, 0);
+        EditBeverageDialog editBeverageDialog = new EditBeverageDialog(root.getContext());
+        editBeverageDialog.show(beverage, beverage1 -> {
+            InsertBeverageTask task = new InsertBeverageTask(root.getContext());
+            task.execute(beverage1);
+            
+            viewModel.addBeverage(beverage1);
+        });
     }
 
     private void editSelectedBeverage() {
@@ -78,7 +105,7 @@ public class BeverageDatabaseFragment extends Fragment {
             editBeverageDialog.show(beverage, beverage1 -> {
                 if (adapter != null) {
                     InsertBeverageTask task = new InsertBeverageTask(root.getContext());
-                    task.execute(beverage);
+                    task.execute(beverage1);
 
                     adapter.selectPosition(-1);
                     viewModel.updateCountersWithBeverage(beverage1);
