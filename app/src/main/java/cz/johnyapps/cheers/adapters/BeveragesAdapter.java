@@ -8,32 +8,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cz.johnyapps.cheers.R;
 import cz.johnyapps.cheers.entities.beverage.Beverage;
 
-public class BeveragesAdapter extends SelectableAdapter<BeveragesAdapter.BeverageViewHolder, Beverage, List<Beverage>> {
-    @NonNull
-    private List<Beverage> beverages;
-
+public class BeveragesAdapter extends FilterableAdapter<BeveragesAdapter.BeverageViewHolder, Beverage> {
     public BeveragesAdapter(@NonNull Context context,
                             @Nullable List<Beverage> beverages,
                             @NonNull OnSelectListener<Beverage> onSelectListener) {
-        super(context, onSelectListener);
-        this.beverages = beverages == null ? new ArrayList<>() : beverages;
-    }
-
-    @NonNull
-    @Override
-    public Beverage getItem(int position) {
-        return beverages.get(position);
+        super(context, beverages, onSelectListener);
     }
 
     @Override
-    protected void onUpdate(@Nullable List<Beverage> beverages) {
-        this.beverages = beverages == null ? new ArrayList<>() : beverages;
+    protected boolean filterItem(@NonNull CharSequence constraint, @NonNull Beverage beverage) {
+        return beverage.getName().toLowerCase().contains(constraint.toString().toLowerCase());
     }
 
     @NonNull
@@ -46,11 +35,6 @@ public class BeveragesAdapter extends SelectableAdapter<BeveragesAdapter.Beverag
     public void onBindViewHolder(@NonNull BeverageViewHolder holder, int position, boolean selected) {
         Beverage beverage = getItem(position);
         holder.nameTextView.setText(beverage.getName());
-    }
-
-    @Override
-    public int getItemCount() {
-        return beverages.size();
     }
 
     public class BeverageViewHolder extends SelectableAdapter<BeverageViewHolder, Beverage, List<Beverage>>.SelectableViewHolder {

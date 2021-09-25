@@ -1,15 +1,20 @@
 package cz.johnyapps.cheers.fragments;
 
+import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -60,6 +65,8 @@ public class BeverageDatabaseFragment extends Fragment {
                 addBeverage();
                 return false;
             });
+
+            setupSearch(menu);
         } else {
             inflater.inflate(R.menu.selected_beverage_menu, menu);
 
@@ -70,6 +77,61 @@ public class BeverageDatabaseFragment extends Fragment {
         }
 
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void setupSearch(@NonNull Menu menu) {
+        MenuItem searchMenuItem = menu.findItem(R.id.searchMenuItem);
+
+        if (adapter != null && adapter.isFiltered()) {
+            MenuItem clearSearchMenuItem = menu.findItem(R.id.clearSearchMenuItem);
+            clearSearchMenuItem.setVisible(true);
+            clearSearchMenuItem.setOnMenuItemClickListener(item -> {
+                adapter.clearFilter();
+                Activity activity = getActivity();
+
+                if (activity == null) {
+                    Logger.w(TAG, "setupSearch: Activity is null");
+                    return false;
+                }
+
+                activity.invalidateOptionsMenu();
+                return false;
+            });
+            searchMenuItem.setVisible(false);
+        } else {
+            Activity activity = getActivity();
+            if (activity != null) {
+                SearchManager searchManager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
+                SearchView searchView = (SearchView) searchMenuItem.getActionView();
+                searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        filterBeverages(newText);
+                        return false;
+                    }
+                });
+
+                SearchView.SearchAutoComplete searchAutoComplete = searchView.findViewById(R.id.search_src_text);
+                searchAutoComplete.setTextColor(ThemeUtils.getAttributeColor(R.attr.colorOnToolbar, activity));
+            } else {
+                searchMenuItem.setVisible(false);
+                Logger.w(TAG, "onCreateOptionsMenu: Activity is null");
+            }
+        }
+    }
+
+    private void filterBeverages(@NonNull String query) {
+        if (adapter != null) {
+            adapter.filter(query);
+        } else {
+            Logger.w(TAG, "filterBeverages: Adapter is null");
+        }
     }
 
     private void addBeverage() {

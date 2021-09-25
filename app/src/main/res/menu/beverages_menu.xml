@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/searchMenuItem"
+        android:title="@string/search_menu_item"
+        android:icon="@drawable/search"
+        app:showAsAction="ifRoom"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+    <item
+        android:id="@+id/clearSearchMenuItem"
+        android:title="@string/clear_search_menu_item"
+        android:icon="@drawable/clear_search"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/addBeverageMenuItem"
         android:title="@string/add_beverage_menu_item"

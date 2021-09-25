@@ -6,6 +6,8 @@
 
         <item name="spacingDefault">10dp</item>
         <item name="drawerArrowStyle">@style/Theme.Cheers.ArrowStyle</item>
+
+        <item name="searchViewStyle">@style/Theme.Cheers.SearchViewStyle</item>
     </style>
 
     <style name="Theme.Cheers.Base.Light" parent="Theme.Cheers.Base">
@@ -43,5 +45,14 @@
 
     <style name="Theme.Cheers.ArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">?colorOnToolbar</item>
+    </style>
+
+    <style name="Theme.Cheers.SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="queryBackground">@android:color/transparent</item>
+        <item name="android:foregroundTint">?colorOnToolbar</item>
+        <item name="android:tint">?colorOnToolbar</item>
+        <item name="searchIcon">@drawable/search</item>
+        <item name="searchHintIcon">@null</item>
+        <item name="closeIcon">@drawable/clear_search</item>
     </style>
 </resources>
