@@ -78,7 +78,5 @@
                 android:layout_centerVertical="true"
                 android:textAppearance="@style/TextAppearance.Cheers.Medium" />
         </RelativeLayout>
-
-
     </LinearLayout>
 </LinearLayout>

@@ -8,7 +8,6 @@ import cz.johnyapps.cheers.R;
 import cz.johnyapps.cheers.viewmodels.MainViewModel;
 
 public class MainActivity extends NavigationActivity {
-    private MainViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +22,9 @@ public class MainActivity extends NavigationActivity {
 
     private void setupViewModel() {
         ViewModelProvider provider = new ViewModelProvider(this);
-        viewModel = provider.get(MainViewModel.class);
+        MainViewModel viewModel = provider.get(MainViewModel.class);
 
         viewModel.getSelectedCounterWithBeverage().observe(this, counterWithBeverage -> invalidateOptionsMenu());
+        viewModel.getSelectedBeverage().observe(this, beverage -> invalidateOptionsMenu());
     }
 }

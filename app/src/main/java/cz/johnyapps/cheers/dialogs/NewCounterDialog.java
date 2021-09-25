@@ -20,6 +20,7 @@ import cz.johnyapps.cheers.entities.CounterWithBeverage;
 import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.entities.counter.Counter;
 import cz.johnyapps.cheers.tools.Logger;
+import cz.johnyapps.cheers.tools.NumberUtils;
 import cz.johnyapps.cheers.tools.ThemeUtils;
 
 public class NewCounterDialog {
@@ -95,7 +96,7 @@ public class NewCounterDialog {
             nameEditText.setText(name);
         }
 
-        if (alcohol > -1) {
+        if (alcohol > 0) {
             AppCompatEditText alcoholEditText = alertDialog.findViewById(R.id.alcoholEditText);
             alcoholEditText.setText(String.valueOf(alcohol));
         }
@@ -131,12 +132,12 @@ public class NewCounterDialog {
         String name = nameEditText.getText() == null ? null : nameEditText.getText().toString();
 
         AppCompatEditText alcoholEditText = alertDialog.findViewById(R.id.alcoholEditText);
-        String alcoholString = alcoholEditText.getText() == null ? null : alcoholEditText.getText().toString();
-        float alcohol = toFloat(alcoholString, -1);
+        String alcoholString = alcoholEditText.getText() == null ? null : alcoholEditText.getText().toString().replaceAll(",", ".");;
+        float alcohol = NumberUtils.toFloat(alcoholString, -1);
 
         AppCompatEditText volumeEditText = alertDialog.findViewById(R.id.volumeEditText);
         String volumeString = volumeEditText.getText() == null ? null : volumeEditText.getText().toString();
-        float volume = toFloat(volumeString, -1);
+        float volume = NumberUtils.toFloat(volumeString, 0);
 
         if (name == null || name.isEmpty() || volume < 0) {
             show(onCounterCreatedListener, onBeverageCreatedListener, name, alcohol, volume);
@@ -146,6 +147,7 @@ public class NewCounterDialog {
             if (selectedBeverage == null) {
                 int color = previousBeverage == null ? ThemeUtils.getRandomColor() : previousBeverage.getColor();
                 beverage = new Beverage(name, ThemeUtils.getNextColor(color), Color.BLACK, alcohol);
+                onBeverageCreatedListener.onCreated(beverage);
             } else {
                 beverage = selectedBeverage;
             }
@@ -155,17 +157,7 @@ public class NewCounterDialog {
         }
     }
 
-    public float toFloat(@Nullable String stringValue, int defaultValue) {
-        if (stringValue == null) {
-            return defaultValue;
-        }
 
-        try {
-            return Float.parseFloat(stringValue);
-        } catch (Exception e) {
-            return defaultValue;
-        }
-    }
 
     public interface OnCounterCreatedListener {
         void onCreated(@NonNull CounterWithBeverage counterWithBeverage);

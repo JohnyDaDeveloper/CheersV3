@@ -2,6 +2,8 @@ package cz.johnyapps.cheers.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,9 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import cz.johnyapps.cheers.R;
 import cz.johnyapps.cheers.adapters.BeveragesAdapter;
+import cz.johnyapps.cheers.database.tasks.InsertBeverageTask;
+import cz.johnyapps.cheers.dialogs.EditBeverageDialog;
+import cz.johnyapps.cheers.entities.beverage.Beverage;
+import cz.johnyapps.cheers.tools.Logger;
 import cz.johnyapps.cheers.viewmodels.MainViewModel;
 
 public class BeverageDatabaseFragment extends Fragment {
+    private static final String TAG = "BeverageDatabaseFragment";
+
     private MainViewModel viewModel;
     @Nullable
     private BeveragesAdapter adapter;
@@ -25,6 +33,7 @@ public class BeverageDatabaseFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
         setupViewModel();
     }
 
@@ -36,6 +45,48 @@ public class BeverageDatabaseFragment extends Fragment {
         setupObservers();
 
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        Beverage selectedBeverage = viewModel.getSelectedBeverage().getValue();
+
+        if (selectedBeverage != null) {
+            inflater.inflate(R.menu.selected_beverage_menu, menu);
+
+            menu.findItem(R.id.editBeverageMenuItem).setOnMenuItemClickListener(item -> {
+                editSelectedBeverage();
+                return false;
+            });
+        }
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void editSelectedBeverage() {
+        View root = getView();
+
+        if (root == null) {
+            Logger.w(TAG, "editSelectedBeverage: root is null");
+            return;
+        }
+
+        Beverage beverage = viewModel.getSelectedBeverage().getValue();
+
+        if (beverage != null) {
+            EditBeverageDialog editBeverageDialog = new EditBeverageDialog(root.getContext());
+            editBeverageDialog.show(beverage, beverage1 -> {
+                if (adapter != null) {
+                    InsertBeverageTask task = new InsertBeverageTask(root.getContext());
+                    task.execute(beverage);
+
+                    adapter.selectPosition(-1);
+                    viewModel.updateCountersWithBeverage(beverage1);
+                }
+            });
+        } else {
+            Logger.w(TAG, "editSelectedBeverage: Beverage is null");
+        }
     }
 
     private void setupRecyclerView(@NonNull View root) {

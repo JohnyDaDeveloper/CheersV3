@@ -161,7 +161,7 @@ public class CountersFragment extends Fragment {
         }
 
         List<Beverage> beverages = viewModel.getBeverages().getValue();
-        Beverage previousBeverage = beverages == null ? null : beverages.get(beverages.size() - 1);
+        Beverage previousBeverage = beverages == null || beverages.isEmpty() ? null : beverages.get(beverages.size() - 1);
 
         NewCounterDialog newCounterDialog = new NewCounterDialog(root.getContext(), previousBeverage);
         newCounterDialog.show(counterWithBeverage -> {

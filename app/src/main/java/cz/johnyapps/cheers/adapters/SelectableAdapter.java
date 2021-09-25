@@ -72,7 +72,7 @@ public abstract class SelectableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
     public void selectPosition(int pos) {
         SelectedItem<ITEM> oldItem = selectedItem;
 
-        if (oldItem != null && oldItem.getPosition() == pos) {
+        if (oldItem != null && oldItem.getPosition() == pos || pos < 0) {
             selectedItem = null;
         } else {
             selectedItem = new SelectedItem<>(getItem(pos), pos);

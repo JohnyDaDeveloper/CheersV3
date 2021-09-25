@@ -7,6 +7,7 @@
     <string name="add_counter_menu_item">Add counter</string>
     <string name="delete_counter_menu_item">Delete counter</string>
     <string name="stop_counter_menu_item">Stop counter</string>
+    <string name="edit_beverage_menu_item">Edit beverage</string>
 
     <string name="plus" translatable="false">+</string>
     <string name="minus" translatable="false">-</string>
@@ -16,6 +17,8 @@
     <string name="liter" translatable="false">L</string>
     <string name="delete">Delete</string>
     <string name="stop">Stop</string>
+    <string name="save">Save</string>
+    <string name="pick">Pick</string>
 
     <string name="menu_header_text">Menu</string>
 
@@ -26,4 +29,6 @@
 
     <string name="dialog_confirm_counter_delete_title">Delete counter \"%s\"?</string>
     <string name="dialog_confirm_counter_stop_title">Stop counter \"%s\"?</string>
+
+    <string name="dialog_edit_beverage_title">Edit beverage</string>
 </resources>

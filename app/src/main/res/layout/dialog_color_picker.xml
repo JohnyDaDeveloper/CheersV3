@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="?spacingDefault"
+    android:orientation="vertical">
+
+    <cz.johnyapps.cheers.views.ColorPickerWheelView
+        android:id="@+id/colorPickerWheelView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="?spacingDefault"
+        android:layout_marginBottom="?spacingDefault" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <View
+            android:id="@+id/colorView"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/brightnessSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="?spacingDefault" />
+    </LinearLayout>
+</LinearLayout>

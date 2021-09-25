@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/nameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="?spacingDefault"
+        android:hint="@string/dialog_new_counter_name"
+        android:maxLines="1"
+        android:inputType="text"
+        android:textAppearance="@style/TextAppearance.Cheers.Medium" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <View
+            android:id="@+id/colorView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="?spacingDefault" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/alcoholEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="?spacingDefault"
+            android:hint="@string/dialog_new_counter_alcohol"
+            android:inputType="numberSigned|number|numberDecimal"
+            android:layout_toEndOf="@id/colorView"
+            android:layout_toStartOf="@id/percentTextView"
+            android:layout_centerVertical="true"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.Cheers.Medium" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/percentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/percent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textAppearance="@style/TextAppearance.Cheers.Medium" />
+    </RelativeLayout>
+</LinearLayout>

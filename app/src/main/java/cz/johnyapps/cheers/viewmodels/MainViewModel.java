@@ -80,6 +80,24 @@ public class MainViewModel extends AndroidViewModel {
         task.execute();
     }
 
+    public void updateCountersWithBeverage(@NonNull Beverage beverage) {
+        List<CounterWithBeverage> countersWithBeverages = this.countersWithBeverages.getValue();
+        boolean someAltered = false;
+
+        if (countersWithBeverages != null) {
+            for (CounterWithBeverage counterWithBeverage : countersWithBeverages) {
+                if (counterWithBeverage.getBeverage().getId() == beverage.getId()) {
+                    counterWithBeverage.setBeverage(beverage);
+                    someAltered = true;
+                }
+            }
+        }
+
+        if (someAltered) {
+            setCountersWithBeverages(countersWithBeverages);
+        }
+    }
+
     @NonNull
     public LiveData<List<CounterWithBeverage>> getCountersWithBeverages() {
         return countersWithBeverages;
