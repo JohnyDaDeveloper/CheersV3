@@ -19,7 +19,7 @@ public class ColorPickerDialog {
     private final Context context;
     private AlertDialog dialog;
 
-    private Float[] hvs = new Float[3];
+    private Float[] hsv = new Float[3];
     private int brightness = 0;
     private int maxBrightness = 0;
 
@@ -32,8 +32,10 @@ public class ColorPickerDialog {
     public void show(@NonNull OnColorPickedListener onColorPickedListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(R.layout.dialog_color_picker)
-                .setPositiveButton(R.string.pick, (dialog, which) ->
-                    onColorPickedListener.onPicker(Color.HSVToColor(getHVS())))
+                .setPositiveButton(R.string.pick, (dialog, which) -> {
+                    float[] hsv = getHSV();
+                    onColorPickedListener.onPicker(Color.HSVToColor(getHSV()), hsv[2]);
+                })
                 .setNegativeButton(R.string.cancel, (dialog, which) -> {});
 
         dialog = builder.create();
@@ -41,7 +43,7 @@ public class ColorPickerDialog {
 
         ColorPickerWheelView colorPickerWheelView = dialog.findViewById(R.id.colorPickerWheelView);
         colorPickerWheelView.getColorObservable().observe(floats -> {
-            hvs = floats;
+            hsv = floats;
             updateColorView();
         });
 
@@ -67,14 +69,15 @@ public class ColorPickerDialog {
 
         maxBrightness = seekBar.getMax();
         brightness = maxBrightness;
+        updateColorView();
     }
 
     private void setDefaultColor() {
         float[] hvs = new float[3];
         Color.colorToHSV(Color.WHITE, hvs);
 
-        for (int i = 0; i < this.hvs.length; i++) {
-            this.hvs[i] = hvs[i];
+        for (int i = 0; i < this.hsv.length; i++) {
+            this.hsv[i] = hvs[i];
         }
     }
 
@@ -85,21 +88,20 @@ public class ColorPickerDialog {
         }
 
         View colorView = dialog.findViewById(R.id.colorView);
-        colorView.setBackgroundColor(Color.HSVToColor(getHVS()));
+        colorView.setBackgroundColor(Color.HSVToColor(getHSV()));
     }
 
-    private float[] getHVS() {
-        float[] hvs = new float[this.hvs.length];
-        for (int i = 0; i < this.hvs.length; i++) {
-            hvs[i] = this.hvs[i];
+    private float[] getHSV() {
+        float[] hsv = new float[this.hsv.length];
+        for (int i = 0; i < this.hsv.length; i++) {
+            hsv[i] = this.hsv[i];
         }
 
-        hvs[2] = brightness / (float) maxBrightness;
-
-        return hvs;
+        hsv[2] = brightness / (float) maxBrightness;
+        return hsv;
     }
 
     public interface OnColorPickedListener {
-        void onPicker(int color);
+        void onPicker(int color, float brightness);
     }
 }

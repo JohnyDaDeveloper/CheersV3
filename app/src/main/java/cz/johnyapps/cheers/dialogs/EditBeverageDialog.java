@@ -1,6 +1,7 @@
 package cz.johnyapps.cheers.dialogs;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -20,6 +21,7 @@ public class EditBeverageDialog {
 
     @NonNull
     private final Context context;
+    private float brightness = -1f;
 
     public EditBeverageDialog(@NonNull Context context) {
         this.context = context;
@@ -30,9 +32,10 @@ public class EditBeverageDialog {
         CustomDialogBuilder builder = new CustomDialogBuilder(context);
         builder.setTitle(R.string.dialog_edit_beverage_title)
                 .setView(R.layout.dialog_edit_beverage)
+                .setCancelable(false)
                 .setPositiveButton(R.string.save, (dialog, which) ->
                         save((AlertDialog) dialog, beverage, onEditCompleteListener))
-                .setNegativeButton(R.string.cancel, (dialog, which) -> {});
+                .setNeutralButton(R.string.cancel, (dialog, which) -> {});
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
@@ -43,7 +46,10 @@ public class EditBeverageDialog {
         assert colorView != null;
         colorView.setOnClickListener(v -> {
             ColorPickerDialog colorPickerDialog = new ColorPickerDialog(context);
-            colorPickerDialog.show(v::setBackgroundColor);
+            colorPickerDialog.show((color, brightness1) -> {
+                v.setBackgroundColor(color);
+                this.brightness = brightness1;
+            });
         });
     }
 
@@ -93,6 +99,11 @@ public class EditBeverageDialog {
         if (background instanceof ColorDrawable) {
             int color = ((ColorDrawable) background).getColor();
             beverage.setColor(color);
+            Logger.d(TAG, "save: %s", brightness);
+
+            if (brightness > -1) {
+                beverage.setTextColor(brightness < 0.5f ? Color.WHITE : Color.BLACK);
+            }
         } else {
             Logger.w(TAG, "save: Background is not instance on ColorDrawable (instead it's '%s')", background.getClass());
         }

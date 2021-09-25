@@ -22,4 +22,5 @@
     <string name="edit_beverage_menu_item">Upravit nápoj</string>
     <string name="pick">Vybrat</string>
     <string name="add_beverage_menu_item">Přidat nápoj</string>
+    <string name="dialog_new_counter_incomplete_data">Název a objem musí být vyplňeny</string>
 </resources>

@@ -63,7 +63,6 @@ public class MainViewModel extends AndroidViewModel {
         task.setOnCompleteListener(new BaseDatabaseTask.OnCompleteListener<List<Beverage>>() {
             @Override
             public void onSuccess(@Nullable List<Beverage> beverages) {
-                Logger.d(TAG, "onSuccess: %s", beverages == null ? null : beverages.size());
                 setBeverages(beverages);
             }
 

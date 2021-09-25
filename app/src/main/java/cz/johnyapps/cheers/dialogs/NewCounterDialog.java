@@ -3,6 +3,7 @@ package cz.johnyapps.cheers.dialogs;
 import android.content.Context;
 import android.graphics.Color;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -101,7 +102,7 @@ public class NewCounterDialog {
             alcoholEditText.setText(String.valueOf(alcohol));
         }
 
-        if (volume > -1) {
+        if (volume > 0) {
             AppCompatEditText volumeEditText = alertDialog.findViewById(R.id.volumeEditText);
             volumeEditText.setText(String.valueOf(volume));
         }
@@ -132,15 +133,16 @@ public class NewCounterDialog {
         String name = nameEditText.getText() == null ? null : nameEditText.getText().toString();
 
         AppCompatEditText alcoholEditText = alertDialog.findViewById(R.id.alcoholEditText);
-        String alcoholString = alcoholEditText.getText() == null ? null : alcoholEditText.getText().toString().replaceAll(",", ".");;
+        String alcoholString = alcoholEditText.getText() == null ? null : alcoholEditText.getText().toString().replaceAll(",", ".");
         float alcohol = NumberUtils.toFloat(alcoholString, -1);
 
         AppCompatEditText volumeEditText = alertDialog.findViewById(R.id.volumeEditText);
         String volumeString = volumeEditText.getText() == null ? null : volumeEditText.getText().toString();
         float volume = NumberUtils.toFloat(volumeString, 0);
 
-        if (name == null || name.isEmpty() || volume < 0) {
+        if (name == null || name.isEmpty() || volume <= 0) {
             show(onCounterCreatedListener, onBeverageCreatedListener, name, alcohol, volume);
+            Toast.makeText(context, R.string.dialog_new_counter_incomplete_data, Toast.LENGTH_LONG).show();
         } else {
             Beverage beverage;
 
