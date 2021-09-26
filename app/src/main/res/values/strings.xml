@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Cheers</string>
 
+    <string name="nav_beverages">Beverages</string>
     <string name="nav_counters">Counters</string>
     <string name="nav_beverage_database">Beverage database</string>
 
@@ -22,6 +23,10 @@
     <string name="stop">Stop</string>
     <string name="save">Save</string>
     <string name="pick">Pick</string>
+
+    <string name="beverage_beer">Beer</string>
+    <string name="beverage_wine">Wine</string>
+    <string name="beverage_shot">Shot</string>
 
     <string name="menu_header_text">Menu</string>
 

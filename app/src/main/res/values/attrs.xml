@@ -5,4 +5,8 @@
     <attr name="colorToolbar" format="color" />
     <attr name="colorOnToolbar" format="color" />
     <attr name="colorSecondaryTransparent" format="color" />
+
+    <declare-styleable name="CounterView">
+        <attr name="titleText" format="string" />
+    </declare-styleable>
 </resources>

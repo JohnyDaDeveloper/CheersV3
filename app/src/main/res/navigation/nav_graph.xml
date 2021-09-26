@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/countersFragment">
+    app:startDestination="@id/beveragesFragment">
+
+    <fragment
+        android:id="@+id/beveragesFragment"
+        android:name="cz.johnyapps.cheers.fragments.BeverageCategoriesFragment"
+        android:label="@string/nav_beverages"
+        tools:layout="@layout/fragment_beverage_category" />
 
     <fragment
         android:id="@+id/countersFragment"

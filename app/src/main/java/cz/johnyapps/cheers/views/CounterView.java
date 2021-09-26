@@ -1,6 +1,7 @@
 package cz.johnyapps.cheers.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -35,7 +37,12 @@ public class CounterView extends LinearLayout {
     private CounterWithBeverage counterWithBeverage;
     @Nullable
     private OnPassClickListener onPassClickListener;
+    @Nullable
+    private OnValueChangeListener onValueChangeListener;
     private boolean passClicks = false;
+    @Nullable
+    private String titleText = null;
+    private int count = 0;
 
     public CounterView(@NonNull Context context) {
         super(context);
@@ -53,12 +60,22 @@ public class CounterView extends LinearLayout {
     }
 
     public void init(@Nullable AttributeSet attrs, int theme) {
+        if (attrs != null) {
+            final TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.CounterView, theme, 0);
+
+            titleText = array.getString(R.styleable.CounterView_titleText);
+
+            array.recycle();
+        }
+
         View root = LayoutInflater.from(getContext()).inflate(R.layout.view_counter, this, true);
 
         counterCardView = root.findViewById(R.id.counterCardView);
 
         nameTextView = root.findViewById(R.id.nameTextView);
+        nameTextView.setText(titleText);
         valueTextView = root.findViewById(R.id.valueTextView);
+        valueTextView.setText(String.valueOf(count));
 
         plusTextView = root.findViewById(R.id.plusTextView);
         plusTextView.setOnLongClickListener(v -> {
@@ -79,6 +96,22 @@ public class CounterView extends LinearLayout {
         });
 
         setPassClicks(passClicks);
+    }
+
+    public void setTitleText(@StringRes int titleResId) {
+        this.titleText = getResources().getString(titleResId);
+
+        if (nameTextView != null) {
+            nameTextView.setText(titleResId);
+        }
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+
+        if (valueTextView != null) {
+            valueTextView.setText(String.valueOf(count));
+        }
     }
 
     public void setOnPassClickListener(@Nullable OnPassClickListener onPassClickListener) {
@@ -113,12 +146,22 @@ public class CounterView extends LinearLayout {
 
             if (count >= 0) {
                 counter.setCount(count);
-                valueTextView.setText(String.valueOf(count));
 
+                this.count = count;
                 updateCounter(this.counterWithBeverage);
             }
         } else {
-            Logger.w(TAG, "changeCounterValue: CounterWithBeverage is null");
+            int count = this.count + add;
+
+            if (count >= 0) {
+                this.count = count;
+            }
+        }
+
+        valueTextView.setText(String.valueOf(count));
+
+        if (onValueChangeListener != null) {
+            onValueChangeListener.onChange(count);
         }
     }
 
@@ -172,7 +215,15 @@ public class CounterView extends LinearLayout {
         }
     }
 
+    public void setOnValueChangeListener(@Nullable OnValueChangeListener onValueChangeListener) {
+        this.onValueChangeListener = onValueChangeListener;
+    }
+
     public interface OnPassClickListener {
         void onClick(@NonNull View v);
+    }
+
+    public interface OnValueChangeListener {
+        void onChange(int value);
     }
 }

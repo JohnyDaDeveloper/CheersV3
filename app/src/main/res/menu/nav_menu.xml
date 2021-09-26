@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/beveragesFragment"
+        android:title="@string/nav_beverages"
+        android:icon="@drawable/beverages" />
+
+    <item
         android:id="@+id/countersFragment"
         android:title="@string/nav_counters"
         android:icon="@drawable/counters" />

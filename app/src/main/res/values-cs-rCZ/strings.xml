@@ -25,4 +25,8 @@
     <string name="dialog_new_counter_incomplete_data">Název a objem musí být vyplňeny</string>
     <string name="search_menu_item">Hledat</string>
     <string name="clear_search_menu_item">Vymazat hledání</string>
+    <string name="beverage_beer">Pivo</string>
+    <string name="nav_beverages">Nápoje</string>
+    <string name="beverage_wine">Víno</string>
+    <string name="beverage_shot">Panáky</string>
 </resources>
