@@ -29,12 +29,14 @@ import cz.johnyapps.cheers.tools.Logger;
 import cz.johnyapps.cheers.tools.ThemeUtils;
 import cz.johnyapps.cheers.viewmodels.MainViewModel;
 
-public class BeverageDatabaseFragment extends Fragment {
+public class BeverageDatabaseFragment extends Fragment implements BackOptionFragment {
     private static final String TAG = "BeverageDatabaseFragment";
 
     private MainViewModel viewModel;
     @Nullable
     private BeveragesAdapter adapter;
+    @Nullable
+    private SearchView searchView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +85,8 @@ public class BeverageDatabaseFragment extends Fragment {
         MenuItem searchMenuItem = menu.findItem(R.id.searchMenuItem);
 
         if (adapter != null && adapter.isFiltered()) {
+            searchView = null;
+
             MenuItem clearSearchMenuItem = menu.findItem(R.id.clearSearchMenuItem);
             clearSearchMenuItem.setVisible(true);
             clearSearchMenuItem.setOnMenuItemClickListener(item -> {
@@ -102,7 +106,7 @@ public class BeverageDatabaseFragment extends Fragment {
             Activity activity = getActivity();
             if (activity != null) {
                 SearchManager searchManager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
-                SearchView searchView = (SearchView) searchMenuItem.getActionView();
+                searchView = (SearchView) searchMenuItem.getActionView();
                 searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
@@ -120,6 +124,7 @@ public class BeverageDatabaseFragment extends Fragment {
                 SearchView.SearchAutoComplete searchAutoComplete = searchView.findViewById(R.id.search_src_text);
                 searchAutoComplete.setTextColor(ThemeUtils.getAttributeColor(R.attr.colorOnToolbar, activity));
             } else {
+                searchView = null;
                 searchMenuItem.setVisible(false);
                 Logger.w(TAG, "onCreateOptionsMenu: Activity is null");
             }
@@ -200,5 +205,15 @@ public class BeverageDatabaseFragment extends Fragment {
                 adapter.update(beverages);
             }
         });
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (searchView != null && !searchView.isIconified()) {
+            searchView.setIconified(true);
+            return true;
+        }
+
+        return false;
     }
 }

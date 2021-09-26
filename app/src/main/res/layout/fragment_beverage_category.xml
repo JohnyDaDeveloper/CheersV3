@@ -31,6 +31,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:visibility="gone"
+                android:layout_alignParentEnd="true"
                 android:background="?selectableItemBackground"
                 android:layout_marginStart="?spacingDefault"
                 app:srcCompat="@drawable/close_counter" />

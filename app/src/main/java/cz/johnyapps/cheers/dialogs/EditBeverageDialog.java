@@ -21,7 +21,6 @@ public class EditBeverageDialog {
 
     @NonNull
     private final Context context;
-    private float brightness = -1f;
 
     public EditBeverageDialog(@NonNull Context context) {
         this.context = context;
@@ -46,10 +45,7 @@ public class EditBeverageDialog {
         assert colorView != null;
         colorView.setOnClickListener(v -> {
             ColorPickerDialog colorPickerDialog = new ColorPickerDialog(context);
-            colorPickerDialog.show((color, brightness1) -> {
-                v.setBackgroundColor(color);
-                this.brightness = brightness1;
-            });
+            colorPickerDialog.show((color, brightness1) -> v.setBackgroundColor(color));
         });
     }
 
@@ -84,12 +80,12 @@ public class EditBeverageDialog {
         String strAlcohol = alcoholEditText.getText() == null ? null : alcoholEditText.getText().toString().replaceAll(",", ".");
         float alcohol = NumberUtils.toFloat(strAlcohol, -1);
 
-        if (name == null || alcohol < 0) {
-            show(beverage, onEditCompleteListener);
-        } else {
+        if (name != null) {
             beverage.setName(name);
+        }
+
+        if (alcohol > 0) {
             beverage.setAlcohol(alcohol);
-            onEditCompleteListener.onComplete(beverage);
         }
 
         View colorView = alertDialog.findViewById(R.id.colorView);
@@ -99,13 +95,17 @@ public class EditBeverageDialog {
         if (background instanceof ColorDrawable) {
             int color = ((ColorDrawable) background).getColor();
             beverage.setColor(color);
-            Logger.d(TAG, "save: %s", brightness);
-
-            if (brightness > -1) {
-                beverage.setTextColor(brightness < 0.5f ? Color.WHITE : Color.BLACK);
-            }
+            beverage.setTextColor(Color.luminance(color)  < 0.5f ? Color.WHITE : Color.BLACK);
         } else {
             Logger.w(TAG, "save: Background is not instance on ColorDrawable (instead it's '%s')", background.getClass());
+        }
+
+        if (name == null || name.isEmpty()) {
+            show(beverage, onEditCompleteListener);
+        } else {
+            beverage.setName(name);
+            beverage.setAlcohol(alcohol);
+            onEditCompleteListener.onComplete(beverage);
         }
     }
 

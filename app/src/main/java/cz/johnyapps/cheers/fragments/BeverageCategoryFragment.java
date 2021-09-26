@@ -86,7 +86,7 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         closeCounterImageView.setOnClickListener(v -> {
             bottomSheetBehavior.setPeekHeight(0);
             selectedCounterWithBeverage = null;
-            v.setVisibility(View.GONE);
+            setCounterButtonsVisibility(root);
         });
 
         AppCompatImageView swapCountersImageView = root.findViewById(R.id.swapCountersImageView);
@@ -107,17 +107,15 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (newState != BottomSheetBehavior.STATE_EXPANDED) {
-                    bottomSheetBehavior.setDraggable(true);
+                bottomSheetBehavior.setDraggable(newState != BottomSheetBehavior.STATE_EXPANDED);
 
-                    if (adapter != null) {
-                        adapter.setAllCountersDisabled(false);
-                    }
-                } else {
-                    bottomSheetBehavior.setDraggable(false);
-
+                if (newState == BottomSheetBehavior.STATE_EXPANDED || newState == BottomSheetBehavior.STATE_HALF_EXPANDED) {
                     if (adapter != null) {
                         adapter.setAllCountersDisabled(true);
+                    }
+                } else {
+                    if (adapter != null) {
+                        adapter.setAllCountersDisabled(false);
                     }
                 }
             }
@@ -178,7 +176,7 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         adapter.moveToTop(position);
         bottomSheetBehavior.setPeekHeight(counterHeight);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        setCloseCounterVisibility(root);
+        setCounterButtonsVisibility(root);
 
         if (counterWithBeverage != null) {
             getGeneralPrefs().edit()
@@ -187,7 +185,7 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         }
     }
 
-    private void setCloseCounterVisibility(@Nullable View root) {
+    private void setCounterButtonsVisibility(@Nullable View root) {
         if (root == null) {
             root = getView();
 
@@ -198,11 +196,14 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         }
 
         AppCompatImageView closeCounterImageView = root.findViewById(R.id.closeCounterImageView);
+        AppCompatImageView swapCountersImageView = root.findViewById(R.id.swapCountersImageView);
 
         if (selectedCounterWithBeverage == null) {
             closeCounterImageView.setVisibility(View.GONE);
+            swapCountersImageView.setVisibility(View.VISIBLE);
         } else {
             closeCounterImageView.setVisibility(View.VISIBLE);
+            swapCountersImageView.setVisibility(View.GONE);
         }
     }
 
@@ -216,7 +217,8 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
             return false;
         }
 
-        return bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED;
+        int state = bottomSheetBehavior.getState();
+        return state == BottomSheetBehavior.STATE_EXPANDED || state == BottomSheetBehavior.STATE_HALF_EXPANDED;
     }
 
     private void setupCounter(@NonNull View root) {

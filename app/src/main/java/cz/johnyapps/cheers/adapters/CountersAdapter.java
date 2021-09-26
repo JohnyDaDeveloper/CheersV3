@@ -80,10 +80,12 @@ public class CountersAdapter extends SelectableAdapter<CountersAdapter.CounterVi
     }
 
     public void moveToTop(int position) {
-        CounterWithBeverage counter = countersWithBeverages.get(position);
-        countersWithBeverages.remove(position);
-        countersWithBeverages.add(0, counter);
-        notifyDataSetChanged();
+        if (position > 0) {
+            CounterWithBeverage counter = countersWithBeverages.get(position);
+            countersWithBeverages.remove(position);
+            countersWithBeverages.add(0, counter);
+            notifyDataSetChanged();
+        }
     }
 
     public void setOnCounterClickListener(@Nullable OnCounterClickListener onCounterClickListener) {

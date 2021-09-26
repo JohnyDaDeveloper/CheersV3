@@ -36,8 +36,7 @@ public class BeverageCategoriesFragment extends Fragment implements BackOptionFr
             Fragment fragment = adapter.getFragment(beveragesViewPager.getCurrentItem());
 
             if (fragment instanceof BackOptionFragment) {
-                ((BackOptionFragment) fragment).onBackPressed();
-                return true;
+                return ((BackOptionFragment) fragment).onBackPressed();
             }
         }
 
