@@ -17,11 +17,13 @@ import cz.johnyapps.cheers.views.CounterView;
 public class CountersAdapter extends SelectableAdapter<CountersAdapter.CounterViewHolder, CounterWithBeverage, List<CounterWithBeverage>> {
     @NonNull
     private List<CounterWithBeverage> countersWithBeverages;
+    private boolean allCountersDisabled = false;
+    @Nullable
+    private OnCounterClickListener onCounterClickListener;
 
     public CountersAdapter(@NonNull Context context,
-                           @Nullable List<CounterWithBeverage> countersWithBeverages,
-                           @NonNull OnSelectListener<CounterWithBeverage> onSelectListener) {
-        super(context, onSelectListener);
+                           @Nullable List<CounterWithBeverage> countersWithBeverages) {
+        super(context);
         this.countersWithBeverages = countersWithBeverages == null ? new ArrayList<>() : countersWithBeverages;
     }
 
@@ -46,13 +48,50 @@ public class CountersAdapter extends SelectableAdapter<CountersAdapter.CounterVi
     public void onBindViewHolder(@NonNull CounterViewHolder holder, int position, boolean selected) {
         CounterWithBeverage counterWithBeverage = countersWithBeverages.get(position);
         holder.counterView.setCounter(counterWithBeverage);
-        holder.counterView.setOnPassClickListener(v -> selectPosition(position));
-        holder.counterView.setPassClicks(selected);
+        holder.counterView.setOnPassClickListener(v -> {
+            if (isAllowSelection()) {
+                selectPosition(position);
+            } else {
+                if (onCounterClickListener != null) {
+                    onCounterClickListener.onClick(holder.counterView.getCounter(), position);
+                }
+            }
+        });
+        holder.counterView.setOnClickListener(v -> {
+            if (onCounterClickListener != null) {
+                onCounterClickListener.onClick(holder.counterView.getCounter(), position);
+            }
+        });
+        holder.counterView.setPassClicks(selected || allCountersDisabled);
     }
 
     @Override
     public int getItemCount() {
         return countersWithBeverages.size();
+    }
+
+    public void setAllCountersDisabled(boolean allCountersDisabled) {
+        this.allCountersDisabled = allCountersDisabled;
+        notifyDataSetChanged();
+    }
+
+    public boolean isAllCountersDisabled() {
+        return allCountersDisabled;
+    }
+
+    public void moveToTop(int position) {
+        CounterWithBeverage counter = countersWithBeverages.get(position);
+        countersWithBeverages.remove(position);
+        countersWithBeverages.add(0, counter);
+        notifyDataSetChanged();
+    }
+
+    public void setOnCounterClickListener(@Nullable OnCounterClickListener onCounterClickListener) {
+        this.onCounterClickListener = onCounterClickListener;
+    }
+
+    public interface OnCounterClickListener {
+        void onClick(@Nullable CounterWithBeverage counterWithBeverage, int position);
     }
 
     public class CounterViewHolder extends SelectableAdapter<CounterViewHolder, CounterWithBeverage, List<CounterWithBeverage>>.SelectableViewHolder {

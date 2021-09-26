@@ -14,7 +14,11 @@ import cz.johnyapps.cheers.R;
 import cz.johnyapps.cheers.adapters.BeverageFragmentAdapter;
 import cz.johnyapps.cheers.entities.BeverageCategory;
 
-public class BeverageCategoriesFragment extends Fragment {
+public class BeverageCategoriesFragment extends Fragment implements BackOptionFragment {
+    @Nullable
+    BeverageFragmentAdapter adapter = null;
+    @Nullable
+    ViewPager2 beveragesViewPager = null;
 
     @Nullable
     @Override
@@ -26,8 +30,23 @@ public class BeverageCategoriesFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public boolean onBackPressed() {
+        if (adapter != null && beveragesViewPager != null) {
+            Fragment fragment = adapter.getFragment(beveragesViewPager.getCurrentItem());
+
+            if (fragment instanceof BackOptionFragment) {
+                ((BackOptionFragment) fragment).onBackPressed();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private void setupViewPager(@NonNull View root) {
-        ViewPager2 beveragesViewPager = root.findViewById(R.id.beveragesViewPager);
-        beveragesViewPager.setAdapter(new BeverageFragmentAdapter(this, BeverageCategory.values()));
+        adapter = new BeverageFragmentAdapter(this, BeverageCategory.values());
+        beveragesViewPager = root.findViewById(R.id.beveragesViewPager);
+        beveragesViewPager.setAdapter(adapter);
     }
 }

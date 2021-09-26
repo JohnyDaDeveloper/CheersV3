@@ -17,9 +17,8 @@ public abstract class FilterableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
     private List<ITEM> filteredItems = null;
 
     public FilterableAdapter(@NonNull Context context,
-                             @Nullable List<ITEM> items,
-                             @NonNull OnSelectListener<ITEM> onSelectListener) {
-        super(context, onSelectListener);
+                             @Nullable List<ITEM> items) {
+        super(context);
         this.items = items == null ? new ArrayList<>() : items;
     }
 

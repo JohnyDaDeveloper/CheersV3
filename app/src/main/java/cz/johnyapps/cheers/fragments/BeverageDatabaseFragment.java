@@ -180,9 +180,8 @@ public class BeverageDatabaseFragment extends Fragment {
 
     private void setupRecyclerView(@NonNull View root) {
         if (adapter == null) {
-            adapter = new BeveragesAdapter(root.getContext(),
-                    viewModel.getBeverages().getValue(),
-                    viewModel::setSelectedBeverage);
+            adapter = new BeveragesAdapter(root.getContext(), viewModel.getBeverages().getValue());
+            adapter.setOnSelectListener(viewModel::setSelectedBeverage);
         }
 
         RecyclerView beveragesRecyclerView = root.findViewById(R.id.beveragesRecyclerView);

@@ -19,13 +19,10 @@ import cz.johnyapps.cheers.database.tasks.UpdateCounterCountTask;
 import cz.johnyapps.cheers.entities.CounterWithBeverage;
 import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.entities.counter.Counter;
-import cz.johnyapps.cheers.tools.Logger;
 import cz.johnyapps.cheers.tools.TextUtils;
 import cz.johnyapps.cheers.tools.TimeUtils;
 
 public class CounterView extends LinearLayout {
-    private static final String TAG = "CounterView";
-
     private MaterialCardView counterCardView;
 
     private AppCompatTextView nameTextView;
@@ -39,6 +36,8 @@ public class CounterView extends LinearLayout {
     private OnPassClickListener onPassClickListener;
     @Nullable
     private OnValueChangeListener onValueChangeListener;
+    @NonNull
+    private OnSizeChangedListener onSizeChangedListener;
     private boolean passClicks = false;
     @Nullable
     private String titleText = null;
@@ -96,6 +95,15 @@ public class CounterView extends LinearLayout {
         });
 
         setPassClicks(passClicks);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+
+        if (onSizeChangedListener != null) {
+            onSizeChangedListener.onSizeChanged(w, h);
+        }
     }
 
     public void setTitleText(@StringRes int titleResId) {
@@ -175,6 +183,11 @@ public class CounterView extends LinearLayout {
         fillCounter(counterWithBeverage);
     }
 
+    @Nullable
+    public CounterWithBeverage getCounter() {
+        return counterWithBeverage;
+    }
+
     private void fillCounter(@NonNull CounterWithBeverage counterWithBeverage) {
         Beverage beverage = counterWithBeverage.getBeverage();
         Counter counter = counterWithBeverage.getCounter();
@@ -219,11 +232,24 @@ public class CounterView extends LinearLayout {
         this.onValueChangeListener = onValueChangeListener;
     }
 
+    public void setOnSizeChangedListener(@NonNull OnSizeChangedListener onSizeChangedListener) {
+        this.onSizeChangedListener = onSizeChangedListener;
+    }
+
+    @Override
+    public void setOnClickListener(@Nullable OnClickListener l) {
+        super.setOnClickListener(l);
+    }
+
     public interface OnPassClickListener {
         void onClick(@NonNull View v);
     }
 
     public interface OnValueChangeListener {
         void onChange(int value);
+    }
+
+    public interface OnSizeChangedListener {
+        void onSizeChanged(int width, int height);
     }
 }

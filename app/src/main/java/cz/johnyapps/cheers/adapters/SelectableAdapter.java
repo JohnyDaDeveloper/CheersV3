@@ -13,13 +13,12 @@ import cz.johnyapps.cheers.R;
 public abstract class SelectableAdapter<VIEW_HOLDER extends SelectableAdapter<VIEW_HOLDER, ITEM, DATA>.SelectableViewHolder, ITEM, DATA> extends BaseAdapter<VIEW_HOLDER, DATA> {
     @Nullable
     private SelectedItem<ITEM> selectedItem;
-    @NonNull
-    private final OnSelectListener<ITEM> onSelectListener;
+    @Nullable
+    private OnSelectListener<ITEM> onSelectListener;
+    private boolean allowSelection = true;
 
-    public SelectableAdapter(@NonNull Context context,
-                             @NonNull OnSelectListener<ITEM> onSelectListener) {
+    public SelectableAdapter(@NonNull Context context) {
         super(context);
-        this.onSelectListener = onSelectListener;
     }
 
     @Override
@@ -42,7 +41,11 @@ public abstract class SelectableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
     @Override
     public void update(@Nullable DATA data) {
         selectedItem = null;
-        onSelectListener.onSelect(null);
+
+        if (onSelectListener != null) {
+            onSelectListener.onSelect(null);
+        }
+
         super.update(data);
     }
 
@@ -70,6 +73,10 @@ public abstract class SelectableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
     }
 
     public void selectPosition(int pos) {
+        if (!allowSelection) {
+            return;
+        }
+
         SelectedItem<ITEM> oldItem = selectedItem;
 
         if (oldItem != null && oldItem.getPosition() == pos || pos < 0) {
@@ -86,7 +93,17 @@ public abstract class SelectableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
             notifyItemChanged(selectedItem.getPosition());
         }
 
-        onSelectListener.onSelect(selectedItem == null ? null : selectedItem.getSelectedItem());
+        if (onSelectListener != null) {
+            onSelectListener.onSelect(selectedItem == null ? null : selectedItem.getSelectedItem());
+        }
+    }
+
+    public void setAllowSelection(boolean allowSelection) {
+        this.allowSelection = allowSelection;
+    }
+
+    public boolean isAllowSelection() {
+        return allowSelection;
     }
 
     public class SelectableViewHolder extends RecyclerView.ViewHolder {
@@ -102,6 +119,10 @@ public abstract class SelectableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
                 }
             });
         }
+    }
+
+    public void setOnSelectListener(@Nullable OnSelectListener<ITEM> onSelectListener) {
+        this.onSelectListener = onSelectListener;
     }
 
     public interface OnSelectListener<ITEM> {

@@ -181,9 +181,8 @@ public class CountersFragment extends Fragment {
 
     private void setupRecyclerView(@NonNull View root) {
         if (countersAdapter == null) {
-            countersAdapter = new CountersAdapter(root.getContext(),
-                    viewModel.getCountersWithBeverages().getValue(),
-                    viewModel::setSelectedCounterWithBeverage);
+            countersAdapter = new CountersAdapter(root.getContext(), viewModel.getCountersWithBeverages().getValue());
+            countersAdapter.setOnSelectListener(viewModel::setSelectedCounterWithBeverage);
         }
 
         RecyclerView countersRecyclerView = root.findViewById(R.id.countersRecyclerView);

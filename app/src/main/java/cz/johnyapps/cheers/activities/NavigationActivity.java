@@ -8,8 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -93,5 +95,11 @@ public abstract class NavigationActivity extends BaseActivity {
         }
 
         this.onDestinationChangedListener = onDestinationChangedListener;
+    }
+
+    @Nullable
+    public Fragment getCurrentFragment() {
+        Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        return navHostFragment == null ? null : navHostFragment.getChildFragmentManager().getFragments().get(0);
     }
 }

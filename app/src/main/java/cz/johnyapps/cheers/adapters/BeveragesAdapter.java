@@ -15,9 +15,8 @@ import cz.johnyapps.cheers.entities.beverage.Beverage;
 
 public class BeveragesAdapter extends FilterableAdapter<BeveragesAdapter.BeverageViewHolder, Beverage> {
     public BeveragesAdapter(@NonNull Context context,
-                            @Nullable List<Beverage> beverages,
-                            @NonNull OnSelectListener<Beverage> onSelectListener) {
-        super(context, beverages, onSelectListener);
+                            @Nullable List<Beverage> beverages) {
+        super(context, beverages);
     }
 
     @Override
