@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,12 +16,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Collection;
 import java.util.List;
 
 import cz.johnyapps.cheers.R;
 import cz.johnyapps.cheers.adapters.recycleradapters.CountersAdapter;
-import cz.johnyapps.cheers.database.tasks.DeleteCounterTask;
-import cz.johnyapps.cheers.database.tasks.InsertCounterTask;
+import cz.johnyapps.cheers.database.tasks.DeleteCountersTask;
+import cz.johnyapps.cheers.database.tasks.InsertCountersTask;
 import cz.johnyapps.cheers.database.tasks.InsertCounterWithBeverageTask;
 import cz.johnyapps.cheers.dialogs.CustomDialogBuilder;
 import cz.johnyapps.cheers.dialogs.NewCounterDialog;
@@ -28,15 +30,16 @@ import cz.johnyapps.cheers.entities.CounterWithBeverage;
 import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.entities.counter.Counter;
 import cz.johnyapps.cheers.tools.Logger;
+import cz.johnyapps.cheers.tools.ThemeUtils;
 import cz.johnyapps.cheers.tools.TimeUtils;
 import cz.johnyapps.cheers.viewmodels.MainViewModel;
 
-public class CountersFragment extends Fragment {
+public class CountersFragment extends Fragment implements BackOptionFragment {
     private static final String TAG = "CountersFragment";
 
     private MainViewModel viewModel;
     @Nullable
-    private CountersAdapter countersAdapter;
+    private CountersAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,9 +61,9 @@ public class CountersFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        CounterWithBeverage selected = viewModel.getSelectedCounterWithBeverage().getValue();
+        Collection<CounterWithBeverage> selectedItems = viewModel.getSelectedCountersWithBeverages().getValue();
 
-        if (selected == null) {
+        if (selectedItems == null || selectedItems.isEmpty()) {
             inflater.inflate(R.menu.counters_menu, menu);
 
             menu.findItem(R.id.addCounterMenuItem).setOnMenuItemClickListener(item -> {
@@ -70,13 +73,31 @@ public class CountersFragment extends Fragment {
         } else {
             inflater.inflate(R.menu.selected_counter_menu, menu);
 
+            MenuItem selectAllMenuItem = menu.findItem(R.id.selectAllMenuItem);
+
+            if (adapter != null && selectedItems.size() == adapter.getItemCount()) {
+                selectAllMenuItem.getIcon().setTint(ThemeUtils.getAttributeColor(R.attr.colorSecondary, requireContext()));
+            } else {
+                selectAllMenuItem.getIcon().setTint(ThemeUtils.getAttributeColor(R.attr.colorOnToolbar, requireContext()));
+            }
+
+            selectAllMenuItem.setOnMenuItemClickListener(item -> {
+                if (adapter != null) {
+                    adapter.selectAllOrCancelSelection();
+                } else {
+                    Logger.w(TAG, "onCreateOptionsMenu: Adapter is null");
+                }
+
+                return false;
+            });
+
             menu.findItem(R.id.deleteCounterMenuItem).setOnMenuItemClickListener(item -> {
-                deleteCounter(viewModel.getSelectedCounterWithBeverage().getValue());
+                deleteCounters(selectedItems);
                 return false;
             });
 
             menu.findItem(R.id.stopCounterMenuItem).setOnMenuItemClickListener(item -> {
-                stopCounter(viewModel.getSelectedCounterWithBeverage().getValue());
+                stopCounters(selectedItems);
                 return false;
             });
         }
@@ -84,72 +105,82 @@ public class CountersFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void stopCounter(@Nullable CounterWithBeverage counterWithBeverage) {
-        if (counterWithBeverage != null) {
-            View root = getView();
+    private void stopCounters(@NonNull Collection<CounterWithBeverage> countersWithBeverages) {
+        View root = getView();
 
-            if (root == null) {
-                Logger.w(TAG, "stopCounter: root is null");
-                return;
-            }
-
-            Counter counter = counterWithBeverage.getCounter();
-            Beverage beverage = counterWithBeverage.getBeverage();
-
-            Context context = root.getContext();
-            CustomDialogBuilder builder = new CustomDialogBuilder(context);
-            builder.setTitle(context.getResources().getString(R.string.dialog_confirm_counter_stop_title, beverage.getName()))
-                    .setPositiveButton(R.string.stop, (dialog, which) -> stopCounter(context,
-                            counter,
-                            counterWithBeverage))
-                    .setNeutralButton(R.string.cancel, (dialog, which) -> {})
-                    .create().show();
-        } else {
-            Logger.w(TAG, "stopCounter: None CounterWithBeverage selected");
+        if (root == null) {
+            Logger.w(TAG, "stopCounter: root is null");
+            return;
         }
-    }
 
-    private void stopCounter(@NonNull Context context,
-                             @NonNull Counter counter,
-                             @NonNull CounterWithBeverage counterWithBeverage) {
-        counter.setActive(false);
-        counter.setEndTime(TimeUtils.getDate());
-        InsertCounterTask task = new InsertCounterTask(context);
-        task.execute(counter);
-        viewModel.removeCounterWithBeverage(counterWithBeverage);
-    }
+        Context context = root.getContext();
+        CustomDialogBuilder builder = new CustomDialogBuilder(context);
+        builder.setNeutralButton(R.string.cancel, (dialog, which) -> {})
+                .setPositiveButton(R.string.stop, (dialog, which) -> stopCounters(context,
+                        countersWithBeverages));
 
-    private void deleteCounter(@Nullable CounterWithBeverage counterWithBeverage) {
-        if (counterWithBeverage != null) {
-            View root = getView();
-
-            if (root == null) {
-                Logger.w(TAG, "deleteCounter: root is null");
-                return;
-            }
-            Counter counter = counterWithBeverage.getCounter();
-            Beverage beverage = counterWithBeverage.getBeverage();
-
-
-            Context context = root.getContext();
-            CustomDialogBuilder builder = new CustomDialogBuilder(context);
-            builder.setTitle(context.getResources().getString(R.string.dialog_confirm_counter_delete_title, beverage.getName()))
-                    .setPositiveButton(R.string.delete, (dialog, which) -> deleteCounter(context,
-                            counter,
-                            counterWithBeverage))
-                    .setNeutralButton(R.string.cancel, (dialog, which) -> {})
-                    .create().show();
+        if (countersWithBeverages.size() == 1) {
+            CounterWithBeverage counterWithBeverage = countersWithBeverages.iterator().next();
+            builder.setTitle(context.getResources().getString(R.string.dialog_confirm_counter_stop_title,
+                    counterWithBeverage.getBeverage().getName()));
         } else {
-            Logger.w(TAG, "deleteCounter: None CounterWithBeverage selected");
+            builder.setTitle(context.getResources().getQuantityString(R.plurals.dialog_confirm_counter_stop_title_multiple,
+                    countersWithBeverages.size(), countersWithBeverages.size()));
         }
+
+        builder.create().show();
     }
 
-    private void deleteCounter(@NonNull Context context,
-                               @NonNull Counter counter,
-                               @NonNull CounterWithBeverage counterWithBeverage) {
-        DeleteCounterTask task = new DeleteCounterTask(context);
-        task.execute(counter);
-        viewModel.removeCounterWithBeverage(counterWithBeverage);
+    private void stopCounters(@NonNull Context context,
+                             @NonNull Collection<CounterWithBeverage> countersWithBeverages) {
+        Counter[] counters = new Counter[countersWithBeverages.size()];
+        int i = 0;
+
+        for (CounterWithBeverage counterWithBeverage : countersWithBeverages) {
+            Counter counter = counterWithBeverage.getCounter();
+            counter.setActive(false);
+            counter.setEndTime(TimeUtils.getDate());
+            counters[i++] = counter;
+        }
+
+        InsertCountersTask task = new InsertCountersTask(context);
+        task.execute(counters);
+        viewModel.removeCounterWithBeverage(countersWithBeverages);
+    }
+
+    private void deleteCounters(@NonNull Collection<CounterWithBeverage> countersWithBeverages) {
+        View root = getView();
+
+        if (root == null) {
+            Logger.w(TAG, "deleteCounter: root is null");
+            return;
+        }
+
+        Context context = root.getContext();
+        CustomDialogBuilder builder = new CustomDialogBuilder(context);
+        builder.setNeutralButton(R.string.cancel, (dialog, which) -> {})
+                .setPositiveButton(R.string.delete, (dialog, which) -> deleteCounters(context,
+                        countersWithBeverages));
+
+        if (countersWithBeverages.size() == 1) {
+            CounterWithBeverage counterWithBeverage = countersWithBeverages.iterator().next();
+            builder.setTitle(context.getResources().getString(R.string.dialog_confirm_counter_delete_title,
+                    counterWithBeverage.getBeverage().getName()));
+        } else {
+            builder.setTitle(context.getResources().getQuantityString(R.plurals.dialog_confirm_counter_delete_title_multiple,
+                    countersWithBeverages.size(), countersWithBeverages.size()));
+        }
+
+        builder.create().show();
+    }
+
+    private void deleteCounters(@NonNull Context context,
+                               @NonNull Collection<CounterWithBeverage> countersWithBeverages) {
+        Counter[] counters = new Counter[countersWithBeverages.size()];
+
+        DeleteCountersTask task = new DeleteCountersTask(context);
+        task.execute(counters);
+        viewModel.removeCounterWithBeverage(countersWithBeverages);
     }
 
     private void addCounter() {
@@ -180,14 +211,17 @@ public class CountersFragment extends Fragment {
     }
 
     private void setupRecyclerView(@NonNull View root) {
-        if (countersAdapter == null) {
-            countersAdapter = new CountersAdapter(root.getContext(), viewModel.getCountersWithBeverages().getValue());
-            countersAdapter.setOnSelectListener(viewModel::setSelectedCounterWithBeverage);
+        if (adapter == null) {
+            adapter = new CountersAdapter(root.getContext(), viewModel.getCountersWithBeverages().getValue());
+            adapter.setOnSelectListener(selectedItems -> {
+                adapter.setAllCountersDisabled(selectedItems != null && !selectedItems.isEmpty());
+                viewModel.setSelectedCountersWithBeverages(selectedItems);
+            });
         }
 
         RecyclerView countersRecyclerView = root.findViewById(R.id.countersRecyclerView);
         countersRecyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        countersRecyclerView.setAdapter(countersAdapter);
+        countersRecyclerView.setAdapter(adapter);
     }
 
     private void setupViewModel() {
@@ -197,9 +231,20 @@ public class CountersFragment extends Fragment {
 
     private void setupObservers() {
         viewModel.getCountersWithBeverages().observe(getViewLifecycleOwner(), counters -> {
-            if (countersAdapter != null) {
-                countersAdapter.update(counters);
+            if (adapter != null) {
+                adapter.update(counters);
             }
         });
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        Collection<CounterWithBeverage> counterWithBeverages = viewModel.getSelectedCountersWithBeverages().getValue();
+        if (counterWithBeverages != null && !counterWithBeverages.isEmpty() && adapter != null) {
+            adapter.cancelSelection();
+            return true;
+        }
+
+        return false;
     }
 }

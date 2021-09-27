@@ -29,4 +29,15 @@
     <string name="nav_beverages">Nápoje</string>
     <string name="beverage_wine">Víno</string>
     <string name="beverage_shot">Panáky</string>
+    <plurals name="dialog_confirm_counter_stop_title_multiple">
+        <item quantity="one">Zastavit počítadlo?</item>
+        <item quantity="few">Zastavit %d počítadla?</item>
+        <item quantity="other">Zastavit %d počítadel?</item>
+    </plurals>
+    <plurals name="dialog_confirm_counter_delete_title_multiple">
+        <item quantity="one">Smazat počítadlo?</item>
+        <item quantity="few">Smazat %d počítadla?</item>
+        <item quantity="other">Smazat %d počítadel?</item>
+    </plurals>
+    <string name="select_all_menu_item">Vybrat vše</string>
 </resources>

@@ -174,7 +174,7 @@ public class BeverageDatabaseFragment extends Fragment implements BackOptionFrag
                     InsertBeverageTask task = new InsertBeverageTask(root.getContext());
                     task.execute(beverage1);
 
-                    adapter.selectPosition(-1);
+                    adapter.cancelSelection();
                     viewModel.updateCountersWithBeverage(beverage1);
                 }
             });
@@ -186,7 +186,13 @@ public class BeverageDatabaseFragment extends Fragment implements BackOptionFrag
     private void setupRecyclerView(@NonNull View root) {
         if (adapter == null) {
             adapter = new BeveragesAdapter(root.getContext(), viewModel.getBeverages().getValue());
-            adapter.setOnSelectListener(viewModel::setSelectedBeverage);
+            adapter.setOnSelectListener(selectedItems -> {
+                if (selectedItems != null && !selectedItems.isEmpty()) {
+                    viewModel.setSelectedBeverage(selectedItems.iterator().next());
+                } else {
+                    viewModel.setSelectedBeverage(null);
+                }
+            });
         }
 
         RecyclerView beveragesRecyclerView = root.findViewById(R.id.beveragesRecyclerView);
@@ -211,6 +217,11 @@ public class BeverageDatabaseFragment extends Fragment implements BackOptionFrag
     public boolean onBackPressed() {
         if (searchView != null && !searchView.isIconified()) {
             searchView.setIconified(true);
+            return true;
+        }
+
+        if (viewModel.getSelectedBeverage().getValue() != null && adapter != null) {
+            adapter.cancelSelection();
             return true;
         }
 

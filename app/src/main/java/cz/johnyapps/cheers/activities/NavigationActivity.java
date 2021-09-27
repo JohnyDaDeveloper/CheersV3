@@ -11,7 +11,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -19,6 +18,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import cz.johnyapps.cheers.R;
 
+@SuppressWarnings({"unused", "RedundantSuppression"})
 public abstract class NavigationActivity extends BaseActivity {
     private NavigationView navigationView;
     @Nullable
@@ -41,6 +41,15 @@ public abstract class NavigationActivity extends BaseActivity {
     @Override
     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(getNavController(), getAppBarConfiguration()) || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getDrawerLayout().isOpen()) {
+            getDrawerLayout().close();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @LayoutRes
@@ -90,7 +99,7 @@ public abstract class NavigationActivity extends BaseActivity {
 
         if (onDestinationChangedListener != null) {
             navController.addOnDestinationChangedListener(onDestinationChangedListener);
-        } else {
+        } else if (this.onDestinationChangedListener != null) {
             navController.removeOnDestinationChangedListener(this.onDestinationChangedListener);
         }
 

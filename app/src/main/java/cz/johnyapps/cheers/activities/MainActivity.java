@@ -37,7 +37,7 @@ public class MainActivity extends NavigationActivity {
         ViewModelProvider provider = new ViewModelProvider(this);
         MainViewModel viewModel = provider.get(MainViewModel.class);
 
-        viewModel.getSelectedCounterWithBeverage().observe(this, counterWithBeverage -> invalidateOptionsMenu());
+        viewModel.getSelectedCountersWithBeverages().observe(this, counterWithBeverage -> invalidateOptionsMenu());
         viewModel.getSelectedBeverage().observe(this, beverage -> invalidateOptionsMenu());
     }
 }

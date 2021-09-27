@@ -48,7 +48,7 @@ public class CountersAdapter extends SelectableAdapter<CountersAdapter.CounterVi
     public void onBindViewHolder(@NonNull CounterViewHolder holder, int position, boolean selected) {
         CounterWithBeverage counterWithBeverage = countersWithBeverages.get(position);
         holder.counterView.setCounter(counterWithBeverage);
-        holder.counterView.setPassClicks(selected || allCountersDisabled);
+        holder.counterView.setPassClicks(allCountersDisabled);
         holder.counterView.setOnPassClickListener(v -> {
             if (isAllowSelection()) {
                 selectPosition(position);

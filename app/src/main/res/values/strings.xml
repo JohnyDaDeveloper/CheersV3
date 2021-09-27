@@ -12,6 +12,7 @@
     <string name="add_beverage_menu_item">Add beverage</string>
     <string name="search_menu_item">Search</string>
     <string name="clear_search_menu_item">Clear search</string>
+    <string name="select_all_menu_item">Select all</string>
 
     <string name="plus" translatable="false">+</string>
     <string name="minus" translatable="false">-</string>
@@ -37,7 +38,14 @@
     <string name="dialog_new_counter_incomplete_data">Name and volume must be filled</string>
 
     <string name="dialog_confirm_counter_delete_title">Delete counter \"%s\"?</string>
+    <plurals name="dialog_confirm_counter_delete_title_multiple">
+        <item quantity="other">Delete %d counters?</item>
+    </plurals>
+
     <string name="dialog_confirm_counter_stop_title">Stop counter \"%s\"?</string>
+    <plurals name="dialog_confirm_counter_stop_title_multiple">
+        <item quantity="other">Stop %d counters?</item>
+    </plurals>
 
     <string name="dialog_edit_beverage_title">Edit beverage</string>
 </resources>

@@ -17,6 +17,7 @@ public class BeveragesAdapter extends FilterableAdapter<BeveragesAdapter.Beverag
     public BeveragesAdapter(@NonNull Context context,
                             @Nullable List<Beverage> beverages) {
         super(context, beverages);
+        setMultiSelection(false);
     }
 
     @Override

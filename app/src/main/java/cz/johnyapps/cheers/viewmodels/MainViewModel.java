@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import cz.johnyapps.cheers.database.tasks.BaseDatabaseTask;
@@ -24,7 +25,7 @@ public class MainViewModel extends AndroidViewModel {
     @NonNull
     private final MutableLiveData<List<CounterWithBeverage>> countersWithBeverages = new MutableLiveData<>();
     @NonNull
-    private final MutableLiveData<CounterWithBeverage> selectedCounterWithBeverage = new MutableLiveData<>();
+    private final MutableLiveData<Collection<CounterWithBeverage>> selectedCountersWithBeverages = new MutableLiveData<>();
 
     @NonNull
     private final MutableLiveData<List<Beverage>> beverages = new MutableLiveData<>();
@@ -119,23 +120,23 @@ public class MainViewModel extends AndroidViewModel {
         return countersWithBeverages;
     }
 
-    public void removeCounterWithBeverage(@NonNull CounterWithBeverage counterWithBeverage) {
-        List<CounterWithBeverage> countersWithBeverages = this.countersWithBeverages.getValue();
+    public void removeCounterWithBeverage(@NonNull Collection<CounterWithBeverage> countersWithBeverages) {
+        List<CounterWithBeverage> oldCountersWithBeverages = this.countersWithBeverages.getValue();
 
-        if (countersWithBeverages != null) {
-            countersWithBeverages.remove(counterWithBeverage);
+        if (oldCountersWithBeverages != null) {
+            oldCountersWithBeverages.removeAll(countersWithBeverages);
         }
 
-        setCountersWithBeverages(countersWithBeverages);
+        setCountersWithBeverages(oldCountersWithBeverages);
     }
 
     @NonNull
-    public LiveData<CounterWithBeverage> getSelectedCounterWithBeverage() {
-        return selectedCounterWithBeverage;
+    public LiveData<Collection<CounterWithBeverage>> getSelectedCountersWithBeverages() {
+        return selectedCountersWithBeverages;
     }
 
-    public void setSelectedCounterWithBeverage(@Nullable CounterWithBeverage selectedCounterWithBeverage) {
-        this.selectedCounterWithBeverage.setValue(selectedCounterWithBeverage);
+    public void setSelectedCountersWithBeverages(@Nullable Collection<CounterWithBeverage> countersWithBeverages) {
+        this.selectedCountersWithBeverages.setValue(countersWithBeverages);
     }
 
     @NonNull
