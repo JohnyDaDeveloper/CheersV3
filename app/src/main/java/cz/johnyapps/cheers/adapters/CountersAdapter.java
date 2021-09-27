@@ -48,6 +48,7 @@ public class CountersAdapter extends SelectableAdapter<CountersAdapter.CounterVi
     public void onBindViewHolder(@NonNull CounterViewHolder holder, int position, boolean selected) {
         CounterWithBeverage counterWithBeverage = countersWithBeverages.get(position);
         holder.counterView.setCounter(counterWithBeverage);
+        holder.counterView.setPassClicks(selected || allCountersDisabled);
         holder.counterView.setOnPassClickListener(v -> {
             if (isAllowSelection()) {
                 selectPosition(position);
@@ -57,12 +58,17 @@ public class CountersAdapter extends SelectableAdapter<CountersAdapter.CounterVi
                 }
             }
         });
+        holder.counterView.setOnLongClickListener(v -> {
+            holder.itemView.performLongClick();
+            return true;
+        });
         holder.counterView.setOnClickListener(v -> {
             if (onCounterClickListener != null) {
                 onCounterClickListener.onClick(holder.counterView.getCounter(), position);
             }
+
+            holder.itemView.callOnClick();
         });
-        holder.counterView.setPassClicks(selected || allCountersDisabled);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class CounterView extends LinearLayout {
     private OnPassClickListener onPassClickListener;
     @Nullable
     private OnValueChangeListener onValueChangeListener;
-    @NonNull
+    @Nullable
     private OnSizeChangedListener onSizeChangedListener;
     private boolean passClicks = false;
     @Nullable
@@ -232,13 +232,8 @@ public class CounterView extends LinearLayout {
         this.onValueChangeListener = onValueChangeListener;
     }
 
-    public void setOnSizeChangedListener(@NonNull OnSizeChangedListener onSizeChangedListener) {
+    public void setOnSizeChangedListener(@Nullable OnSizeChangedListener onSizeChangedListener) {
         this.onSizeChangedListener = onSizeChangedListener;
-    }
-
-    @Override
-    public void setOnClickListener(@Nullable OnClickListener l) {
-        super.setOnClickListener(l);
     }
 
     public interface OnPassClickListener {

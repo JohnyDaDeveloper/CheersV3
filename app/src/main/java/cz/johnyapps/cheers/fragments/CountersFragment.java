@@ -28,6 +28,7 @@ import cz.johnyapps.cheers.entities.CounterWithBeverage;
 import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.entities.counter.Counter;
 import cz.johnyapps.cheers.tools.Logger;
+import cz.johnyapps.cheers.tools.TimeUtils;
 import cz.johnyapps.cheers.viewmodels.MainViewModel;
 
 public class CountersFragment extends Fragment {
@@ -84,8 +85,6 @@ public class CountersFragment extends Fragment {
     }
 
     private void stopCounter(@Nullable CounterWithBeverage counterWithBeverage) {
-
-
         if (counterWithBeverage != null) {
             View root = getView();
 
@@ -114,6 +113,7 @@ public class CountersFragment extends Fragment {
                              @NonNull Counter counter,
                              @NonNull CounterWithBeverage counterWithBeverage) {
         counter.setActive(false);
+        counter.setEndTime(TimeUtils.getDate());
         InsertCounterTask task = new InsertCounterTask(context);
         task.execute(counter);
         viewModel.removeCounterWithBeverage(counterWithBeverage);

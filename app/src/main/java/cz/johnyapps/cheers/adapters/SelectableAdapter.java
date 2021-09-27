@@ -24,11 +24,16 @@ public abstract class SelectableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
     @Override
     public void onBindViewHolder(@NonNull VIEW_HOLDER holder, int position) {
         boolean selected = selectedItem != null && selectedItem.getPosition() == position;
+        holder.itemView.setOnLongClickListener(v -> {
+            selectPosition(position);
+            return true;
+        });
 
         if (selected) {
             holder.itemView.setForeground(ResourcesCompat.getDrawable(getContext().getResources(),
                     R.drawable.selected_item_background,
                     getContext().getTheme()));
+            holder.itemView.setOnClickListener(v -> selectPosition(selectedItem.getPosition()));
         } else {
             holder.itemView.setForeground(null);
         }
