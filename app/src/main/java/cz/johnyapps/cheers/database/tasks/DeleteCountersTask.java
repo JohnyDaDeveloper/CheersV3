@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import cz.johnyapps.cheers.entities.counter.Counter;
 
 public class DeleteCountersTask extends BaseDatabaseTask<Counter[], Void, Counter[]> {
+
     public DeleteCountersTask(@NonNull Context context) {
         super(context);
     }

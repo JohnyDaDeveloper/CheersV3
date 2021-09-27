@@ -177,6 +177,11 @@ public class CountersFragment extends Fragment implements BackOptionFragment {
     private void deleteCounters(@NonNull Context context,
                                @NonNull Collection<CounterWithBeverage> countersWithBeverages) {
         Counter[] counters = new Counter[countersWithBeverages.size()];
+        int i = 0;
+
+        for (CounterWithBeverage counterWithBeverage : countersWithBeverages) {
+            counters[i++] = counterWithBeverage.getCounter();
+        }
 
         DeleteCountersTask task = new DeleteCountersTask(context);
         task.execute(counters);

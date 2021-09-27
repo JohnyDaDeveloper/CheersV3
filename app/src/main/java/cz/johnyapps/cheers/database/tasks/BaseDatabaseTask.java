@@ -7,8 +7,11 @@ import androidx.annotation.Nullable;
 
 import cz.johnyapps.cheers.async.AsyncTask;
 import cz.johnyapps.cheers.database.CheersRoomDatabase;
+import cz.johnyapps.cheers.tools.Logger;
 
 public abstract class BaseDatabaseTask<INPUT, PROGRESS, OUTPUT> extends AsyncTask<INPUT, PROGRESS, OUTPUT> {
+    private static final String TAG = "BaseDatabaseTask";
+
     @Nullable
     private OnCompleteListener<OUTPUT> onCompleteListener;
     @NonNull
@@ -20,6 +23,8 @@ public abstract class BaseDatabaseTask<INPUT, PROGRESS, OUTPUT> extends AsyncTas
 
     @Override
     protected void onBackgroundError(@Nullable Exception e) {
+        Logger.e(TAG, "onBackgroundError: unexpected error occurred while working in background", e);
+
         if (onCompleteListener != null) {
             onCompleteListener.onFailure(e);
             onCompleteListener.onComplete();
