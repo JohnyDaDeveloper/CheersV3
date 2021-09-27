@@ -91,6 +91,7 @@ public class NewCounterDialog {
         alertDialog.show();
 
         AppCompatAutoCompleteTextView nameEditText = alertDialog.findViewById(R.id.nameEditText);
+        assert nameEditText != null;
         nameEditText.setAdapter(adapter);
 
         if (name != null && !name.isEmpty()) {
@@ -99,11 +100,14 @@ public class NewCounterDialog {
 
         if (alcohol > 0) {
             AppCompatEditText alcoholEditText = alertDialog.findViewById(R.id.alcoholEditText);
+            assert alcoholEditText != null;
             alcoholEditText.setText(String.valueOf(alcohol));
+            alcoholEditText.setEnabled(selectedBeverage != null);
         }
 
         if (volume > 0) {
             AppCompatEditText volumeEditText = alertDialog.findViewById(R.id.volumeEditText);
+            assert volumeEditText != null;
             volumeEditText.setText(String.valueOf(volume));
         }
     }
@@ -113,13 +117,16 @@ public class NewCounterDialog {
 
         if (alertDialog != null) {
             AppCompatAutoCompleteTextView nameEditText = alertDialog.findViewById(R.id.nameEditText);
+            assert nameEditText != null;
             nameEditText.dismissDropDown();
             nameEditText.setText(beverage.getName());
 
             AppCompatEditText volumeEditText = alertDialog.findViewById(R.id.volumeEditText);
+            assert volumeEditText != null;
             volumeEditText.requestFocus();
 
             AppCompatEditText alcoholEditText = alertDialog.findViewById(R.id.alcoholEditText);
+            assert alcoholEditText != null;
             alcoholEditText.setText(String.valueOf(beverage.getAlcohol()));
             alcoholEditText.setEnabled(false);
         }
@@ -130,13 +137,16 @@ public class NewCounterDialog {
                                @NonNull OnCounterCreatedListener onCounterCreatedListener,
                                @NonNull OnBeverageCreatedListener onBeverageCreatedListener) {
         AutoCompleteTextView nameEditText = alertDialog.findViewById(R.id.nameEditText);
+        assert nameEditText != null;
         String name = nameEditText.getText() == null ? null : nameEditText.getText().toString();
 
         AppCompatEditText alcoholEditText = alertDialog.findViewById(R.id.alcoholEditText);
+        assert alcoholEditText != null;
         String alcoholString = alcoholEditText.getText() == null ? null : alcoholEditText.getText().toString().replaceAll(",", ".");
         float alcohol = NumberUtils.toFloat(alcoholString, -1);
 
         AppCompatEditText volumeEditText = alertDialog.findViewById(R.id.volumeEditText);
+        assert volumeEditText != null;
         String volumeString = volumeEditText.getText() == null ? null : volumeEditText.getText().toString();
         float volume = NumberUtils.toFloat(volumeString, 0);
 
