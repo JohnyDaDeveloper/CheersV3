@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 
 import cz.johnyapps.cheers.R;
-import cz.johnyapps.cheers.adapters.CountersAdapter;
+import cz.johnyapps.cheers.adapters.recycleradapters.CountersAdapter;
 import cz.johnyapps.cheers.entities.BeverageCategory;
 import cz.johnyapps.cheers.entities.CounterWithBeverage;
 import cz.johnyapps.cheers.tools.Logger;

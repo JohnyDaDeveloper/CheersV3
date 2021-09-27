@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import cz.johnyapps.cheers.R;
-import cz.johnyapps.cheers.adapters.BeveragesAdapter;
+import cz.johnyapps.cheers.adapters.recycleradapters.BeveragesAdapter;
 import cz.johnyapps.cheers.database.tasks.InsertBeverageTask;
 import cz.johnyapps.cheers.dialogs.EditBeverageDialog;
 import cz.johnyapps.cheers.entities.beverage.Beverage;

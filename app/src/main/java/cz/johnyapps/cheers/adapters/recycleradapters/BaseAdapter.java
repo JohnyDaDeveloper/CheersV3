@@ -1,4 +1,4 @@
-package cz.johnyapps.cheers.adapters;
+package cz.johnyapps.cheers.adapters.recycleradapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import cz.johnyapps.cheers.R;
-import cz.johnyapps.cheers.adapters.BeverageFragmentAdapter;
+import cz.johnyapps.cheers.adapters.fragmentadapters.BeverageFragmentAdapter;
 import cz.johnyapps.cheers.entities.BeverageCategory;
 
 public class BeverageCategoriesFragment extends Fragment implements BackOptionFragment {

@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import cz.johnyapps.cheers.R;
-import cz.johnyapps.cheers.adapters.CountersAdapter;
+import cz.johnyapps.cheers.adapters.recycleradapters.CountersAdapter;
 import cz.johnyapps.cheers.database.tasks.DeleteCounterTask;
 import cz.johnyapps.cheers.database.tasks.InsertCounterTask;
 import cz.johnyapps.cheers.database.tasks.InsertCounterWithBeverageTask;

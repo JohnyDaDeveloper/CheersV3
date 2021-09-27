@@ -1,4 +1,4 @@
-package cz.johnyapps.cheers.adapters;
+package cz.johnyapps.cheers.adapters.fragmentadapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
