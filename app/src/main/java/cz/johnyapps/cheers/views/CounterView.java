@@ -152,9 +152,12 @@ public class CounterView extends LinearLayout {
 
             int count = counter.getCount() + add;
 
-            if (count >= 0) {
-                counter.setCount(count);
-
+            if (add > 0) {
+                counter.addCounterEntry();
+                this.count = count;
+                updateCounter(this.counterWithBeverage);
+            } else if (count >= 0) {
+                counter.removeLastCounterEntry();
                 this.count = count;
                 updateCounter(this.counterWithBeverage);
             }

@@ -3,7 +3,6 @@ package cz.johnyapps.cheers.entities.counter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -23,8 +22,8 @@ public interface CounterDao {
     @Query("SELECT * FROM counter_table WHERE active = 1")
     List<CounterWithBeverage> getActiveCountersWithBeverages();
 
-    @Query("UPDATE counter_table SET count = :count WHERE id = :id")
-    void updateCount(long id, int count);
+    @Query("UPDATE counter_table SET counterEntries = :counterEntries WHERE id = :id")
+    void updateCount(long id, @NonNull List<CounterEntry> counterEntries);
 
     @Query("DELETE FROM counter_table WHERE id = :counterId")
     void delete(long counterId);

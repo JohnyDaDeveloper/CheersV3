@@ -14,11 +14,6 @@ import cz.johnyapps.cheers.ItemWithId;
 
 @Entity(tableName = "tag_table")
 public class Tag implements ItemWithId {
-    @Ignore
-    private static final String ID = "id";
-    @Ignore
-    private static final String NAME = "name";
-
     @PrimaryKey(autoGenerate = true)
     private long id;
 
@@ -43,23 +38,6 @@ public class Tag implements ItemWithId {
     @Override
     public String getText(@NonNull Context context) {
         return getName();
-    }
-
-    @NonNull
-    public JSONObject toJson() throws JSONException {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(ID, id);
-        jsonObject.put(NAME, name);
-
-        return jsonObject;
-    }
-
-    @NonNull
-    public static Tag fromJson(@NonNull JSONObject jsonObject) throws JSONException {
-        long id = jsonObject.getLong(ID);
-        String name = jsonObject.getString(NAME);
-
-        return new Tag(id, name);
     }
 
     public void setId(long id) {

@@ -14,8 +14,8 @@ public interface BeverageDao {
     long insert(@NonNull Beverage beverage);
 
     @Nullable
-    @Query("SELECT * FROM beverage_table WHERE name = :beverageName")
-    Beverage get(@NonNull String beverageName);
+    @Query("SELECT * FROM beverage_table WHERE name = :name")
+    Beverage get(@NonNull String name);
 
     @Nullable
     @Query("SELECT * FROM beverage_table")

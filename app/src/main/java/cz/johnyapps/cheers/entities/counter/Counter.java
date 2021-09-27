@@ -5,9 +5,10 @@ import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.tools.TimeUtils;
 
 @Entity(tableName = "counter_table")
@@ -15,7 +16,8 @@ public class Counter {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    private int count = 0;
+    @NonNull
+    private List<CounterEntry> counterEntries = new ArrayList<>();
     private float volume;
     private long beverageId;
     private boolean active = true;
@@ -47,12 +49,27 @@ public class Counter {
         this.beverageId = beverageId;
     }
 
-    public int getCount() {
-        return count;
+    @NonNull
+    public List<CounterEntry> getCounterEntries() {
+        return counterEntries;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setCounterEntries(@NonNull List<CounterEntry> counterEntries) {
+        this.counterEntries = counterEntries;
+    }
+
+    public int getCount() {
+        return counterEntries.size();
+    }
+
+    public void addCounterEntry() {
+        this.counterEntries.add(new CounterEntry());
+    }
+
+    public void removeLastCounterEntry() {
+        if (!counterEntries.isEmpty()) {
+            counterEntries.remove(counterEntries.size() - 1);
+        }
     }
 
     public float getVolume() {
