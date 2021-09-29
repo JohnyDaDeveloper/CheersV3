@@ -60,7 +60,7 @@
         android:id="@+id/bottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="?colorSurface"
         app:behavior_fitToContents="false"
         app:behavior_hideable="false"
         app:behavior_peekHeight="0dp"
