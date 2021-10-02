@@ -95,7 +95,6 @@ public class EditBeverageDialog {
         if (background instanceof ColorDrawable) {
             int color = ((ColorDrawable) background).getColor();
             beverage.setColor(color);
-            Logger.d(TAG, "save: %s", Color.luminance(color));
             beverage.setTextColor(Color.luminance(color)  < 0.21f ? Color.WHITE : Color.BLACK);
         } else {
             Logger.w(TAG, "save: Background is not instance on ColorDrawable (instead it's '%s')", background.getClass());

@@ -98,11 +98,12 @@ public class NewCounterDialog {
             nameEditText.setText(name);
         }
 
+        AppCompatEditText alcoholEditText = alertDialog.findViewById(R.id.alcoholEditText);
+        alcoholEditText.setEnabled(selectedBeverage == null);
+
         if (alcohol > 0) {
-            AppCompatEditText alcoholEditText = alertDialog.findViewById(R.id.alcoholEditText);
             assert alcoholEditText != null;
             alcoholEditText.setText(String.valueOf(alcohol));
-            alcoholEditText.setEnabled(selectedBeverage != null);
         }
 
         if (volume > 0) {
@@ -127,7 +128,11 @@ public class NewCounterDialog {
 
             AppCompatEditText alcoholEditText = alertDialog.findViewById(R.id.alcoholEditText);
             assert alcoholEditText != null;
-            alcoholEditText.setText(String.valueOf(beverage.getAlcohol()));
+
+            if (beverage.getAlcohol() > 0) {
+                alcoholEditText.setText(String.valueOf(beverage.getAlcohol()));
+            }
+
             alcoholEditText.setEnabled(false);
         }
     }
