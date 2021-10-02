@@ -12,6 +12,7 @@ import java.util.List;
 
 import cz.johnyapps.cheers.R;
 import cz.johnyapps.cheers.entities.beverage.Beverage;
+import cz.johnyapps.cheers.tools.TextUtils;
 
 public class BeveragesAdapter extends FilterableAdapter<BeveragesAdapter.BeverageViewHolder, Beverage> {
     public BeveragesAdapter(@NonNull Context context,
@@ -22,7 +23,9 @@ public class BeveragesAdapter extends FilterableAdapter<BeveragesAdapter.Beverag
 
     @Override
     protected boolean filterItem(@NonNull CharSequence constraint, @NonNull Beverage beverage) {
-        return beverage.getName().toLowerCase().contains(constraint.toString().toLowerCase());
+        return TextUtils.removeDiacritics(beverage.getName().toLowerCase())
+                .toString()
+                .contains(constraint.toString().toLowerCase());
     }
 
     @NonNull

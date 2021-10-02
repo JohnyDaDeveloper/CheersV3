@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.johnyapps.cheers.tools.TextUtils;
+
 public abstract class BaseListAdapter<ITEM> extends BaseAdapter implements Filterable {
     @NonNull
     private final Context context;
@@ -41,9 +43,7 @@ public abstract class BaseListAdapter<ITEM> extends BaseAdapter implements Filte
         notifyDataSetChanged();
     }
 
-    protected void onUpdate(@Nullable List<ITEM> items) {
-
-    }
+    protected abstract void onUpdate(@Nullable List<ITEM> items);
 
     protected abstract boolean filterItem(@NonNull CharSequence constraint, @NonNull ITEM item);
 
@@ -99,6 +99,7 @@ public abstract class BaseListAdapter<ITEM> extends BaseAdapter implements Filte
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
+                constraint = TextUtils.removeDiacritics(constraint);
                 List<ITEM> filtered = new ArrayList<>();
 
                 for (ITEM item : items) {

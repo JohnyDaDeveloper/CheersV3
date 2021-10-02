@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.johnyapps.cheers.tools.TextUtils;
+
 public abstract class FilterableAdapter<VIEW_HOLDER extends SelectableAdapter<VIEW_HOLDER, ITEM, List<ITEM>>.SelectableViewHolder, ITEM> extends SelectableAdapter<VIEW_HOLDER, ITEM, List<ITEM>>  implements Filterable {
     @NonNull
     private List<ITEM> items;
@@ -53,6 +55,7 @@ public abstract class FilterableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
+                constraint = TextUtils.removeDiacritics(constraint);
                 List<ITEM> filtered = new ArrayList<>();
 
                 for (ITEM item : items) {
