@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<cz.johnyapps.cheers.views.CustomCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/beverageCategoryImageView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="?spacingDefault"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/beer" />
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/beverageCategoryImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="?spacingDefault"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/beer" />
+
+        <View
+            android:id="@+id/bottomSpace"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/bottomSheet"
@@ -27,4 +38,4 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</cz.johnyapps.cheers.views.CustomCoordinatorLayout>

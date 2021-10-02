@@ -29,6 +29,7 @@ import cz.johnyapps.cheers.entities.CounterWithBeverage;
 import cz.johnyapps.cheers.tools.Logger;
 import cz.johnyapps.cheers.tools.SharedPrefsUtils;
 import cz.johnyapps.cheers.viewmodels.MainViewModel;
+import cz.johnyapps.cheers.views.CustomCoordinatorLayout;
 
 public class BeverageCategoryFragment extends Fragment implements BackOptionFragment {
     private static final String TAG = "BeverageCategoryFragment";
@@ -60,14 +61,13 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
     @Override
     public void onResume() {
         super.onResume();
-        beverageCategoryImageView.requestLayout();
+        //beverageCategoryImageView.requestLayout();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_beverage_category, container, false);
-        root.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> beverageCategoryImageView.requestLayout());
+        CustomCoordinatorLayout root = (CustomCoordinatorLayout) inflater.inflate(R.layout.fragment_beverage_category, container, false);
 
         selectedCounterId = getGeneralPrefs().getLong(beverageCategory.getSelectedCounterPrefName(), -1);
 
@@ -182,7 +182,8 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         bottomSheetBehavior.setPeekHeight(peekHeight);
 
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) beverageCategoryImageView.getLayoutParams();
-        layoutParams.setMargins(0, 0, 0, peekHeight);
+        layoutParams.setMargins(0, 0, 0, 435);
+        beverageCategoryImageView.setLayoutParams(layoutParams);
         beverageCategoryImageView.forceLayout();
     }
 
