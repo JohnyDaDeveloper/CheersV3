@@ -4,57 +4,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/beverageCategoryImageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/beverageCategoryImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/buttonsLayout"
-            android:layout_marginBottom="?spacingDefault"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/beer" />
-
-        <RelativeLayout
-            android:id="@+id/buttonsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/counterView">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/closeCounterImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="?spacingDefault"
-                android:clickable="true"
-                android:focusable="true"
-                android:visibility="gone"
-                android:layout_alignParentEnd="true"
-                android:background="?selectableItemBackground"
-                android:layout_marginStart="?spacingDefault"
-                app:srcCompat="@drawable/close_counter" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/swapCountersImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="?spacingDefault"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?selectableItemBackground"
-                android:layout_marginEnd="?spacingDefault"
-                android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/swap_counters" />
-        </RelativeLayout>
-
-        <cz.johnyapps.cheers.views.CounterView
-            android:id="@+id/counterView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" />
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="?spacingDefault"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/beer" />
 
     <FrameLayout
         android:id="@+id/bottomSheet"
@@ -63,7 +19,6 @@
         android:background="?colorSurface"
         app:behavior_fitToContents="false"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="0dp"
         app:behavior_skipCollapsed="true"
         app:layout_behavior="@string/bottom_sheet_behavior">
 

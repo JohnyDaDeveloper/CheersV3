@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,8 @@ public class CountersAdapter extends SelectableAdapter<CountersAdapter.CounterVi
     private boolean allCountersDisabled = false;
     @Nullable
     private OnCounterClickListener onCounterClickListener;
+    @Nullable
+    private CounterView.OnSizeChangedListener onSizeChangedListener;
 
     public CountersAdapter(@NonNull Context context,
                            @Nullable List<CounterWithBeverage> countersWithBeverages) {
@@ -94,6 +97,10 @@ public class CountersAdapter extends SelectableAdapter<CountersAdapter.CounterVi
         }
     }
 
+    public void setOnSizeChangedListener(@Nullable CounterView.OnSizeChangedListener onSizeChangedListener) {
+        this.onSizeChangedListener = onSizeChangedListener;
+    }
+
     public void setOnCounterClickListener(@Nullable OnCounterClickListener onCounterClickListener) {
         this.onCounterClickListener = onCounterClickListener;
     }
@@ -108,6 +115,15 @@ public class CountersAdapter extends SelectableAdapter<CountersAdapter.CounterVi
         public CounterViewHolder(@NonNull View root) {
             super(root);
             counterView = root.findViewById(R.id.counterView);
+
+            int position = getAdapterPosition();
+            if (position == 0 || position == RecyclerView.NO_POSITION) {
+                counterView.setOnSizeChangedListener((width, height) -> {
+                    if (onSizeChangedListener != null) {
+                        onSizeChangedListener.onSizeChanged(width, height);
+                    }
+                });
+            }
         }
     }
 }

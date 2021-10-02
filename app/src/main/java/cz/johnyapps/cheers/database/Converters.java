@@ -66,7 +66,6 @@ public class Converters {
             Logger.w(TAG, "counterEntriesToString: Failed to CounterEntries to JSON");
         }
 
-        Logger.d(TAG, "counterEntriesToString: %s", jsonArray.toString());
         return jsonArray.toString();
     }
 

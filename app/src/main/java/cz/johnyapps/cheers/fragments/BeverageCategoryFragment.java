@@ -29,7 +29,6 @@ import cz.johnyapps.cheers.entities.CounterWithBeverage;
 import cz.johnyapps.cheers.tools.Logger;
 import cz.johnyapps.cheers.tools.SharedPrefsUtils;
 import cz.johnyapps.cheers.viewmodels.MainViewModel;
-import cz.johnyapps.cheers.views.CounterView;
 
 public class BeverageCategoryFragment extends Fragment implements BackOptionFragment {
     private static final String TAG = "BeverageCategoryFragment";
@@ -42,10 +41,11 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
     private BottomSheetBehavior<View> bottomSheetBehavior;
     @Nullable
     private CountersAdapter adapter;
-    private int counterHeight = 0;
     private long selectedCounterId = -1;
+    private int peekHeight = 0;
 
     private MainViewModel viewModel;
+    private AppCompatImageView beverageCategoryImageView;
 
     public BeverageCategoryFragment(@NonNull BeverageCategory beverageCategory) {
         this.beverageCategory = beverageCategory;
@@ -57,16 +57,23 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         setupViewModel();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        beverageCategoryImageView.requestLayout();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_beverage_category, container, false);
+        root.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> beverageCategoryImageView.requestLayout());
 
         selectedCounterId = getGeneralPrefs().getLong(beverageCategory.getSelectedCounterPrefName(), -1);
 
-        setupCounter(root);
+        setupCategoryImage(root);
         setupBottomSheet(root);
-        setupCounterButtons(root);
+        setupCounterRecyclerView(root);
         setupObservers();
 
         return root;
@@ -82,38 +89,33 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         return false;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        showSelectedCounter();
-    }
-
-    private void setupCounterButtons(@NonNull View root) {
-        AppCompatImageView closeCounterImageView = root.findViewById(R.id.closeCounterImageView);
-        closeCounterImageView.setOnClickListener(v -> {
-            selectedCounterId = -1;
-
-            getGeneralPrefs().edit()
-                    .putLong(beverageCategory.getSelectedCounterPrefName(), selectedCounterId)
-                    .apply();
-
-            showSelectedCounter();
-        });
-
-        AppCompatImageView swapCountersImageView = root.findViewById(R.id.swapCountersImageView);
-        swapCountersImageView.setOnClickListener(v -> {
+    private void setupCounterRecyclerView(@NonNull View root) {
+        RecyclerView counterRecyclerView = root.findViewById(R.id.countersRecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(root.getContext());
+        counterRecyclerView.setLayoutManager(layoutManager);
+        counterRecyclerView.setAdapter(adapter);
+        counterRecyclerView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
             if (bottomSheetBehavior != null) {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                bottomSheetBehavior.setDraggable(firstVisibleItemPosition == 0);
             }
         });
+    }
 
-        setCounterButtonsVisibility(root);
+    private void setupCategoryImage(@NonNull View root) {
+        beverageCategoryImageView = root.findViewById(R.id.beverageCategoryImageView);
+        beverageCategoryImageView.setImageDrawable(ContextCompat.getDrawable(root.getContext(), beverageCategory.getImageResId()));
+        beverageCategoryImageView.setOnClickListener(v -> playSound(v.getContext()));
     }
 
     private void setupObservers() {
         viewModel.getCountersWithBeverages().observe(getViewLifecycleOwner(), counterWithBeverages -> {
             if (adapter != null) {
                 adapter.update(counterWithBeverages);
+            }
+
+            if (bottomSheetBehavior != null) {
+                changePeekHeight(counterWithBeverages.isEmpty() ? 0 : peekHeight);
             }
 
             showSelectedCounter();
@@ -146,21 +148,11 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         adapter = new CountersAdapter(root.getContext(), viewModel.getCountersWithBeverages().getValue());
         adapter.setAllowSelection(false);
         adapter.setOnCounterClickListener(this::selectCounter);
+        adapter.setOnSizeChangedListener((width, height) -> changePeekHeight(height));
 
         if (adapter.isAllCountersDisabled()) {
             adapter.setAllCountersDisabled(false);
         }
-
-        RecyclerView counterRecyclerView = root.findViewById(R.id.countersRecyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(root.getContext());
-        counterRecyclerView.setLayoutManager(layoutManager);
-        counterRecyclerView.setAdapter(adapter);
-        counterRecyclerView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-            if (bottomSheetBehavior != null) {
-                bottomSheetBehavior.setDraggable(firstVisibleItemPosition == 0);
-            }
-        });
     }
 
     private void showSelectedCounter() {
@@ -184,16 +176,24 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         }
     }
 
+    private void changePeekHeight(int peekHeight) {
+        this.peekHeight = peekHeight;
+
+        bottomSheetBehavior.setPeekHeight(peekHeight);
+
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) beverageCategoryImageView.getLayoutParams();
+        layoutParams.setMargins(0, 0, 0, peekHeight);
+        beverageCategoryImageView.forceLayout();
+    }
+
     private void selectCounter(@Nullable CounterWithBeverage counterWithBeverage, int position) {
         if (adapter != null) {
             adapter.moveToTop(position);
         }
 
         selectedCounterId = counterWithBeverage == null ? -1 : counterWithBeverage.getCounter().getId();
-        setCounterButtonsVisibility(null);
 
         if (bottomSheetBehavior != null) {
-            bottomSheetBehavior.setPeekHeight(showFirstCounter() ? counterHeight : 0);
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         } else {
             Logger.w(TAG, "selectCounter: BottomSheetBehavior is null");
@@ -202,40 +202,6 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         getGeneralPrefs().edit()
                 .putLong(beverageCategory.getSelectedCounterPrefName(), selectedCounterId)
                 .apply();
-    }
-
-    private void setCounterButtonsVisibility(@Nullable View root) {
-        if (root == null) {
-            root = getView();
-
-            if (root == null) {
-                Logger.w(TAG, "setCloseCounterVisibility: root is null");
-                return;
-            }
-        }
-
-        AppCompatImageView closeCounterImageView = root.findViewById(R.id.closeCounterImageView);
-        AppCompatImageView swapCountersImageView = root.findViewById(R.id.swapCountersImageView);
-
-        if (showFirstCounter()) {
-            closeCounterImageView.setVisibility(View.VISIBLE);
-            swapCountersImageView.setVisibility(View.GONE);
-        } else {
-            closeCounterImageView.setVisibility(View.GONE);
-            swapCountersImageView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private boolean showFirstCounter() {
-        /*if (adapter == null) {
-            Logger.d(TAG, "showFirstCounter: null adapter");
-        } else {
-            Logger.d(TAG, "showFirstCounter: %s %s %s %s", beverageCategory.getCountPrefName(), selectedCounterId, adapter.getItemCount() > 0, adapter.getItemCount() > 0 ? adapter.getItem(0).getCounter().getId() == selectedCounterId : null);
-        }*/
-
-        return adapter != null &&
-                adapter.getItemCount() > 0 &&
-                adapter.getItem(0).getCounter().getId() == selectedCounterId;
     }
 
     private void setupViewModel() {
@@ -250,20 +216,6 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
 
         int state = bottomSheetBehavior.getState();
         return state == BottomSheetBehavior.STATE_EXPANDED || state == BottomSheetBehavior.STATE_HALF_EXPANDED;
-    }
-
-    private void setupCounter(@NonNull View root) {
-        int count = getGeneralPrefs().getInt(beverageCategory.getCountPrefName(), 0);
-
-        CounterView counterView = root.findViewById(R.id.counterView);
-        counterView.setCount(count);
-        counterView.setTitleText(beverageCategory.getTitleResId());
-        counterView.setOnValueChangeListener(value -> getGeneralPrefs().edit().putInt(beverageCategory.getCountPrefName(), value).apply());
-        counterView.setOnSizeChangedListener((width, height) -> counterHeight = height);
-
-        AppCompatImageView beverageCategoryImageView = root.findViewById(R.id.beverageCategoryImageView);
-        beverageCategoryImageView.setImageDrawable(ContextCompat.getDrawable(root.getContext(), beverageCategory.getImageResId()));
-        beverageCategoryImageView.setOnClickListener(v -> playSound(v.getContext()));
     }
 
     private void playSound(@NonNull Context context) {
