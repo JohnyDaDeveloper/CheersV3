@@ -12,7 +12,6 @@ import java.util.List;
 
 import cz.johnyapps.cheers.entities.ItemWithId;
 import cz.johnyapps.cheers.R;
-import cz.johnyapps.cheers.tools.TextUtils;
 
 public class ItemsWithIdAdapter<ITEM extends ItemWithId> extends BaseListAdapter<ITEM> implements Filterable {
     public ItemsWithIdAdapter(@NonNull Context context, @NonNull OnItemClickListener<ITEM> onItemClickListener) {
@@ -24,11 +23,10 @@ public class ItemsWithIdAdapter<ITEM extends ItemWithId> extends BaseListAdapter
 
     }
 
+    @NonNull
     @Override
-    protected boolean filterItem(@NonNull CharSequence constraint, @NonNull ITEM item) {
-        return TextUtils.removeDiacritics(item.getText(getContext()).toLowerCase())
-                .toString()
-                .contains(constraint.toString().toLowerCase());
+    protected String getItemTextForFilter(@NonNull ITEM item) {
+        return item.getText(getContext());
     }
 
     @Override

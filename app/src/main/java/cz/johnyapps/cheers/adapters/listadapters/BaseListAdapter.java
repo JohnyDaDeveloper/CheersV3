@@ -45,7 +45,14 @@ public abstract class BaseListAdapter<ITEM> extends BaseAdapter implements Filte
 
     protected abstract void onUpdate(@Nullable List<ITEM> items);
 
-    protected abstract boolean filterItem(@NonNull CharSequence constraint, @NonNull ITEM item);
+    @NonNull
+    protected abstract String getItemTextForFilter(@NonNull ITEM item);
+
+    private boolean filterItem(@NonNull CharSequence constraint, @NonNull ITEM item) {
+        return TextUtils.removeDiacritics(getItemTextForFilter(item).toLowerCase())
+                .toString()
+                .contains(constraint.toString().toLowerCase());
+    }
 
     @NonNull
     public Context getContext() {

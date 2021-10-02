@@ -87,7 +87,14 @@ public abstract class FilterableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
         notifyDataSetChanged();
     }
 
-    protected abstract boolean filterItem(@NonNull CharSequence constraint, @NonNull ITEM item);
+    @NonNull
+    protected abstract String getItemTextForFilter(@NonNull ITEM item);
+
+    private boolean filterItem(@NonNull CharSequence constraint, @NonNull ITEM item) {
+        return TextUtils.removeDiacritics(getItemTextForFilter(item).toLowerCase())
+                .toString()
+                .contains(constraint.toString().toLowerCase());
+    }
 
     public void filter(@NonNull String query) {
         getFilter().filter(query);
