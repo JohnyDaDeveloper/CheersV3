@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -110,6 +111,8 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
 
     private void setupObservers() {
         viewModel.getCountersWithBeverages().observe(getViewLifecycleOwner(), counterWithBeverages -> {
+            counterWithBeverages = new ArrayList<>(counterWithBeverages);
+
             if (adapter != null) {
                 adapter.update(counterWithBeverages);
             }
