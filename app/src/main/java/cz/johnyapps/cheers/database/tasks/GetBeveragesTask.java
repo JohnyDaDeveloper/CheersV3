@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.Collections;
 import java.util.List;
 
 import cz.johnyapps.cheers.entities.beverage.Beverage;
@@ -17,6 +18,8 @@ public class GetBeveragesTask extends BaseDatabaseTask<Void, Void, List<Beverage
     @Nullable
     @Override
     protected List<Beverage> doInBackground(@Nullable Void aVoid) throws Exception {
-        return getDatabase().beverageDao().getBeverages();
+        List<Beverage> beverages = getDatabase().beverageDao().getBeverages();
+        Collections.sort(beverages);
+        return beverages;
     }
 }

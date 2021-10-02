@@ -7,7 +7,7 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import cz.johnyapps.cheers.ItemWithId;
+import cz.johnyapps.cheers.entities.ItemWithId;
 import cz.johnyapps.cheers.R;
 
 public class ItemsWithIdAdapter<ITEM extends ItemWithId> extends BaseListAdapter<ITEM> implements Filterable {

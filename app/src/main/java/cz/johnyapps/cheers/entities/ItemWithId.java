@@ -1,4 +1,4 @@
-package cz.johnyapps.cheers;
+package cz.johnyapps.cheers.entities;
 
 import android.content.Context;
 

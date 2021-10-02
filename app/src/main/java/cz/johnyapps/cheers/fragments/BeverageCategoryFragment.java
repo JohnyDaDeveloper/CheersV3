@@ -182,7 +182,7 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         bottomSheetBehavior.setPeekHeight(peekHeight);
 
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) beverageCategoryImageView.getLayoutParams();
-        layoutParams.setMargins(0, 0, 0, 435);
+        layoutParams.setMargins(0, 0, 0, peekHeight);
         beverageCategoryImageView.setLayoutParams(layoutParams);
         beverageCategoryImageView.forceLayout();
     }

@@ -4,13 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import cz.johnyapps.cheers.ItemWithId;
 
 @Entity(tableName = "tag_table")
 public class Tag implements ItemWithId {

@@ -10,12 +10,12 @@ import androidx.room.PrimaryKey;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.johnyapps.cheers.ItemWithId;
+import cz.johnyapps.cheers.entities.ItemWithId;
 import cz.johnyapps.cheers.entities.Tag;
 import cz.johnyapps.cheers.tools.TextUtils;
 
 @Entity(tableName = "beverage_table")
-public class Beverage implements ItemWithId {
+public class Beverage implements ItemWithId, Comparable<Beverage> {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
@@ -37,6 +37,15 @@ public class Beverage implements ItemWithId {
         this.color = color;
         this.textColor = textColor;
         this.alcohol = alcohol;
+    }
+
+    @Override
+    public int compareTo(Beverage o) {
+        if (o == null) {
+            return 1;
+        }
+
+        return getName().compareTo(o.getName());
     }
 
     @NonNull

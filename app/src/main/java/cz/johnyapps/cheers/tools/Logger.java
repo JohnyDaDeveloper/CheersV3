@@ -72,7 +72,7 @@ public class Logger {
     }
 
     public static void i(@NonNull String tag, @Nullable String message) {
-        Log.i(tag, message);
+        Log.i(formatTag(tag), message);
     }
 
     public static void i(@NonNull String tag, @Nullable String message, @Nullable Throwable throwable) {
@@ -100,7 +100,7 @@ public class Logger {
     }
 
     public static void w(@NonNull String tag, @Nullable String message) {
-        Log.w(tag, message);
+        Log.w(formatTag(tag), message);
     }
 
     public static void w(@NonNull String tag, @Nullable String message, @Nullable Throwable throwable) {
@@ -128,7 +128,7 @@ public class Logger {
     }
 
     public static void e(@NonNull String tag, @Nullable String message) {
-        Log.e(tag, message);
+        Log.e(formatTag(tag), message);
     }
 
     public static void e(@NonNull String tag, @Nullable String message, @Nullable Throwable throwable) {

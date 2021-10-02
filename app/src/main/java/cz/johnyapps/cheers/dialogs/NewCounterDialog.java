@@ -16,7 +16,7 @@ import java.util.List;
 import cz.johnyapps.cheers.R;
 import cz.johnyapps.cheers.adapters.listadapters.ItemsWithIdAdapter;
 import cz.johnyapps.cheers.database.tasks.BaseDatabaseTask;
-import cz.johnyapps.cheers.database.tasks.GetBeverageNamesWithIdsTask;
+import cz.johnyapps.cheers.database.tasks.GetBeveragesTask;
 import cz.johnyapps.cheers.entities.CounterWithBeverage;
 import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.entities.counter.Counter;
@@ -43,7 +43,7 @@ public class NewCounterDialog {
         this.adapter = new ItemsWithIdAdapter<>(context, this::setBeverage);
         this.previousBeverage = previousBeverage;
 
-        GetBeverageNamesWithIdsTask task = new GetBeverageNamesWithIdsTask(context);
+        GetBeveragesTask task = new GetBeveragesTask(context);
         task.setOnCompleteListener(new BaseDatabaseTask.OnCompleteListener<List<Beverage>>() {
             @Override
             public void onSuccess(@Nullable List<Beverage> beverages) {

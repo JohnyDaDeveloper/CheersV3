@@ -1,7 +1,9 @@
 package cz.johnyapps.cheers.activities;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -10,6 +12,11 @@ import cz.johnyapps.cheers.fragments.BackOptionFragment;
 import cz.johnyapps.cheers.viewmodels.MainViewModel;
 
 public class MainActivity extends NavigationActivity {
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
