@@ -47,7 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 final int[] taskCompleted = {0};
 
                 Beverage beverage = new Beverage(getResources().getString(R.string.beverage_beer),
-                        Color.WHITE,
+                        Color.rgb(252, 161, 3),
                         Color.BLACK,
                         0);
                 Counter counter = new Counter(beverage.getId(), 0.5f);
@@ -80,7 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 });
 
                 beverage = new Beverage(getResources().getString(R.string.beverage_wine),
-                        Color.WHITE,
+                        Color.rgb(219, 48, 48),
                         Color.BLACK,
                         0);
                 counter = new Counter(beverage.getId(), 0.2f);
@@ -113,7 +113,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 task2.execute(counterWithBeverage);
 
                 beverage = new Beverage(getResources().getString(R.string.beverage_shot),
-                        Color.WHITE,
+                        Color.rgb(184, 126, 50),
                         Color.BLACK,
                         0);
                 counter = new Counter(beverage.getId(), 0.04f);
