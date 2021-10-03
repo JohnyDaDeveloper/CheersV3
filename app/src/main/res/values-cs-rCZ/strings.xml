@@ -40,4 +40,10 @@
         <item quantity="other">Smazat %d počítadel?</item>
     </plurals>
     <string name="select_all_menu_item">Vybrat vše</string>
+    <string name="close">Zavřít</string>
+    <string name="about_app_author"><b>Autor:</b> Jan Pejsar</string>
+    <string name="about_app_version">Verze</string>
+    <string name="about_app_build">Build</string>
+    <string name="about_app_build_time">Čas buildu</string>
+    <string name="nav_about_app">O aplikaci</string>
 </resources>

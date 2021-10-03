@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="light_colorPrimary">#B17000</color>
-    <color name="light_colorPrimaryVariant">#815200</color>
+    <color name="light_colorPrimaryVariant">#D68800</color>
     <color name="light_colorSecondary">#03DAC5</color>
     <color name="light_colorSecondaryVariant">#018786</color>
     <color name="light_colorSecondaryTransparent">#5503DAC5</color>
 
     <color name="dark_colorPrimary">#B17000</color>
-    <color name="dark_colorPrimaryVariant">#A66B00</color>
+    <color name="dark_colorPrimaryVariant">#D68800</color>
     <color name="dark_colorSecondary">#03DAC5</color>
     <color name="dark_colorSecondaryVariant">#018786</color>
     <color name="dark_colorSecondaryTransparent">#5503DAC5</color>

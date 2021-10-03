@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Cheers.Small"
+        android:padding="?spacingDefault"
+        android:text="@string/about_app_author" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/versionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Cheers.Small"
+        android:paddingStart="?spacingDefault"
+        android:paddingEnd="?spacingDefault"
+        android:paddingBottom="?spacingDefault"
+        android:text="@string/about_app_build" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/buildTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Cheers.Small"
+        android:paddingStart="?spacingDefault"
+        android:paddingEnd="?spacingDefault"
+        android:paddingBottom="?spacingDefault"
+        android:text="@string/about_app_version" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/buildTimeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Cheers.Small"
+        android:paddingStart="?spacingDefault"
+        android:paddingEnd="?spacingDefault"
+        android:text="@string/about_app_version" />
+</LinearLayout>

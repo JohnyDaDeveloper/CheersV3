@@ -24,7 +24,7 @@ import cz.johnyapps.cheers.adapters.recycleradapters.CountersAdapter;
 import cz.johnyapps.cheers.database.tasks.DeleteCountersTask;
 import cz.johnyapps.cheers.database.tasks.InsertCountersTask;
 import cz.johnyapps.cheers.database.tasks.InsertCounterWithBeverageTask;
-import cz.johnyapps.cheers.dialogs.CustomDialogBuilder;
+import cz.johnyapps.cheers.dialogs.customdialogbuilder.CustomDialogBuilder;
 import cz.johnyapps.cheers.dialogs.NewCounterDialog;
 import cz.johnyapps.cheers.entities.CounterWithBeverage;
 import cz.johnyapps.cheers.entities.beverage.Beverage;

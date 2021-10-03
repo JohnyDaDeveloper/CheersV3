@@ -17,6 +17,7 @@ import cz.johnyapps.cheers.R;
 import cz.johnyapps.cheers.adapters.listadapters.ItemsWithIdAdapter;
 import cz.johnyapps.cheers.database.tasks.BaseDatabaseTask;
 import cz.johnyapps.cheers.database.tasks.GetBeveragesTask;
+import cz.johnyapps.cheers.dialogs.customdialogbuilder.CustomDialogBuilder;
 import cz.johnyapps.cheers.entities.CounterWithBeverage;
 import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.entities.counter.Counter;
@@ -99,10 +100,10 @@ public class NewCounterDialog {
         }
 
         AppCompatEditText alcoholEditText = alertDialog.findViewById(R.id.alcoholEditText);
+        assert alcoholEditText != null;
         alcoholEditText.setEnabled(selectedBeverage == null);
 
         if (alcohol > 0) {
-            assert alcoholEditText != null;
             alcoholEditText.setText(String.valueOf(alcohol));
         }
 

@@ -2,12 +2,14 @@ package cz.johnyapps.cheers.activities;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.Menu;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import cz.johnyapps.cheers.R;
+import cz.johnyapps.cheers.dialogs.AboutAppDialog;
 import cz.johnyapps.cheers.fragments.BackOptionFragment;
 import cz.johnyapps.cheers.viewmodels.MainViewModel;
 
@@ -22,6 +24,7 @@ public class MainActivity extends NavigationActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupViewModel();
+        setupMenuItems();
     }
 
     @Override
@@ -38,6 +41,18 @@ public class MainActivity extends NavigationActivity {
         }
 
         super.onBackPressed();
+    }
+
+    private void setupMenuItems() {
+        getNavigationView().getMenu().clear();
+        getNavigationView().inflateMenu(R.menu.nav_menu);
+        Menu navMenu = getNavigationView().getMenu();
+
+        navMenu.findItem(R.id.aboutAppMenuItem).setOnMenuItemClickListener(item -> {
+            AboutAppDialog aboutAppDialog = new AboutAppDialog(this);
+            aboutAppDialog.show();
+            return false;
+        });
     }
 
     private void setupViewModel() {

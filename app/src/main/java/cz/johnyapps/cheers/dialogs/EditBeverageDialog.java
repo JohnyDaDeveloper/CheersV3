@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import cz.johnyapps.cheers.R;
+import cz.johnyapps.cheers.dialogs.customdialogbuilder.CustomDialogBuilder;
 import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.tools.Logger;
 import cz.johnyapps.cheers.tools.NumberUtils;
