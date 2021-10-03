@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,6 +32,7 @@ import cz.johnyapps.cheers.tools.Logger;
 import cz.johnyapps.cheers.tools.ThemeUtils;
 import cz.johnyapps.cheers.tools.TimeUtils;
 import cz.johnyapps.cheers.viewmodels.MainViewModel;
+import cz.johnyapps.cheers.views.EmptyMessageRecyclerView;
 
 public class CountersFragment extends Fragment implements BackOptionFragment {
     private static final String TAG = "CountersFragment";
@@ -203,7 +203,7 @@ public class CountersFragment extends Fragment implements BackOptionFragment {
         newCounterDialog.show(counterWithBeverage -> {
             List<CounterWithBeverage> countersWithBeverages = viewModel.addCounterWithBeverage(counterWithBeverage);
 
-            RecyclerView countersRecyclerView = root.findViewById(R.id.countersRecyclerView);
+            EmptyMessageRecyclerView countersRecyclerView = root.findViewById(R.id.countersRecyclerView);
             countersRecyclerView.scrollToPosition(countersWithBeverages.size() - 1);
 
             saveCounter(root.getContext(), counterWithBeverage);
@@ -224,7 +224,7 @@ public class CountersFragment extends Fragment implements BackOptionFragment {
             });
         }
 
-        RecyclerView countersRecyclerView = root.findViewById(R.id.countersRecyclerView);
+        EmptyMessageRecyclerView countersRecyclerView = root.findViewById(R.id.countersRecyclerView);
         countersRecyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         countersRecyclerView.setAdapter(adapter);
     }

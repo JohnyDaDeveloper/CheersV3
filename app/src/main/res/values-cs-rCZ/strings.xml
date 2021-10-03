@@ -46,4 +46,6 @@
     <string name="about_app_build">Build</string>
     <string name="about_app_build_time">Čas buildu</string>
     <string name="nav_about_app">O aplikaci</string>
+    <string name="counter_recycler_view_empty_message">Nové počítadlo přidáte kliknutím na \"+\"</string>
+    <string name="beverage_recycler_view_empty_message">Nový napoj přidáte klepnutím na \"+\"</string>
 </resources>

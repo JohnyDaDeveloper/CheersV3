@@ -41,6 +41,11 @@ public class CountersAdapter extends SelectableAdapter<CountersAdapter.CounterVi
         this.countersWithBeverages = countersWithBeverages == null ? new ArrayList<>() : countersWithBeverages;
     }
 
+    @Override
+    public boolean isEmpty() {
+        return countersWithBeverages.isEmpty();
+    }
+
     @NonNull
     @Override
     public CounterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

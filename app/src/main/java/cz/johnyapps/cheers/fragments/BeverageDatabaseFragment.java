@@ -28,6 +28,7 @@ import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.tools.Logger;
 import cz.johnyapps.cheers.tools.ThemeUtils;
 import cz.johnyapps.cheers.viewmodels.MainViewModel;
+import cz.johnyapps.cheers.views.EmptyMessageRecyclerView;
 
 public class BeverageDatabaseFragment extends Fragment implements BackOptionFragment {
     private static final String TAG = "BeverageDatabaseFragment";
@@ -195,7 +196,7 @@ public class BeverageDatabaseFragment extends Fragment implements BackOptionFrag
             });
         }
 
-        RecyclerView beveragesRecyclerView = root.findViewById(R.id.beveragesRecyclerView);
+        EmptyMessageRecyclerView beveragesRecyclerView = root.findViewById(R.id.beveragesRecyclerView);
         beveragesRecyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         beveragesRecyclerView.setAdapter(adapter);
     }

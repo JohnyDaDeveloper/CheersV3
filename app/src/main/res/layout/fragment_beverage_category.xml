@@ -33,8 +33,9 @@
         app:behavior_skipCollapsed="true"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <cz.johnyapps.cheers.views.EmptyMessageRecyclerView
             android:id="@+id/countersRecyclerView"
+            app:emptyMessage="@string/counter_recycler_view_empty_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>

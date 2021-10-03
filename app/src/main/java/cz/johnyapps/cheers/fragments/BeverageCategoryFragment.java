@@ -31,6 +31,7 @@ import cz.johnyapps.cheers.tools.Logger;
 import cz.johnyapps.cheers.tools.SharedPrefsUtils;
 import cz.johnyapps.cheers.viewmodels.MainViewModel;
 import cz.johnyapps.cheers.views.CustomCoordinatorLayout;
+import cz.johnyapps.cheers.views.EmptyMessageRecyclerView;
 
 public class BeverageCategoryFragment extends Fragment implements BackOptionFragment {
     private static final String TAG = "BeverageCategoryFragment";
@@ -91,7 +92,7 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
     }
 
     private void setupCounterRecyclerView(@NonNull View root) {
-        RecyclerView counterRecyclerView = root.findViewById(R.id.countersRecyclerView);
+        EmptyMessageRecyclerView counterRecyclerView = root.findViewById(R.id.countersRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(root.getContext());
         counterRecyclerView.setLayoutManager(layoutManager);
         counterRecyclerView.setAdapter(adapter);
@@ -182,7 +183,9 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
     private void changePeekHeight(int peekHeight) {
         this.peekHeight = peekHeight;
 
-        bottomSheetBehavior.setPeekHeight(peekHeight);
+        if (bottomSheetBehavior != null) {
+            bottomSheetBehavior.setPeekHeight(peekHeight);
+        }
 
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) beverageCategoryImageView.getLayoutParams();
         layoutParams.setMargins(0, 0, 0, peekHeight);

@@ -11,19 +11,18 @@
     </style>
 
     <style name="Theme.Cheers.Base.Light" parent="Theme.Cheers.Base">
-
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSurfaceDisabled">@color/light_colorOnSurfaceDisabled</item>
     </style>
 
     <style name="Theme.Cheers.Default" parent="Theme.Cheers.Base.Light">
         <item name="colorPrimary">@color/light_colorPrimary</item>
         <item name="colorPrimaryVariant">@color/light_colorPrimaryVariant</item>
-        <item name="colorOnPrimary">@color/white</item>
 
         <item name="colorSecondary">@color/light_colorSecondary</item>
         <item name="colorSecondaryVariant">@color/light_colorSecondaryVariant</item>
         <item name="colorSecondaryTransparent">@color/light_colorSecondaryTransparent</item>
-
-        <item name="colorOnSecondary">@color/black</item>
     </style>
 
     <style name="Theme.Cheers.SplashTheme" parent="Theme.Cheers.Default">

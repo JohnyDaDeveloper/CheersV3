@@ -5,8 +5,13 @@
     <attr name="colorToolbar" format="color" />
     <attr name="colorOnToolbar" format="color" />
     <attr name="colorSecondaryTransparent" format="color" />
+    <attr name="colorOnSurfaceDisabled" format="color" />
 
     <declare-styleable name="CounterView">
         <attr name="titleText" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="EmptyMessageRecyclerView">
+        <attr name="emptyMessage" format="string" />
     </declare-styleable>
 </resources>

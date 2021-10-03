@@ -55,4 +55,7 @@
     <string name="about_app_version">Version</string>
     <string name="about_app_build">Build</string>
     <string name="about_app_build_time">Build time</string>
+
+    <string name="counter_recycler_view_empty_message">Click on the \"+\" symbol to add new counter</string>
+    <string name="beverage_recycler_view_empty_message">Click on the \"+\" symbol to add new beverage</string>
 </resources>

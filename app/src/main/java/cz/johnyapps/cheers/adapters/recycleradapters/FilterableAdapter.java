@@ -25,6 +25,11 @@ public abstract class FilterableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
     }
 
     @Override
+    public boolean isEmpty() {
+        return items.isEmpty();
+    }
+
+    @Override
     protected void onUpdate(@Nullable List<ITEM> items) {
         this.items = items == null ? new ArrayList<>() : items;
         this.filteredItems = null;
