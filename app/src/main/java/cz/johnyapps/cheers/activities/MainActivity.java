@@ -44,13 +44,12 @@ public class MainActivity extends NavigationActivity {
     }
 
     private void setupMenuItems() {
-        getNavigationView().getMenu().clear();
-        getNavigationView().inflateMenu(R.menu.nav_menu);
         Menu navMenu = getNavigationView().getMenu();
 
         navMenu.findItem(R.id.aboutAppMenuItem).setOnMenuItemClickListener(item -> {
             AboutAppDialog aboutAppDialog = new AboutAppDialog(this);
             aboutAppDialog.show();
+            getDrawerLayout().close();
             return false;
         });
     }

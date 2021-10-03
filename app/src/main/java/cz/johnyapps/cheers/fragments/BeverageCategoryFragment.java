@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -191,6 +190,15 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         layoutParams.setMargins(0, 0, 0, peekHeight);
         beverageCategoryImageView.setLayoutParams(layoutParams);
         beverageCategoryImageView.forceLayout();
+    }
+
+    public void selectLastCounter() {
+        if (adapter != null) {
+            int position = adapter.getItemCount() - 1;
+            selectCounter(adapter.getItem(position), position);
+        } else {
+            Logger.w(TAG, "selectLastCounter: Adapter is null");
+        }
     }
 
     private void selectCounter(@Nullable CounterWithBeverage counterWithBeverage, int position) {

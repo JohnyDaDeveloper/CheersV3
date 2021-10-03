@@ -206,13 +206,9 @@ public class CountersFragment extends Fragment implements BackOptionFragment {
             EmptyMessageRecyclerView countersRecyclerView = root.findViewById(R.id.countersRecyclerView);
             countersRecyclerView.scrollToPosition(countersWithBeverages.size() - 1);
 
-            saveCounter(root.getContext(), counterWithBeverage);
+            InsertCounterWithBeverageTask task = new InsertCounterWithBeverageTask(root.getContext());
+            task.execute(counterWithBeverage);
         }, viewModel::addBeverage);
-    }
-
-    private void saveCounter(@NonNull Context context, @NonNull CounterWithBeverage countersWithBeverages) {
-        InsertCounterWithBeverageTask task = new InsertCounterWithBeverageTask(context);
-        task.execute(countersWithBeverages);
     }
 
     private void setupRecyclerView(@NonNull View root) {
