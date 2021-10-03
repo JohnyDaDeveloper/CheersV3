@@ -11,7 +11,7 @@ import java.text.Normalizer;
 
 public class TextUtils {
     @NonNull
-    public static String decimalToStringWithTwoDecimalDigits(float value) {
+    public static String decimalToStringWithTwoDecimalDigits(double value) {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         return decimalFormat.format(value);
     }

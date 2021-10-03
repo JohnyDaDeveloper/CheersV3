@@ -27,4 +27,8 @@ public interface CounterDao {
 
     @Query("DELETE FROM counter_table WHERE id = :counterId")
     void delete(long counterId);
+
+    @Nullable
+    @Query("SELECT * FROM counter_table WHERE beverageId = :beverageId")
+    List<Counter> getCountersForBeverage(long beverageId);
 }

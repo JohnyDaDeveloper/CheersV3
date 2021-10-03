@@ -48,4 +48,7 @@
     <string name="nav_about_app">O aplikaci</string>
     <string name="counter_recycler_view_empty_message">Nové počítadlo přidáte kliknutím na \"+\"</string>
     <string name="beverage_recycler_view_empty_message">Nový napoj přidáte klepnutím na \"+\"</string>
+    <string name="beverage_recycler_view_item_description_alcohol">Alkohol: %s%%</string>
+    <string name="beverage_recycler_view_item_description_rest">Poslední počítadlo: %sx %sL\nCelkem: %sL</string>
+    <string name="beverage_recycler_view_item_description_no_data">Pro tento nápoj nebyla nalezena žádná počítadla</string>
 </resources>

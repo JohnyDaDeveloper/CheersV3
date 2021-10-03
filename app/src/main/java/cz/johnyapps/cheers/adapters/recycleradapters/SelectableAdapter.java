@@ -6,7 +6,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +21,7 @@ public abstract class SelectableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
     private OnSelectListener<ITEM> onSelectListener;
     private boolean allowSelection = true;
     private boolean multiSelection = true;
+    private boolean canceledSelectionThisClick = false;
 
     public SelectableAdapter(@NonNull Context context) {
         super(context);
@@ -62,7 +62,7 @@ public abstract class SelectableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
     @NonNull
     public abstract ITEM getItem(int position);
 
-    private boolean isSelected(int position) {
+    public boolean isSelected(int position) {
         return selectedItems.get(position) != null;
     }
 
@@ -119,6 +119,10 @@ public abstract class SelectableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
         }
     }
 
+    public boolean canceledSelectionThisClick() {
+        return canceledSelectionThisClick;
+    }
+
     public void setAllowSelection(boolean allowSelection) {
         this.allowSelection = allowSelection;
     }
@@ -131,16 +135,19 @@ public abstract class SelectableAdapter<VIEW_HOLDER extends SelectableAdapter<VI
         this.multiSelection = multiSelection;
     }
 
-    public class SelectableViewHolder extends RecyclerView.ViewHolder {
+    public class SelectableViewHolder extends BaseViewHolder {
         public SelectableViewHolder(@NonNull View root) {
             super(root);
             root.setOnLongClickListener(v -> {
                 selectPosition(getAdapterPosition());
                 return false;
             });
-            root.setOnClickListener(v -> {
+            addOnRootClickListener(v -> {
                 if (isSelecting()) {
                     selectPosition(getAdapterPosition());
+                    canceledSelectionThisClick = selectedItems.isEmpty();
+                } else {
+                    canceledSelectionThisClick = false;
                 }
             });
         }

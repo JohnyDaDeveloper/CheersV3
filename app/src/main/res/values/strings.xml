@@ -58,4 +58,7 @@
 
     <string name="counter_recycler_view_empty_message">Click on the \"+\" symbol to add new counter</string>
     <string name="beverage_recycler_view_empty_message">Click on the \"+\" symbol to add new beverage</string>
+    <string name="beverage_recycler_view_item_description_alcohol">Alcohol: %s%%</string>
+    <string name="beverage_recycler_view_item_description_rest">Last counter: %sx %sL\nTotal: %sL</string>
+    <string name="beverage_recycler_view_item_description_no_data">No counter for this beverage found</string>
 </resources>
