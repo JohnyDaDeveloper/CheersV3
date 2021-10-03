@@ -175,6 +175,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 atVersion++;
                 nextMigration();
             }
+        } else {
+            if (onMigrationFinishedListener != null) {
+                onMigrationFinishedListener.onMigrationsFinished();
+            }
         }
     }
 
