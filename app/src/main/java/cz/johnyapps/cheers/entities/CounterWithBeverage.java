@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
+import java.util.List;
+
 import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.entities.counter.Counter;
+import cz.johnyapps.cheers.views.graphview.GraphValue;
+import cz.johnyapps.cheers.views.graphview.GraphValueSet;
 
-public class CounterWithBeverage {
+public class CounterWithBeverage implements GraphValueSet {
     @Embedded
     @NonNull
     private Counter counter;
@@ -37,5 +41,21 @@ public class CounterWithBeverage {
 
     public void setBeverage(@NonNull Beverage beverage) {
         this.beverage = beverage;
+    }
+
+    @Override
+    public int getColor() {
+        return beverage.getColor();
+    }
+
+    @NonNull
+    @Override
+    public List<? extends GraphValue> getGraphValues() {
+        return counter.getCounterEntries();
+    }
+
+    @Override
+    public boolean sameValueForAllGraphValues() {
+        return true;
     }
 }

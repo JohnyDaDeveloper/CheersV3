@@ -14,4 +14,8 @@
     <declare-styleable name="EmptyMessageRecyclerView">
         <attr name="emptyMessage" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="GraphView">
+        <attr name="debug" format="boolean" />
+    </declare-styleable>
 </resources>

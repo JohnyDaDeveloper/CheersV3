@@ -7,9 +7,14 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
+import cz.johnyapps.cheers.entities.CounterWithBeverage;
+import cz.johnyapps.cheers.tools.Logger;
 import cz.johnyapps.cheers.tools.TimeUtils;
+import cz.johnyapps.cheers.views.graphview.GraphValue;
+import cz.johnyapps.cheers.views.graphview.GraphValueSet;
 
-public class CounterEntry {
+public class CounterEntry implements GraphValue {
+    private static final String TAG = "CounterEntry";
     @NonNull
     private static final String TIME = "time";
 
@@ -40,7 +45,26 @@ public class CounterEntry {
     }
 
     @NonNull
+    @Override
     public Date getTime() {
         return time;
+    }
+
+    @Override
+    public float getValue(@NonNull GraphValueSet graphValueSet) {
+        if (graphValueSet instanceof CounterWithBeverage) {
+            CounterWithBeverage counterWithBeverage = (CounterWithBeverage) graphValueSet;
+            float alcohol = counterWithBeverage.getBeverage().getAlcohol();
+
+            if (alcohol > 0) {
+                return counterWithBeverage.getCounter().getVolume() * alcohol;
+            }
+        } else {
+            Logger.w(TAG, "getValue: Expected instance of %s, got %s",
+                    CounterWithBeverage.class,
+                    graphValueSet.getClass());
+        }
+
+        return 0;
     }
 }

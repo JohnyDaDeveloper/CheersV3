@@ -30,4 +30,10 @@ public class TimeUtils {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm", getLocale());
         return format.format(date);
     }
+
+    @NonNull
+    public static String toTime(@NonNull Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm", getLocale());
+        return format.format(date);
+    }
 }
