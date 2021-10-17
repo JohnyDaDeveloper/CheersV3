@@ -22,6 +22,8 @@ import cz.johnyapps.cheers.tools.Logger;
 public class MainViewModel extends AndroidViewModel {
     private static final String TAG = "MainViewModel";
 
+    private int counterHeight;
+
     @NonNull
     private final MutableLiveData<List<CounterWithBeverage>> countersWithBeverages = new MutableLiveData<>();
     @NonNull
@@ -166,5 +168,13 @@ public class MainViewModel extends AndroidViewModel {
 
     public void setSelectedBeverage(@Nullable Beverage selectedBeverage) {
         this.selectedBeverage.setValue(selectedBeverage);
+    }
+
+    public int getCounterHeight() {
+        return counterHeight;
+    }
+
+    public void setCounterHeight(int counterHeight) {
+        this.counterHeight = counterHeight;
     }
 }

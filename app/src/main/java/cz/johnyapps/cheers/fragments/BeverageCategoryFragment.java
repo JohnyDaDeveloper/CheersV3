@@ -44,7 +44,6 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
     @Nullable
     private CountersAdapter adapter;
     private long selectedCounterId = -1;
-    private int peekHeight = 0;
 
     private MainViewModel viewModel;
     private AppCompatImageView beverageCategoryImageView;
@@ -59,12 +58,6 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         setupViewModel();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        //beverageCategoryImageView.requestLayout();
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,6 +69,7 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
         setupBottomSheet(root);
         setupCounterRecyclerView(root);
         setupObservers();
+        changePeekHeight(viewModel.getCounterHeight());
 
         return root;
     }
@@ -118,7 +112,7 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
             }
 
             if (bottomSheetBehavior != null) {
-                changePeekHeight(counterWithBeverages.isEmpty() ? 0 : peekHeight);
+                changePeekHeight(counterWithBeverages.isEmpty() ? 0 : viewModel.getCounterHeight());
             }
 
             showSelectedCounter();
@@ -180,7 +174,7 @@ public class BeverageCategoryFragment extends Fragment implements BackOptionFrag
     }
 
     private void changePeekHeight(int peekHeight) {
-        this.peekHeight = peekHeight;
+        viewModel.setCounterHeight(peekHeight);
 
         if (bottomSheetBehavior != null) {
             bottomSheetBehavior.setPeekHeight(peekHeight);
