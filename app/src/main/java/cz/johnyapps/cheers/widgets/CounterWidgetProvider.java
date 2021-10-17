@@ -12,7 +12,6 @@ public class CounterWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_counter);
-            views.setOnClickResponse(R.id.nav_view, new RemoteViews.RemoteResponse());
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }
