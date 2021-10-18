@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_beverage_category" />
 
     <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="cz.johnyapps.cheers.fragments.StatisticsFragment"
+        android:label="@string/nav_statistics"
+        tools:layout="@layout/fragment_statistics" />
+
+    <fragment
         android:id="@+id/countersFragment"
         android:name="cz.johnyapps.cheers.fragments.CountersFragment"
         android:label="@string/nav_counters"

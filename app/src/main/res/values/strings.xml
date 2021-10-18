@@ -2,6 +2,7 @@
     <string name="app_name">Cheers!</string>
 
     <string name="nav_beverages">Beverages</string>
+    <string name="nav_statistics">Statistics</string>
     <string name="nav_counters">Counters</string>
     <string name="nav_beverage_database">Beverage database</string>
     <string name="nav_about_app">About app</string>
@@ -21,6 +22,7 @@
     <string name="cancel">Cancel</string>
     <string name="percent" translatable="false">%</string>
     <string name="liter" translatable="false">L</string>
+    <string name="milliliter" translatable="false">ml</string>
     <string name="delete">Delete</string>
     <string name="stop">Stop</string>
     <string name="save">Save</string>

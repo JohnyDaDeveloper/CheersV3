@@ -26,6 +26,7 @@ import java.util.Random;
 import cz.johnyapps.cheers.R;
 import cz.johnyapps.cheers.entities.KeyValue;
 import cz.johnyapps.cheers.tools.Logger;
+import cz.johnyapps.cheers.tools.NumberUtils;
 import cz.johnyapps.cheers.tools.ThemeUtils;
 import cz.johnyapps.cheers.tools.TimeUtils;
 
@@ -54,6 +55,8 @@ public class GraphView extends View implements View.OnTouchListener {
     private int maxValue = 10;
     private StaticLayout minValueText;
     private StaticLayout maxValueText;
+    @Nullable
+    private String valueSuffix;
 
     private float movedBy = 0;
     private float prevMovementMovedBy = movedBy;
@@ -90,13 +93,14 @@ public class GraphView extends View implements View.OnTouchListener {
             final TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.GraphView, theme, 0);
 
             debug = array.getBoolean(R.styleable.GraphView_debug, false);
+            valueSuffix = array.getString(R.styleable.GraphView_valueSuffix);
 
             array.recycle();
         }
 
-        setPadding(100, 100, 100, 100);
-
-        setGraphValueSets(generatePreviewValues());
+        if (debug) {
+            setGraphValueSets(generatePreviewValues());
+        }
 
         backgroundPain.setColor(Color.WHITE);
         basePaint.setStrokeWidth(10);
@@ -207,6 +211,7 @@ public class GraphView extends View implements View.OnTouchListener {
                         basePaint,
                         renders.size(),
                         maxValue,
+                        minValue,
                         debug));
                 graphValues = new ArrayList<>();
                 graphValues.add(keyValue);
@@ -225,6 +230,7 @@ public class GraphView extends View implements View.OnTouchListener {
                     basePaint,
                     renders.size(),
                     maxValue,
+                    minValue,
                     debug).setLast(true));
         } else {
             renders.get(renders.size() - 1).setLast(true);
@@ -288,8 +294,8 @@ public class GraphView extends View implements View.OnTouchListener {
     }
 
     private void initializeTexts() {
-        minValueText = initializeText(String.valueOf(minValue));
-        maxValueText = initializeText(String.valueOf(maxValue));
+        minValueText = initializeText(minValue + valueSuffix);
+        maxValueText = initializeText(maxValue + valueSuffix);
     }
 
     private float findValueTextMaxWidth() {
@@ -370,7 +376,7 @@ public class GraphView extends View implements View.OnTouchListener {
     }
 
     private void findMaxValue(@Nullable List<? extends GraphValueSet> graphValueSets) {
-        maxValue = 0;
+        float maxValue = 0;
 
         if (graphValueSets == null) {
             return;
@@ -381,7 +387,7 @@ public class GraphView extends View implements View.OnTouchListener {
 
             if (!graphValues.isEmpty()) {
                 if (graphValueSet.sameValueForAllGraphValues()) {
-                    maxValue += graphValues.size() * graphValues.get(0).getValue(graphValueSet);
+                    maxValue += graphValues.get(0).getValue(graphValueSet) * graphValues.size();
                 } else {
                     for (GraphValue graphValue : graphValues) {
                         maxValue += graphValue.getValue(graphValueSet);
@@ -389,11 +395,24 @@ public class GraphView extends View implements View.OnTouchListener {
                 }
             }
         }
+
+        this.maxValue = NumberUtils.roundUp(maxValue);
+    }
+
+    private void findMinValue(@NonNull List<KeyValue<GraphValueSet, GraphValue>> graphValues) {
+        if (!graphValues.isEmpty()) {
+            KeyValue<GraphValueSet, GraphValue> keyValue = graphValues.get(0);
+            this.minValue = NumberUtils.roundDown(keyValue.getValue().getValue(keyValue.getKey()));
+        } else {
+            this.minValue = 0;
+        }
     }
 
     public void setGraphValueSets(@Nullable List<? extends GraphValueSet> graphValueSets) {
         this.graphValues = toValueList(graphValueSets);
+
         findMaxValue(graphValueSets);
+        findMinValue(this.graphValues);
         createRenders();
         initializeTexts();
         invalidate();

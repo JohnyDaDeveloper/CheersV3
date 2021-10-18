@@ -17,5 +17,6 @@
 
     <declare-styleable name="GraphView">
         <attr name="debug" format="boolean" />
+        <attr name="valueSuffix" format="string" />
     </declare-styleable>
 </resources>

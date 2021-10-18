@@ -37,6 +37,7 @@ public class Render {
     private final int position;
     private boolean last = false;
     private final float maxValue;
+    private final float minValue;
     private final boolean debug;
 
     private float left;
@@ -63,7 +64,9 @@ public class Render {
                   @NonNull Paint basePaint,
                   int position,
                   float maxValue,
+                  float minValue,
                   boolean debug) {
+
         this.graphValues = graphValues;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -73,6 +76,7 @@ public class Render {
         this.endText = endText;
         this.basePaintHalfWidth = basePaint.getStrokeWidth() / 2f;
         this.maxValue = maxValue;
+        this.minValue = minValue;
         this.debug = debug;
 
         debugPaint.setStrokeWidth(2);
@@ -133,7 +137,7 @@ public class Render {
 
                 valuePaint.setColor(graphValueSet.getColor());
                 canvas.drawCircle(left + width * (timeFromStart / timeDiff),
-                        bottom - height * (renderMaxValue / maxValue),
+                        bottom - height * ((renderMaxValue - minValue) / (maxValue - minValue)),
                         15,
                         valuePaint);
             }

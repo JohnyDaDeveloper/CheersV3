@@ -6,6 +6,11 @@
         android:icon="@drawable/beverages" />
 
     <item
+        android:id="@+id/statisticsFragment"
+        android:title="@string/nav_statistics"
+        android:icon="@drawable/statistics" />
+
+    <item
         android:id="@+id/countersFragment"
         android:title="@string/nav_counters"
         android:icon="@drawable/counters" />

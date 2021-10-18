@@ -51,4 +51,5 @@
     <string name="beverage_recycler_view_item_description_alcohol">Alkohol: %s%%</string>
     <string name="beverage_recycler_view_item_description_rest">Poslední počítadlo: %sx %sL\nCelkem: %sL</string>
     <string name="beverage_recycler_view_item_description_no_data">Pro tento nápoj nebyla nalezena žádná počítadla</string>
+    <string name="nav_statistics">Statistiky</string>
 </resources>

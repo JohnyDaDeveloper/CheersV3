@@ -57,7 +57,7 @@ public class CounterEntry implements GraphValue {
             float alcohol = counterWithBeverage.getBeverage().getAlcohol();
 
             if (alcohol > 0) {
-                return counterWithBeverage.getCounter().getVolume() * alcohol;
+                return counterWithBeverage.getCounter().getVolume() * 10 * alcohol;
             }
         } else {
             Logger.w(TAG, "getValue: Expected instance of %s, got %s",
