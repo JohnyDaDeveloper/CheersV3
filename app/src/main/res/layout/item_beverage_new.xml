@@ -40,8 +40,14 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <data>
+        <import type="android.view.View" />
+
         <variable
             name="beverage"
             type="cz.johnyapps.cheers.entities.beverage.Beverage" />
+
+        <variable
+            name="expanded"
+            type="Boolean" />
     </data>
 </layout>
