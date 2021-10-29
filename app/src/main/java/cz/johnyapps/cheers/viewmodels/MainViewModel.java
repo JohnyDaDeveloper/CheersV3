@@ -127,14 +127,22 @@ public class MainViewModel extends AndroidViewModel {
         return countersWithBeverages;
     }
 
-    public void removeCounterWithBeverage(@NonNull Collection<CounterWithBeverage> countersWithBeverages) {
+    public void removeCountersWithBeverages(@NonNull Collection<CounterWithBeverage> countersWithBeverages) {
         List<CounterWithBeverage> oldCountersWithBeverages = this.countersWithBeverages.getValue();
 
         if (oldCountersWithBeverages != null) {
             oldCountersWithBeverages.removeAll(countersWithBeverages);
+            setCountersWithBeverages(oldCountersWithBeverages);
         }
+    }
 
-        setCountersWithBeverages(oldCountersWithBeverages);
+    public void removeBeverage(@NonNull Beverage beverage) {
+        List<Beverage> beverages = this.beverages.getValue();
+
+        if (beverages != null) {
+            beverages.remove(beverage);
+            setBeverages(beverages);
+        }
     }
 
     @NonNull

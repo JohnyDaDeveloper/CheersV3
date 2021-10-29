@@ -6,4 +6,10 @@
         android:title="@string/edit_beverage_menu_item"
         android:icon="@drawable/edit_beverage"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/deleteBeverageMenuItem"
+        android:title="@string/delete_beverage_menu_item"
+        android:icon="@drawable/delete"
+        app:showAsAction="ifRoom" />
 </menu>

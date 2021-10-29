@@ -19,7 +19,11 @@ public class GetBeveragesTask extends BaseDatabaseTask<Void, Void, List<Beverage
     @Override
     protected List<Beverage> doInBackground(@Nullable Void aVoid) throws Exception {
         List<Beverage> beverages = getDatabase().beverageDao().getBeverages();
-        Collections.sort(beverages);
+
+        if (beverages != null) {
+            Collections.sort(beverages);
+        }
+
         return beverages;
     }
 }

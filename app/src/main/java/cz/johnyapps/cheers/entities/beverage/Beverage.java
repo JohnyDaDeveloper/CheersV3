@@ -28,6 +28,7 @@ public class Beverage implements ItemWithId, Comparable<Beverage> {
     private float alcohol;
     @NonNull
     private List<Tag> tags = new ArrayList<>();
+    private boolean deleted = false;
 
     public Beverage(@NonNull String name,
                     @ColorInt int color,
@@ -116,5 +117,13 @@ public class Beverage implements ItemWithId, Comparable<Beverage> {
 
     public void addTag(@NonNull Tag tag) {
         this.tags.add(tag);
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

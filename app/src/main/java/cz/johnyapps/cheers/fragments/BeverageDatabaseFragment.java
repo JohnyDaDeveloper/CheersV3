@@ -18,12 +18,15 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Collections;
 
 import cz.johnyapps.cheers.R;
 import cz.johnyapps.cheers.adapters.recycleradapters.BeveragesAdapter;
 import cz.johnyapps.cheers.database.tasks.InsertBeverageTask;
+import cz.johnyapps.cheers.database.tasks.UpdateBeveragesTask;
 import cz.johnyapps.cheers.dialogs.EditBeverageDialog;
+import cz.johnyapps.cheers.dialogs.customdialogbuilder.CustomDialogBuilder;
 import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.tools.Logger;
 import cz.johnyapps.cheers.tools.ThemeUtils;
@@ -75,6 +78,11 @@ public class BeverageDatabaseFragment extends Fragment implements BackOptionFrag
 
             menu.findItem(R.id.editBeverageMenuItem).setOnMenuItemClickListener(item -> {
                 editSelectedBeverage();
+                return false;
+            });
+
+            menu.findItem(R.id.deleteBeverageMenuItem).setOnMenuItemClickListener(item -> {
+                deleteSelectedBeverage();
                 return false;
             });
         }
@@ -156,6 +164,34 @@ public class BeverageDatabaseFragment extends Fragment implements BackOptionFrag
             
             viewModel.addBeverage(beverage1);
         });
+    }
+
+    private void deleteSelectedBeverage() {
+        View root = getView();
+
+        if (root == null) {
+            Logger.w(TAG, "deleteSelectedBeverage: root is null");
+            return;
+        }
+
+        Beverage beverage = viewModel.getSelectedBeverage().getValue();
+
+        if (beverage != null) {
+            CustomDialogBuilder builder = new CustomDialogBuilder(root.getContext());
+            builder.setTitle(root.getContext().getResources().getString(R.string.dialog_confirm_beverage_delete_title, beverage.getName()))
+                    .setPositiveButton(R.string.delete, (dialog, which) -> {
+                        beverage.setDeleted(true);
+
+                        UpdateBeveragesTask task = new UpdateBeveragesTask(root.getContext());
+                        task.execute(Collections.singletonList(beverage));
+
+                        viewModel.removeBeverage(beverage);
+                    })
+                    .setNeutralButton(R.string.cancel, (dialog, which) -> {})
+                    .create().show();
+        } else {
+            Logger.w(TAG, "deleteSelectedBeverage: Beverage is null");
+        }
     }
 
     private void editSelectedBeverage() {

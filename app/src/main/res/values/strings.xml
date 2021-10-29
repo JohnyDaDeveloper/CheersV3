@@ -15,6 +15,7 @@
     <string name="search_menu_item">Search</string>
     <string name="clear_search_menu_item">Clear search</string>
     <string name="select_all_menu_item">Select all</string>
+    <string name="delete_beverage_menu_item">Delete beverage</string>
 
     <string name="plus" translatable="false">+</string>
     <string name="minus" translatable="false">-</string>
@@ -40,6 +41,8 @@
     <string name="dialog_new_counter_alcohol">Alcohol</string>
     <string name="dialog_new_counter_volume">Volume</string>
     <string name="dialog_new_counter_incomplete_data">Name and volume must be filled</string>
+
+    <string name="dialog_confirm_beverage_delete_title">Delete beverage \"%s\"?</string>
 
     <string name="dialog_confirm_counter_delete_title">Delete counter \"%s\"?</string>
     <plurals name="dialog_confirm_counter_delete_title_multiple">

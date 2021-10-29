@@ -145,7 +145,7 @@ public class CountersFragment extends Fragment implements BackOptionFragment {
 
         InsertCountersTask task = new InsertCountersTask(context);
         task.execute(counters);
-        viewModel.removeCounterWithBeverage(countersWithBeverages);
+        viewModel.removeCountersWithBeverages(countersWithBeverages);
     }
 
     private void deleteCounters(@NonNull Collection<CounterWithBeverage> countersWithBeverages) {
@@ -185,7 +185,7 @@ public class CountersFragment extends Fragment implements BackOptionFragment {
 
         DeleteCountersTask task = new DeleteCountersTask(context);
         task.execute(counters);
-        viewModel.removeCounterWithBeverage(countersWithBeverages);
+        viewModel.removeCountersWithBeverages(countersWithBeverages);
     }
 
     private void addCounter() {

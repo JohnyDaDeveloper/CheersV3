@@ -18,6 +18,6 @@ public interface BeverageDao {
     Beverage get(@NonNull String name);
 
     @Nullable
-    @Query("SELECT * FROM beverage_table")
+    @Query("SELECT * FROM beverage_table WHERE deleted = 0")
     List<Beverage> getBeverages();
 }
