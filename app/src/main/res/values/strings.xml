@@ -66,4 +66,5 @@
     <string name="beverage_recycler_view_item_description_alcohol">Alcohol: %s%%</string>
     <string name="beverage_recycler_view_item_description_rest">Last counter: %sx %sL\nTotal: %sL</string>
     <string name="beverage_recycler_view_item_description_no_data">No counter for this beverage found</string>
+    <string name="description_text_view_loading">Loading…</string>
 </resources>

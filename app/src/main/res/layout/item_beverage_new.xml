@@ -30,6 +30,7 @@
                 android:id="@+id/descriptionTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/description_text_view_loading"
                 android:textAppearance="@style/TextAppearance.Cheers.Small" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 

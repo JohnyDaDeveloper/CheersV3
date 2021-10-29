@@ -54,4 +54,5 @@
     <string name="nav_statistics">Statistiky</string>
     <string name="delete_beverage_menu_item">Smazat nápoj</string>
     <string name="dialog_confirm_beverage_delete_title">Smazat nápoj \"%s\"?</string>
+    <string name="description_text_view_loading">Načítání…</string>
 </resources>
