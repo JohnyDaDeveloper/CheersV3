@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cz.johnyapps.cheers.R;
@@ -17,6 +18,11 @@ import cz.johnyapps.cheers.entities.beverage.Beverage;
 import cz.johnyapps.cheers.tools.TextUtils;
 
 public class BeveragesAdapter extends ExpandableItemAdapter<BeveragesAdapter.BeverageViewHolder, Beverage> {
+    public BeveragesAdapter(@NonNull Context context) {
+        super(context, new ArrayList<>());
+        setMultiSelection(false);
+    }
+
     public BeveragesAdapter(@NonNull Context context,
                             @Nullable List<Beverage> beverages) {
         super(context, beverages);

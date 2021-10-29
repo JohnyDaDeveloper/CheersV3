@@ -2,6 +2,7 @@ package cz.johnyapps.cheers.entities.beverage;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -20,4 +21,7 @@ public interface BeverageDao {
     @Nullable
     @Query("SELECT * FROM beverage_table WHERE deleted = 0")
     List<Beverage> getBeverages();
+
+    @Query("SELECT * FROM beverage_table WHERE deleted = 0")
+    LiveData<List<Beverage>> getLiveDataBeverages();
 }

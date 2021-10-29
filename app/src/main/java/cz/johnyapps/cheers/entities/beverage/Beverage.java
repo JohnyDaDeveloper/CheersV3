@@ -126,4 +126,30 @@ public class Beverage implements ItemWithId, Comparable<Beverage> {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Beverage beverage = (Beverage) o;
+
+        if (id != beverage.id) return false;
+        if (color != beverage.color) return false;
+        if (textColor != beverage.textColor) return false;
+        if (Float.compare(beverage.alcohol, alcohol) != 0) return false;
+        if (deleted != beverage.deleted) return false;
+        return name.equals(beverage.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + name.hashCode();
+        result = 31 * result + color;
+        result = 31 * result + textColor;
+        result = 31 * result + (alcohol != +0.0f ? Float.floatToIntBits(alcohol) : 0);
+        result = 31 * result + (deleted ? 1 : 0);
+        return result;
+    }
 }
