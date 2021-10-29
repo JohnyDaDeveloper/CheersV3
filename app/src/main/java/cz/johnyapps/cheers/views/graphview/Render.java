@@ -132,7 +132,6 @@ public class Render {
             }
         }
 
-        clickedValue = null;
         return false;
     }
 

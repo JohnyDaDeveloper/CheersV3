@@ -217,17 +217,22 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
     private void onClick(float x, float y) {
         clickLineAtX = x;
         clickLineAtY = y;
-        boolean clicked = false;
+        int selectedRender = -1;
 
-        for (Render render : renders) {
-            if (render.isRendering()) {
-                if (!clicked && render.onClick(x, y)) {
-                    clicked = true;
-                } else {
-                    render.deselectClicked();
+        for (int i = 0; i < renders.size(); i++) {
+            Render render = renders.get(i);
+
+            if (render.isRendering() && render.onClick(x, y)) {
+                selectedRender = i;
+                break;
+            }
+        }
+
+        if (selectedRender > 0) {
+            for (int i = 0; i < renders.size(); i++) {
+                if (i != selectedRender) {
+                    renders.get(i).deselectClicked();
                 }
-            } else {
-                render.deselectClicked();
             }
         }
 
