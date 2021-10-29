@@ -228,7 +228,7 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
             }
         }
 
-        if (selectedRender > 0) {
+        if (selectedRender >= 0) {
             for (int i = 0; i < renders.size(); i++) {
                 if (i != selectedRender) {
                     renders.get(i).deselectClicked();
