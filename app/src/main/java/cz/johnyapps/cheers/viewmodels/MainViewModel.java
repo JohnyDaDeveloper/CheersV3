@@ -17,6 +17,7 @@ import cz.johnyapps.cheers.database.tasks.GetBeveragesTask;
 import cz.johnyapps.cheers.database.tasks.GetCountersWithBeveragesTask;
 import cz.johnyapps.cheers.entities.CounterWithBeverage;
 import cz.johnyapps.cheers.entities.beverage.Beverage;
+import cz.johnyapps.cheers.entities.counter.CounterEntry;
 import cz.johnyapps.cheers.tools.Logger;
 
 public class MainViewModel extends AndroidViewModel {
@@ -33,6 +34,10 @@ public class MainViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Beverage>> beverages = new MutableLiveData<>();
     @NonNull
     private final MutableLiveData<Beverage> selectedBeverage = new MutableLiveData<>();
+    @NonNull
+    private final MutableLiveData<CounterWithBeverage> statisticsCounterWithBeverage = new MutableLiveData<>();
+    @NonNull
+    private final MutableLiveData<CounterEntry> statisticsCounterEntry = new MutableLiveData<>();
 
     public MainViewModel(@NonNull Application application) {
         super(application);
@@ -176,5 +181,23 @@ public class MainViewModel extends AndroidViewModel {
 
     public void setCounterHeight(int counterHeight) {
         this.counterHeight = counterHeight;
+    }
+
+    @NonNull
+    public LiveData<CounterWithBeverage> getStatisticsCounterWithBeverage() {
+        return statisticsCounterWithBeverage;
+    }
+
+    public void setStatisticsCounterWithBeverage(@Nullable CounterWithBeverage statisticsCounterWithBeverage) {
+        this.statisticsCounterWithBeverage.setValue(statisticsCounterWithBeverage);
+    }
+
+    @NonNull
+    public LiveData<CounterEntry> getStatisticsCounterEntry() {
+        return statisticsCounterEntry;
+    }
+
+    public void setStatisticsCounterEntry(@Nullable CounterEntry statisticsCounterEntry) {
+        this.statisticsCounterEntry.setValue(statisticsCounterEntry);
     }
 }
