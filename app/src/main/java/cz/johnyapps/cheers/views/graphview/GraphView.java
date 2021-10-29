@@ -243,13 +243,12 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
 
         Date startTime = graphValues.get(0).getValue().getTime();
 
+        Logger.d(TAG, "createRenders: %s", TimeUtils.toTime(graphValues.get(graphValues.size() - 1).getValue().getTime()));
+
         List<Render> renders = new ArrayList<>();
         List<KeyValue<GraphValueSet, GraphValue>> graphValues = new ArrayList<>();
 
-        boolean createLastRender = false;
-
         for (KeyValue<GraphValueSet, GraphValue> keyValue : this.graphValues) {
-            createLastRender = true;
             Date time = keyValue.getValue().getTime();
 
             if (time.getTime() - startTime.getTime() <= TIME_GAP) {
@@ -267,14 +266,16 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
                         minValue,
                         valueSize,
                         debug).setOnValueClickListener(this));
+
+                Logger.d(TAG, "createRenders: Render created with time %s", TimeUtils.toTime(keyValue.getValue().getTime()));
+
                 graphValues = new ArrayList<>();
                 graphValues.add(keyValue);
                 startTime = new Date(startTime.getTime() + TIME_GAP);
-                createLastRender = false;
             }
         }
 
-        if (createLastRender) {
+        if (!graphValues.isEmpty()) {
             Date endTime = new Date(startTime.getTime() + TIME_GAP);
             renders.add(new Render(graphValues,
                     startTime,
@@ -288,10 +289,13 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
                     valueSize,
                     debug).setLast(true)
                     .setOnValueClickListener(this));
+
+            Logger.d(TAG, "createRenders: One more render created");
         } else {
             renders.get(renders.size() - 1).setLast(true);
         }
 
+        Logger.d(TAG, "createRenders: %s", renders.size());
         this.renders = renders;
     }
 
