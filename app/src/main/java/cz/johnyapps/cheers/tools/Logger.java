@@ -24,7 +24,7 @@ public class Logger {
     }
 
     public static void v(@NonNull String tag, @Nullable String message, @Nullable Object... args) {
-        if (args == null || args.length == 0) {
+        if (message == null || args == null || args.length == 0) {
             v(tag, message);
         } else {
             v(tag, String.format(message, args));
@@ -32,7 +32,7 @@ public class Logger {
     }
 
     public static void v(@NonNull String tag, @Nullable String message, @Nullable Throwable throwable, @Nullable Object... args) {
-        if (args == null || args.length == 0) {
+        if (message == null || args == null || args.length == 0) {
             v(tag, message, throwable);
         } else {
             v(tag, String.format(message, args), throwable);
@@ -56,7 +56,7 @@ public class Logger {
     }
 
     public static void d(@NonNull String tag, @Nullable String message, @Nullable Object... args) {
-        if (args == null || args.length == 0) {
+        if (message == null || args == null || args.length == 0) {
             d(tag, message);
         } else {
             d(tag, String.format(message, args));
@@ -64,7 +64,7 @@ public class Logger {
     }
 
     public static void d(@NonNull String tag, @Nullable String message, @Nullable Throwable throwable, @Nullable Object... args) {
-        if (args == null || args.length == 0) {
+        if (message == null || args == null || args.length == 0) {
             d(tag, message, throwable);
         } else {
             d(tag, String.format(message, args), throwable);
@@ -84,7 +84,7 @@ public class Logger {
     }
 
     public static void i(@NonNull String tag, @Nullable String message, @Nullable Object... args) {
-        if (args == null || args.length == 0) {
+        if (message == null || args == null || args.length == 0) {
             i(tag, message);
         } else {
             i(tag, String.format(message, args));
@@ -92,7 +92,7 @@ public class Logger {
     }
 
     public static void i(@NonNull String tag, @Nullable String message, @Nullable Throwable throwable, @Nullable Object... args) {
-        if (args == null || args.length == 0) {
+        if (message == null || args == null || args.length == 0) {
             i(tag, message, throwable);
         } else {
             i(tag, String.format(message, args), throwable);
@@ -112,7 +112,7 @@ public class Logger {
     }
 
     public static void w(@NonNull String tag, @Nullable String message, @Nullable Object... args) {
-        if (args == null || args.length == 0) {
+        if (message == null || args == null || args.length == 0) {
             w(tag, message);
         } else {
             w(tag, String.format(message, args));
@@ -120,7 +120,7 @@ public class Logger {
     }
 
     public static void w(@NonNull String tag, @Nullable String message, @Nullable Throwable throwable, @Nullable Object... args) {
-        if (args == null || args.length == 0) {
+        if (message == null || args == null || args.length == 0) {
             w(tag, message, throwable);
         } else {
             w(tag, String.format(message, args), throwable);
@@ -140,7 +140,7 @@ public class Logger {
     }
 
     public static void e(@NonNull String tag, @Nullable String message, @Nullable Object... args) {
-        if (args == null || args.length == 0) {
+        if (message == null || args == null || args.length == 0) {
             e(tag, message);
         } else {
             e(tag, String.format(message, args));
@@ -148,7 +148,7 @@ public class Logger {
     }
 
     public static void e(@NonNull String tag, @Nullable String message, @Nullable Throwable throwable, @Nullable Object... args) {
-        if (args == null || args.length == 0) {
+        if (message == null || args == null || args.length == 0) {
             e(tag, message, throwable);
         } else {
             e(tag, String.format(message, args), throwable);

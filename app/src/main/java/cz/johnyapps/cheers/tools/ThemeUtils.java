@@ -46,7 +46,7 @@ public class ThemeUtils {
         int pos = random.nextInt(3);
         order[pos] = 2;
         pos = (pos + 1) % 3;
-        int val = random.nextInt(1);
+        int val = random.nextInt(2);
         order[pos] = val;
         pos = (pos + 1) % 3;
         val = (val + 1) % 2;
@@ -77,5 +77,9 @@ public class ThemeUtils {
 
     public static boolean isSystemInNightMode(@NonNull Context context) {
         return (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    public static int dpToPx(@NonNull Context context, int dp) {
+        return Math.round(dp * context.getResources().getDisplayMetrics().density);
     }
 }

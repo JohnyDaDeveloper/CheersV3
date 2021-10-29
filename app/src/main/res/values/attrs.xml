@@ -18,5 +18,7 @@
     <declare-styleable name="GraphView">
         <attr name="debug" format="boolean" />
         <attr name="valueSuffix" format="string" />
+        <attr name="valueSize" format="dimension" />
+        <attr name="lineWidth" format="dimension" />
     </declare-styleable>
 </resources>

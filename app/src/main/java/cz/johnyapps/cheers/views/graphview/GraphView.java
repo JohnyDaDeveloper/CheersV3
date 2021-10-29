@@ -30,7 +30,7 @@ import cz.johnyapps.cheers.tools.NumberUtils;
 import cz.johnyapps.cheers.tools.ThemeUtils;
 import cz.johnyapps.cheers.tools.TimeUtils;
 
-public class GraphView extends View implements View.OnTouchListener {
+public class GraphView extends View implements View.OnTouchListener, OnValueClickListener {
     private static final String TAG = "GraphView";
 
     private static final long TIME_GAP = 7200000;
@@ -40,8 +40,12 @@ public class GraphView extends View implements View.OnTouchListener {
     private final Paint backgroundPain = new Paint();
     @NonNull
     private final Paint basePaint = new Paint();
+    @NonNull
+    private Paint debugPaint = new Paint();
     private float basePaintHalfWidth;
     private boolean debug = false;
+    private float clickLineAtX = -1f;
+    private float clickLineAtY = -1f;
 
     private float left;
     private float top;
@@ -57,6 +61,8 @@ public class GraphView extends View implements View.OnTouchListener {
     private StaticLayout maxValueText;
     @Nullable
     private String valueSuffix;
+    private int valueSize = 15;
+    private int lineWidth = 10;
 
     private float movedBy = 0;
     private float prevMovementMovedBy = movedBy;
@@ -72,6 +78,8 @@ public class GraphView extends View implements View.OnTouchListener {
     private List<KeyValue<GraphValueSet, GraphValue>> graphValues = new ArrayList<>();
     @NonNull
     private List<Render> renders = new ArrayList<>();
+    @Nullable
+    private OnValueClickListener onValueClickListener;
 
     public GraphView(@NonNull Context context) {
         super(context);
@@ -94,6 +102,8 @@ public class GraphView extends View implements View.OnTouchListener {
 
             debug = array.getBoolean(R.styleable.GraphView_debug, false);
             valueSuffix = array.getString(R.styleable.GraphView_valueSuffix);
+            valueSize = array.getDimensionPixelSize(R.styleable.GraphView_valueSize, ThemeUtils.dpToPx(getContext(), 10));
+            lineWidth = array.getDimensionPixelSize(R.styleable.GraphView_lineWidth, ThemeUtils.dpToPx(getContext(), 4));
 
             array.recycle();
         }
@@ -102,8 +112,13 @@ public class GraphView extends View implements View.OnTouchListener {
             setGraphValueSets(generatePreviewValues());
         }
 
-        backgroundPain.setColor(Color.WHITE);
-        basePaint.setStrokeWidth(10);
+        backgroundPain.setColor(ThemeUtils.getAttributeColor(R.attr.colorSurface, getContext()));
+
+        basePaint.setStrokeWidth(lineWidth);
+        basePaint.setColor(ThemeUtils.getAttributeColor(R.attr.colorOnSurface, getContext()));
+
+        debugPaint = createDebugPaint();
+
         bottomMarkerHalfHeight = basePaint.getStrokeWidth() * 2;
         basePaintHalfWidth = basePaint.getStrokeWidth() / 2f;
         movedBy = -basePaintHalfWidth;
@@ -137,25 +152,28 @@ public class GraphView extends View implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            if (movementStart == -1f) {
-                allowAutoScroll = false;
-                prevMovementMovedBy = movedBy;
-                movementStart = event.getX();
-                movementStartTime = System.currentTimeMillis();
-            } else {
-                movedBy = Math.max(Math.min(prevMovementMovedBy + movementStart - event.getX(), maxMoveBy), -basePaintHalfWidth);
-                invalidate();
-            }
+            movedBy = Math.max(Math.min(prevMovementMovedBy + movementStart - event.getX(), maxMoveBy), -basePaintHalfWidth);
+            invalidate();
 
             return true;
         } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
             allowAutoScroll = false;
+            movementStartTime = System.currentTimeMillis();
+            prevMovementMovedBy = movedBy;
+            movementStart = event.getX();
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             float movedByThisSwipe = prevMovementMovedBy - movedBy;
-            speed = movedByThisSwipe / (System.currentTimeMillis() - movementStartTime) * SPEED_MULTIPLIER;
-            allowAutoScroll = Math.abs(speed) > SPEED_MULTIPLIER * 2;
+            long movementLength = System.currentTimeMillis() - movementStartTime;
+
+            if (movementLength < 170 && Math.abs(movedByThisSwipe) < 50) {
+                onClick(event.getX(), event.getY());
+            } else {
+                speed = movedByThisSwipe / movementLength * SPEED_MULTIPLIER;
+                allowAutoScroll = Math.abs(speed) > SPEED_MULTIPLIER * 2;
+            }
 
             movementStart = -1f;
+            movementStartTime = 0;
             return false;
         }
 
@@ -179,6 +197,41 @@ public class GraphView extends View implements View.OnTouchListener {
         drawRenders(canvas);
         drawValues(canvas);
         drawLeft(canvas);
+        drawDebug(canvas);
+    }
+
+    @Override
+    public void onValueClick(@NonNull GraphValueSet graphValueSet, @NonNull GraphValue graphValue) {
+        if (onValueClickListener != null) {
+            onValueClickListener.onValueClick(graphValueSet, graphValue);
+        }
+    }
+
+    private void drawDebug(@NonNull Canvas canvas) {
+        if (debug) {
+            canvas.drawLine(clickLineAtX, 0, clickLineAtX, getHeight(), debugPaint);
+            canvas.drawLine(0, clickLineAtY, getWidth(), clickLineAtY, debugPaint);
+        }
+    }
+
+    private void onClick(float x, float y) {
+        clickLineAtX = x;
+        clickLineAtY = y;
+        boolean clicked = false;
+
+        for (Render render : renders) {
+            if (render.isRendering()) {
+                if (!clicked && render.onClick(x, y)) {
+                    clicked = true;
+                } else {
+                    render.deselectClicked();
+                }
+            } else {
+                render.deselectClicked();
+            }
+        }
+
+        invalidate();
     }
 
     private void createRenders() {
@@ -212,7 +265,8 @@ public class GraphView extends View implements View.OnTouchListener {
                         renders.size(),
                         maxValue,
                         minValue,
-                        debug));
+                        valueSize,
+                        debug).setOnValueClickListener(this));
                 graphValues = new ArrayList<>();
                 graphValues.add(keyValue);
                 startTime = new Date(startTime.getTime() + TIME_GAP);
@@ -231,7 +285,9 @@ public class GraphView extends View implements View.OnTouchListener {
                     renders.size(),
                     maxValue,
                     minValue,
-                    debug).setLast(true));
+                    valueSize,
+                    debug).setLast(true)
+                    .setOnValueClickListener(this));
         } else {
             renders.get(renders.size() - 1).setLast(true);
         }
@@ -294,8 +350,8 @@ public class GraphView extends View implements View.OnTouchListener {
     }
 
     private void initializeTexts() {
-        minValueText = initializeText(minValue + valueSuffix);
-        maxValueText = initializeText(maxValue + valueSuffix);
+        minValueText = initializeText(minValue + (valueSuffix == null ? "" : valueSuffix));
+        maxValueText = initializeText(maxValue + (valueSuffix == null ? "" : valueSuffix));
     }
 
     private float findValueTextMaxWidth() {
@@ -308,15 +364,15 @@ public class GraphView extends View implements View.OnTouchListener {
 
     private void drawLeft(@NonNull Canvas canvas) {
         canvas.drawRect(0,
-                getPaddingTop(),
+                0,
                 left,
-                getHeight() - getPaddingBottom(),
+                getHeight(),
                 backgroundPain);
 
         canvas.drawRect(getWidth() - getPaddingRight() + basePaintHalfWidth,
-                getPaddingTop(),
+                0,
                 getWidth(),
-                getHeight() - getPaddingBottom(),
+                getHeight(),
                 backgroundPain);
 
         float textLeft = left - basePaintHalfWidth;
@@ -416,6 +472,19 @@ public class GraphView extends View implements View.OnTouchListener {
         createRenders();
         initializeTexts();
         invalidate();
+    }
+
+    public void setOnValueClickListener(@Nullable OnValueClickListener onValueClickListener) {
+        this.onValueClickListener = onValueClickListener;
+    }
+
+    @NonNull
+    static Paint createDebugPaint() {
+        Paint debugPaint = new Paint();
+        debugPaint.setStrokeWidth(2);
+        debugPaint.setColor(Color.RED);
+        debugPaint.setTextSize(50);
+        return debugPaint;
     }
 
     private static class PreviewGraphValueSet implements GraphValueSet {

@@ -1,17 +1,21 @@
 package cz.johnyapps.cheers.views.graphview;
 
+import static cz.johnyapps.cheers.views.graphview.GraphView.createDebugPaint;
+
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.StaticLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import cz.johnyapps.cheers.entities.KeyValue;
 import cz.johnyapps.cheers.tools.Logger;
+import cz.johnyapps.cheers.tools.ThemeUtils;
 
 public class Render {
     private static final String TAG = "Render";
@@ -30,14 +34,17 @@ public class Render {
     @NonNull
     private final Paint basePaint;
     @NonNull
-    private final Paint debugPaint = new Paint();
+    private final Paint debugPaint;
     @NonNull
     private final Paint valuePaint = new Paint();
+    @NonNull
+    private final Paint valueHighlightPaint = new Paint();
 
     private final int position;
     private boolean last = false;
     private final float maxValue;
     private final float minValue;
+
     private final boolean debug;
 
     private float left;
@@ -48,6 +55,7 @@ public class Render {
     private float movedBy;
     private float graphViewWidth;
     private final float basePaintHalfWidth;
+    private final int valueSize;
 
     private float timeMarkerHalfHeight;
 
@@ -55,6 +63,14 @@ public class Render {
     private final static int FIRST_TIME = 0;
     private final static int NOT_RENDERING = 1;
     private final static int RENDERING = 2;
+
+    @Nullable
+    private Value clickedValue = null;
+
+    @NonNull
+    private List<Value> values = new ArrayList<>();
+    @Nullable
+    private OnValueClickListener onValueClickListener;
 
     public Render(@NonNull List<KeyValue<GraphValueSet, GraphValue>> graphValues,
                   @NonNull Date startTime,
@@ -65,6 +81,7 @@ public class Render {
                   int position,
                   float maxValue,
                   float minValue,
+                  int valueSize,
                   boolean debug) {
 
         this.graphValues = graphValues;
@@ -78,10 +95,9 @@ public class Render {
         this.maxValue = maxValue;
         this.minValue = minValue;
         this.debug = debug;
+        this.valueSize = valueSize;
 
-        debugPaint.setStrokeWidth(2);
-        debugPaint.setColor(Color.RED);
-        debugPaint.setTextSize(50);
+        debugPaint = createDebugPaint();
     }
 
     public void setPosition(float left,
@@ -103,6 +119,27 @@ public class Render {
         this.graphViewWidth = graphViewWidth;
     }
 
+    public boolean onClick(float x, float y) {
+        for (Value value : values) {
+            if (Math.abs(value.getX() - x) <= valueSize && Math.abs(value.getY() - y) <= valueSize) {
+                if (onValueClickListener != null) {
+                    onValueClickListener.onValueClick(value.getGraphValueSet(), value.getGraphValue());
+                }
+
+                clickedValue = value;
+                valueHighlightPaint.setColor(ThemeUtils.addAlpha(125, value.getGraphValueSet().getColor()));
+                return true;
+            }
+        }
+
+        clickedValue = null;
+        return false;
+    }
+
+    public void deselectClicked() {
+        clickedValue = null;
+    }
+
     public void draw(@NonNull Canvas canvas) {
         if (right > (-startText.getWidth() / 2f) &&
                 left < (graphViewWidth + endText.getWidth() / 2f)) {
@@ -122,12 +159,15 @@ public class Render {
 
     public float drawValues(@NonNull Canvas canvas, float prevRenderMaxValue) {
         float renderMaxValue = prevRenderMaxValue;
+        values = new ArrayList<>();
 
         if (right > (-startText.getWidth() / 2f) &&
                 left < (graphViewWidth + endText.getWidth() / 2f)) {
+
             float timeDiff = endTime.getTime() - startTime.getTime();
             float width = right - left;
             float height = bottom - top;
+            int posInList = 0;
 
             for (KeyValue<GraphValueSet, GraphValue> keyValue : graphValues) {
                 GraphValueSet graphValueSet = keyValue.getKey();
@@ -135,11 +175,21 @@ public class Render {
                 long timeFromStart = graphValue.getTime().getTime() - startTime.getTime();
                 renderMaxValue += graphValue.getValue(graphValueSet);
 
+                float x = left + width * (timeFromStart / timeDiff);
+                float y = bottom - height * ((renderMaxValue - minValue) / (maxValue - minValue));
+                values.add(new Value(x, y, posInList, graphValueSet, graphValue));
+
+                if (clickedValue != null && clickedValue.getPosInList() == posInList) {
+                    canvas.drawCircle(x,
+                            y,
+                            valueSize * 1.5f,
+                            valueHighlightPaint);
+                }
+
                 valuePaint.setColor(graphValueSet.getColor());
-                canvas.drawCircle(left + width * (timeFromStart / timeDiff),
-                        bottom - height * ((renderMaxValue - minValue) / (maxValue - minValue)),
-                        15,
-                        valuePaint);
+                canvas.drawCircle(x, y, valueSize, valuePaint);
+
+                posInList++;
             }
         } else {
             for (KeyValue<GraphValueSet, GraphValue> keyValue : graphValues) {
@@ -177,6 +227,7 @@ public class Render {
 
     private void drawDebug(@NonNull Canvas canvas) {
         if (debug) {
+            //Render box
             canvas.drawLine(left, top, right, top, debugPaint);
             canvas.drawLine(left, bottom, right, bottom, debugPaint);
             canvas.drawLine(left, top, left, bottom, debugPaint);
@@ -206,5 +257,15 @@ public class Render {
     public Render setLast(boolean last) {
         this.last = last;
         return this;
+    }
+
+    @NonNull
+    public Render setOnValueClickListener(@Nullable OnValueClickListener onValueClickListener) {
+        this.onValueClickListener = onValueClickListener;
+        return this;
+    }
+
+    public boolean isRendering() {
+        return renderingState == RENDERING;
     }
 }
