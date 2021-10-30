@@ -25,7 +25,6 @@ import cz.johnyapps.cheers.entities.beverage.Beverage
 import cz.johnyapps.cheers.tools.Logger
 import cz.johnyapps.cheers.tools.ThemeUtils
 import cz.johnyapps.cheers.viewmodels.BeverageDatabaseViewModel
-import java.util.*
 
 class BeverageDatabaseFragment: Fragment(), BackOptionFragment {
     private val adapter = BeveragesAdapter()
@@ -102,7 +101,7 @@ class BeverageDatabaseFragment: Fragment(), BackOptionFragment {
         val beverage = Beverage("", ThemeUtils.getRandomColor(), Color.BLACK, 0f)
         val editBeverageDialog = EditBeverageDialog(context)
         editBeverageDialog.show(beverage) { beverage1: Beverage ->
-            val list = viewModel.beverages.value;
+            val list = viewModel.beverages.value
 
             if (list != null && list.isNotEmpty()) {
                 binding.beveragesRecyclerView.scrollToPosition(list.size - 1)
@@ -212,6 +211,18 @@ class BeverageDatabaseFragment: Fragment(), BackOptionFragment {
     }
 
     override fun onBackPressed(): Boolean {
+        val searchView = this.searchView
+
+        if (searchView != null && !searchView.isIconified) {
+            searchView.isIconified = true
+            return true
+        }
+
+        if (adapter.isSelecting()) {
+            adapter.cancelSelection()
+            return true
+        }
+
         return false
     }
 }

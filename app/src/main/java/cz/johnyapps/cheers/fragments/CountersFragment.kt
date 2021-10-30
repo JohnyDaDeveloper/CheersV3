@@ -22,7 +22,7 @@ import cz.johnyapps.cheers.tools.ThemeUtils
 import cz.johnyapps.cheers.tools.TimeUtils
 import cz.johnyapps.cheers.viewmodels.CountersViewModel
 
-class CountersFragment: Fragment() {
+class CountersFragment: Fragment(), BackOptionFragment {
     private lateinit var viewModel: CountersViewModel
     private lateinit var binding: FragmentCountersNewBinding
     private val adapter = CountersAdapter()
@@ -206,5 +206,14 @@ class CountersFragment: Fragment() {
         viewModel.selectedCounters.observe(viewLifecycleOwner, {
             activity?.invalidateOptionsMenu()
         })
+    }
+
+    override fun onBackPressed(): Boolean {
+        if (adapter.isSelecting()) {
+            adapter.cancelSelection()
+            return true
+        }
+
+        return false
     }
 }
