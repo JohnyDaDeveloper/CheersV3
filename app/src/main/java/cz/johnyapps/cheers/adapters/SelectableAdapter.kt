@@ -19,6 +19,16 @@ abstract class SelectableAdapter<T, VH: SelectableAdapter<T, VH>.ViewHolder>(ite
     private var canceledSelectionThisClick = false
     var onSelectListener: OnSelectListener<T>? = null
 
+    override fun submitList(list: List<T>?) {
+        cancelSelection()
+        super.submitList(list)
+    }
+
+    override fun submitList(list: List<T>?, commitCallback: Runnable?) {
+        cancelSelection()
+        super.submitList(list, commitCallback)
+    }
+
     fun isSelecting(): Boolean {
         return selectedItems.isNotEmpty()
     }
@@ -30,10 +40,12 @@ abstract class SelectableAdapter<T, VH: SelectableAdapter<T, VH>.ViewHolder>(ite
     open fun selectPosition(pos: Int) {
         if (!allowSelection) {
             return
+        } else if (pos > itemCount) {
+            selectedItems.remove(pos)
+            return
         }
 
         val oldItemPos = if (selectedItems.keys.isEmpty()) -1 else selectedItems.keys.toTypedArray()[0]
-
         val wasAlreadySelected: Boolean = isSelected(pos)
 
         if (wasAlreadySelected || pos < 0) {

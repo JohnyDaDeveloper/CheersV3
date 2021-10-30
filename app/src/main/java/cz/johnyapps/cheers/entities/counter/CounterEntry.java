@@ -67,4 +67,19 @@ public class CounterEntry implements GraphValue {
 
         return 0;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CounterEntry entry = (CounterEntry) o;
+
+        return time.equals(entry.time);
+    }
+
+    @Override
+    public int hashCode() {
+        return time.hashCode();
+    }
 }

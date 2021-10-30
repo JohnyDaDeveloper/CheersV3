@@ -2,6 +2,7 @@ package cz.johnyapps.cheers.entities.counter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -31,4 +32,8 @@ public interface CounterDao {
     @Nullable
     @Query("SELECT * FROM counter_table WHERE beverageId = :beverageId")
     List<Counter> getCountersForBeverage(long beverageId);
+
+    @Transaction
+    @Query("SELECT * FROM counter_table WHERE active = 1")
+    LiveData<List<CounterWithBeverage>> getAllActiveCounterWithBeveragesLiveData();
 }

@@ -1,17 +1,15 @@
-package cz.johnyapps.cheers
+package cz.johnyapps.cheers.adapters
 
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
-import cz.johnyapps.cheers.adapters.ExpandableListAdapter
-import cz.johnyapps.cheers.adapters.SelectableAdapter
 import cz.johnyapps.cheers.tools.TextUtils
 
 abstract class FilterableAdapter<T, VH: SelectableAdapter<T, VH>.ViewHolder>(itemCallback: DiffUtil.ItemCallback<T>): ExpandableListAdapter<T, VH>(itemCallback), Filterable {
     abstract fun getItemTextForFilter(item: T): String
     private var ignoreNextSubmit = false
-    private var items: MutableList<T> = ArrayList()
-    private var filteredItems: MutableList<T>? = null
+    private var items: List<T> = ArrayList()
+    private var filteredItems: List<T>? = null
 
     fun filterItem(item: T, constraint: CharSequence): Boolean {
         return TextUtils.removeDiacritics(getItemTextForFilter(item).lowercase())
@@ -32,7 +30,7 @@ abstract class FilterableAdapter<T, VH: SelectableAdapter<T, VH>.ViewHolder>(ite
         return filteredItems != null
     }
 
-    override fun submitList(list: MutableList<T>?) {
+    override fun submitList(list: List<T>?) {
         if (!ignoreNextSubmit) {
             items = list ?: ArrayList()
         }
@@ -40,7 +38,7 @@ abstract class FilterableAdapter<T, VH: SelectableAdapter<T, VH>.ViewHolder>(ite
         super.submitList(list)
     }
 
-    override fun submitList(list: MutableList<T>?, commitCallback: Runnable?) {
+    override fun submitList(list: List<T>?, commitCallback: Runnable?) {
         if (!ignoreNextSubmit) {
             items = list ?: ArrayList()
         }

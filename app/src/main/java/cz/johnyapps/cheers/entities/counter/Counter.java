@@ -105,4 +105,32 @@ public class Counter {
     public void setEndTime(@Nullable Date endTime) {
         this.endTime = endTime;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Counter counter = (Counter) o;
+
+        if (id != counter.id) return false;
+        if (Float.compare(counter.volume, volume) != 0) return false;
+        if (beverageId != counter.beverageId) return false;
+        if (active != counter.active) return false;
+        if (!counterEntries.equals(counter.counterEntries)) return false;
+        if (!startTime.equals(counter.startTime)) return false;
+        return (endTime == null ? 0 : endTime.getTime()) == (counter.endTime == null ? 0 : counter.endTime.getTime());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + counterEntries.hashCode();
+        result = 31 * result + (volume != +0.0f ? Float.floatToIntBits(volume) : 0);
+        result = 31 * result + (int) (beverageId ^ (beverageId >>> 32));
+        result = 31 * result + (active ? 1 : 0);
+        result = 31 * result + startTime.hashCode();
+        result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
+        return result;
+    }
 }

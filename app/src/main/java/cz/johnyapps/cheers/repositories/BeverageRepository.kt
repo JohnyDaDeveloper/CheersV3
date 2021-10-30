@@ -3,6 +3,7 @@ package cz.johnyapps.cheers.repositories
 import android.content.Context
 import androidx.lifecycle.LiveData
 import cz.johnyapps.cheers.database.CheersRoomDatabase
+import cz.johnyapps.cheers.entities.CounterWithBeverage
 import cz.johnyapps.cheers.entities.beverage.Beverage
 
 class BeverageRepository(context: Context) {
@@ -10,5 +11,9 @@ class BeverageRepository(context: Context) {
 
     fun getAllBeverages(): LiveData<List<Beverage>> {
         return database.beverageDao().liveDataBeverages
+    }
+
+    fun getAllActiveCountersWithBeverages(): LiveData<List<CounterWithBeverage>> {
+        return database.counterDao().allActiveCounterWithBeveragesLiveData
     }
 }

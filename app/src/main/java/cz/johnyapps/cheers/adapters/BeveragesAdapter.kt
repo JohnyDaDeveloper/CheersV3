@@ -6,18 +6,17 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
-import cz.johnyapps.cheers.FilterableAdapter
 import cz.johnyapps.cheers.R
 import cz.johnyapps.cheers.database.tasks.BaseDatabaseTask
 import cz.johnyapps.cheers.database.tasks.GetBeverageDescriptionTask
-import cz.johnyapps.cheers.databinding.ItemBeverageNewBinding
+import cz.johnyapps.cheers.databinding.ItemBeverageBinding
 import cz.johnyapps.cheers.entities.beverage.Beverage
 import cz.johnyapps.cheers.tools.TextUtils
 import java.lang.Exception
 
 class BeveragesAdapter: FilterableAdapter<Beverage, BeveragesAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_beverage_new, parent, false))
+        return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_beverage, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, selected: Boolean, expanded: Boolean) {
@@ -74,7 +73,7 @@ class BeveragesAdapter: FilterableAdapter<Beverage, BeveragesAdapter.ViewHolder>
         descriptionTextView.text = text
     }
 
-    inner class ViewHolder(val binding: ItemBeverageNewBinding) : ExpandableListAdapter<Beverage, ViewHolder>.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ItemBeverageBinding) : ExpandableListAdapter<Beverage, ViewHolder>.ViewHolder(binding.root)
 
     companion object {
         private val DIFF_CALLBACK: DiffUtil.ItemCallback<Beverage> = object: DiffUtil.ItemCallback<Beverage>(){
