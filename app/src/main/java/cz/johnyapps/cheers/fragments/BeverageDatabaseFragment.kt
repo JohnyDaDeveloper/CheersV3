@@ -25,6 +25,7 @@ import cz.johnyapps.cheers.entities.beverage.Beverage
 import cz.johnyapps.cheers.tools.Logger
 import cz.johnyapps.cheers.tools.ThemeUtils
 import cz.johnyapps.cheers.viewmodels.BeverageDatabaseViewModel
+import java.util.*
 
 class BeverageDatabaseFragment: Fragment(), BackOptionFragment {
     private val adapter = BeveragesAdapter()
@@ -101,6 +102,12 @@ class BeverageDatabaseFragment: Fragment(), BackOptionFragment {
         val beverage = Beverage("", ThemeUtils.getRandomColor(), Color.BLACK, 0f)
         val editBeverageDialog = EditBeverageDialog(context)
         editBeverageDialog.show(beverage) { beverage1: Beverage ->
+            val list = viewModel.beverages.value;
+
+            if (list != null && list.isNotEmpty()) {
+                binding.beveragesRecyclerView.scrollToPosition(list.size - 1)
+            }
+
             val task = InsertBeverageTask(context)
             task.execute(beverage1)
         }
@@ -197,7 +204,7 @@ class BeverageDatabaseFragment: Fragment(), BackOptionFragment {
 
     private fun setupObservers() {
         viewModel.beverages.observe(viewLifecycleOwner, {
-            adapter.submitList(it?.toMutableList())
+            adapter.submitList(it)
         })
         viewModel.selectedBeverage.observe(viewLifecycleOwner, {
             activity?.invalidateOptionsMenu()

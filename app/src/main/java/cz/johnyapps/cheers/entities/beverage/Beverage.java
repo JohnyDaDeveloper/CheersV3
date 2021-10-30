@@ -46,7 +46,17 @@ public class Beverage implements ItemWithId, Comparable<Beverage> {
             return 1;
         }
 
-        return getName().compareTo(o.getName());
+        char[] a = getName().toLowerCase().toCharArray();
+        char[] b = o.getName().toLowerCase().toCharArray();
+        int len = Math.min(a.length, b.length);
+
+        for (int i = 0; i < len; i++) {
+            if ((char) a[i] != (char) b[i]) {
+                return a[i] > b[i] ? 1 : -1;
+            }
+        }
+
+        return a.length > b.length ? 1 : -1;
     }
 
     @NonNull

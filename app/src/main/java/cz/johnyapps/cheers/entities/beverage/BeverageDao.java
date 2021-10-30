@@ -22,6 +22,6 @@ public interface BeverageDao {
     @Query("SELECT * FROM beverage_table WHERE deleted = 0")
     List<Beverage> getBeverages();
 
-    @Query("SELECT * FROM beverage_table WHERE deleted = 0")
+    @Query("SELECT * FROM beverage_table WHERE deleted = 0 ORDER BY LOWER(name) ASC")
     LiveData<List<Beverage>> getLiveDataBeverages();
 }
