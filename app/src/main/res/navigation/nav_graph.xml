@@ -24,12 +24,6 @@
         tools:layout="@layout/fragment_counters" />
 
     <fragment
-        android:id="@+id/countersFragmentNew"
-        android:name="cz.johnyapps.cheers.fragments.CountersFragmentNew"
-        android:label="@string/nav_counters"
-        tools:layout="@layout/fragment_counters_new" />
-
-    <fragment
         android:id="@+id/beverageDatabaseFragment"
         android:name="cz.johnyapps.cheers.fragments.BeverageDatabaseFragment"
         android:label="@string/nav_beverage_database"

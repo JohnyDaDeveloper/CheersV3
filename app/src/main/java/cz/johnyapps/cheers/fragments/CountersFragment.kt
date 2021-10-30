@@ -22,7 +22,7 @@ import cz.johnyapps.cheers.tools.ThemeUtils
 import cz.johnyapps.cheers.tools.TimeUtils
 import cz.johnyapps.cheers.viewmodels.CountersViewModel
 
-class CountersFragmentNew: Fragment() {
+class CountersFragment: Fragment() {
     private lateinit var viewModel: CountersViewModel
     private lateinit var binding: FragmentCountersNewBinding
     private val adapter = CountersAdapter()

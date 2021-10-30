@@ -24,9 +24,4 @@
         android:id="@+id/aboutAppMenuItem"
         android:title="@string/nav_about_app"
         android:icon="@drawable/about_app" />
-
-    <item
-        android:id="@+id/countersFragmentNew"
-        android:title="@string/nav_counters"
-        android:icon="@drawable/counters" />
 </menu>

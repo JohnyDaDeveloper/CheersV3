@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import cz.johnyapps.cheers.R
-import cz.johnyapps.cheers.databinding.ItemCounterNewBinding
+import cz.johnyapps.cheers.databinding.ItemCounterBinding
 import cz.johnyapps.cheers.entities.CounterWithBeverage
 
 class CountersAdapter: SelectableAdapter<CounterWithBeverage, CountersAdapter.ViewHolder>(DIFF_CALLBACK) {
@@ -15,13 +15,13 @@ class CountersAdapter: SelectableAdapter<CounterWithBeverage, CountersAdapter.Vi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context),
-            R.layout.item_counter_new,
+            R.layout.item_counter,
             parent,
             false))
     }
 
 
-    open inner class ViewHolder(val binding: ItemCounterNewBinding): SelectableAdapter<CounterWithBeverage, CountersAdapter.ViewHolder>.ViewHolder(binding.root)
+    open inner class ViewHolder(val binding: ItemCounterBinding): SelectableAdapter<CounterWithBeverage, CountersAdapter.ViewHolder>.ViewHolder(binding.root)
 
     companion object {
         private val DIFF_CALLBACK: DiffUtil.ItemCallback<CounterWithBeverage> = object: DiffUtil.ItemCallback<CounterWithBeverage>(){
