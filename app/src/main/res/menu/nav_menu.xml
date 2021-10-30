@@ -24,9 +24,4 @@
         android:id="@+id/aboutAppMenuItem"
         android:title="@string/nav_about_app"
         android:icon="@drawable/about_app" />
-
-    <item
-        android:id="@+id/beverageDatabaseFragmentNew"
-        android:title="@string/nav_beverage_database"
-        android:icon="@drawable/beverage_database" />
 </menu>

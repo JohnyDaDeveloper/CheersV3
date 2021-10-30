@@ -18,7 +18,7 @@ import cz.johnyapps.cheers.adapters.BeveragesAdapter
 import cz.johnyapps.cheers.adapters.SelectableAdapter
 import cz.johnyapps.cheers.database.tasks.InsertBeverageTask
 import cz.johnyapps.cheers.database.tasks.UpdateBeveragesTask
-import cz.johnyapps.cheers.databinding.FragmentBeverageDatabaseNewBinding
+import cz.johnyapps.cheers.databinding.FragmentBeverageDatabaseBinding
 import cz.johnyapps.cheers.dialogs.EditBeverageDialog
 import cz.johnyapps.cheers.dialogs.customdialogbuilder.CustomDialogBuilder
 import cz.johnyapps.cheers.entities.beverage.Beverage
@@ -26,9 +26,9 @@ import cz.johnyapps.cheers.tools.Logger
 import cz.johnyapps.cheers.tools.ThemeUtils
 import cz.johnyapps.cheers.viewmodels.BeverageDatabaseViewModel
 
-class BeverageDatabaseFragmentNew: Fragment(), BackOptionFragment {
+class BeverageDatabaseFragment: Fragment(), BackOptionFragment {
     private val adapter = BeveragesAdapter()
-    private lateinit var binding: FragmentBeverageDatabaseNewBinding
+    private lateinit var binding: FragmentBeverageDatabaseBinding
     private lateinit var viewModel: BeverageDatabaseViewModel
     private var searchView: SearchView? = null
 
@@ -60,12 +60,12 @@ class BeverageDatabaseFragmentNew: Fragment(), BackOptionFragment {
             }
         }
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_beverage_database_new, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_beverage_database, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        setupRecyclerView(binding)
-        setupObservers(viewModel)
+        setupRecyclerView()
+        setupObservers()
 
         return binding.root
     }
@@ -190,12 +190,12 @@ class BeverageDatabaseFragmentNew: Fragment(), BackOptionFragment {
         }
     }
 
-    private fun setupRecyclerView(binding: FragmentBeverageDatabaseNewBinding) {
+    private fun setupRecyclerView() {
         binding.beveragesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.beveragesRecyclerView.adapter = adapter
     }
 
-    private fun setupObservers(viewModel: BeverageDatabaseViewModel) {
+    private fun setupObservers() {
         viewModel.beverages.observe(viewLifecycleOwner, {
             adapter.submitList(it?.toMutableList())
         })

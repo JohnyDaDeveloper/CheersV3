@@ -28,10 +28,4 @@
         android:name="cz.johnyapps.cheers.fragments.BeverageDatabaseFragment"
         android:label="@string/nav_beverage_database"
         tools:layout="@layout/fragment_beverage_database" />
-
-    <fragment
-        android:id="@+id/beverageDatabaseFragmentNew"
-        android:name="cz.johnyapps.cheers.fragments.BeverageDatabaseFragmentNew"
-        android:label="@string/nav_beverage_database"
-        tools:layout="@layout/fragment_beverage_database_new" />
 </navigation>
