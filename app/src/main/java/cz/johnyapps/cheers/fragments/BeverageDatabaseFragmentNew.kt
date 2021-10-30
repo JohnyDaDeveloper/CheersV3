@@ -10,12 +10,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import cz.johnyapps.cheers.R
-import cz.johnyapps.cheers.adapters.BeveragesAdapterNew
+import cz.johnyapps.cheers.adapters.BeveragesAdapter
 import cz.johnyapps.cheers.databinding.FragmentBeverageDatabaseNewBinding
 import cz.johnyapps.cheers.viewmodels.BeverageDatabaseViewModel
 
 class BeverageDatabaseFragmentNew: Fragment() {
-    val adapter = BeveragesAdapterNew()
+    val adapter = BeveragesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,

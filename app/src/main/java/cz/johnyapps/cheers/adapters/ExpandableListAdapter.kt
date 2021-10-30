@@ -3,25 +3,42 @@ package cz.johnyapps.cheers.adapters
 import android.view.View
 import androidx.recyclerview.widget.DiffUtil
 
-abstract class ExpandableListAdapter<T, VH: ExpandableListAdapter<T, VH>.ExpandableViewHolder>(itemCallback: DiffUtil.ItemCallback<T>): BaseAdapter<T, VH>(itemCallback) {
+abstract class ExpandableListAdapter<T, VH: SelectableAdapter<T, VH>.ViewHolder>(itemCallback: DiffUtil.ItemCallback<T>): SelectableAdapter<T, VH>(itemCallback) {
     private var expandedItemPosition: Int = -1
 
-    fun selectItem(position: Int) {
+    fun expandPosition(position: Int, notify: Boolean) {
         val oldPosition: Int = expandedItemPosition
         expandedItemPosition = if (oldPosition == position) -1 else position
-        notifyItemChanged(oldPosition)
-        notifyItemChanged(position)
+
+        if (notify) {
+            notifyItemChanged(oldPosition)
+            notifyItemChanged(position)
+        }
     }
 
     fun isExpanded(position: Int): Boolean {
         return position == expandedItemPosition
     }
 
-    open inner class ExpandableViewHolder(itemView: View): BaseAdapter<T, VH>.ViewHolder(itemView) {
+    override fun onBindViewHolder(holder: VH, position: Int, selected: Boolean) {
+        val expanded = isExpanded(position)
+
+        if (selected && expanded) {
+            expandPosition(position, false)
+        }
+
+        onBindViewHolder(holder, position, selected, expanded)
+    }
+
+    abstract fun onBindViewHolder(holder: VH, position: Int, selected: Boolean, expanded: Boolean)
+
+    open inner class ViewHolder(itemView: View): SelectableAdapter<T, VH>.ViewHolder(itemView) {
         init {
             addRootOnClickListener(object : RootOnClickListener {
                 override fun onClick(view: View) {
-                    selectItem(adapterPosition)
+                    if (!isSelecting() && !canceledSelectionThisClick()) {
+                        expandPosition(adapterPosition, true)
+                    }
                 }
             })
         }

@@ -15,12 +15,12 @@ import cz.johnyapps.cheers.entities.beverage.Beverage
 import cz.johnyapps.cheers.tools.TextUtils
 import java.lang.Exception
 
-class BeveragesAdapterNew: ExpandableListAdapter<Beverage, BeveragesAdapterNew.ViewHolder>(DIFF_CALLBACK) {
+class BeveragesAdapter: ExpandableListAdapter<Beverage, BeveragesAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_beverage_new, parent, false))
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, selected: Boolean, expanded: Boolean) {
         holder.binding.beverage = getItem(position)
         holder.binding.descriptionLayout.visibility = if (isExpanded(position)) View.VISIBLE else View.GONE
 
@@ -70,7 +70,7 @@ class BeveragesAdapterNew: ExpandableListAdapter<Beverage, BeveragesAdapterNew.V
         descriptionTextView.text = text
     }
 
-    inner class ViewHolder(val binding: ItemBeverageNewBinding) : ExpandableListAdapter<Beverage, ViewHolder>.ExpandableViewHolder(binding.root)
+    inner class ViewHolder(val binding: ItemBeverageNewBinding) : ExpandableListAdapter<Beverage, ViewHolder>.ViewHolder(binding.root)
 
     companion object {
         private val DIFF_CALLBACK: DiffUtil.ItemCallback<Beverage> = object: DiffUtil.ItemCallback<Beverage>(){
