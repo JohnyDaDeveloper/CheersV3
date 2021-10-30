@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
-
+import cz.johnyapps.cheers.FilterableAdapter
 import cz.johnyapps.cheers.R
 import cz.johnyapps.cheers.database.tasks.BaseDatabaseTask
 import cz.johnyapps.cheers.database.tasks.GetBeverageDescriptionTask
@@ -15,7 +15,7 @@ import cz.johnyapps.cheers.entities.beverage.Beverage
 import cz.johnyapps.cheers.tools.TextUtils
 import java.lang.Exception
 
-class BeveragesAdapter: ExpandableListAdapter<Beverage, BeveragesAdapter.ViewHolder>(DIFF_CALLBACK) {
+class BeveragesAdapter: FilterableAdapter<Beverage, BeveragesAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_beverage_new, parent, false))
     }
@@ -41,6 +41,10 @@ class BeveragesAdapter: ExpandableListAdapter<Beverage, BeveragesAdapter.ViewHol
             })
             task.execute(holder.binding.beverage)
         }
+    }
+
+    override fun getItemTextForFilter(item: Beverage): String {
+        return item.name
     }
 
     private fun fillDetails(descriptionTextView: AppCompatTextView,

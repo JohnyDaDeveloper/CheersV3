@@ -17,7 +17,7 @@ abstract class SelectableAdapter<T, VH: SelectableAdapter<T, VH>.ViewHolder>(ite
     private var multiSelection = true
     private var allowSelection = true
     private var canceledSelectionThisClick = false
-    private val onSelectListener: OnSelectListener<T>? = null
+    var onSelectListener: OnSelectListener<T>? = null
 
     fun isSelecting(): Boolean {
         return selectedItems.isNotEmpty()
