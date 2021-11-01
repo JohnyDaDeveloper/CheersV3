@@ -194,9 +194,7 @@ class CountersFragment: Fragment(), BackOptionFragment {
     }
 
     private fun setupRecyclerView() {
-        val context = binding.root.context
-        binding.countersRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.countersRecyclerView.adapter = adapter
+        binding.countersRecyclerView.setAdapter(adapter, LinearLayoutManager(binding.root.context))
     }
 
     private fun setupObservers() {

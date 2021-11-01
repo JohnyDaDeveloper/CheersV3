@@ -19,14 +19,9 @@ abstract class SelectableAdapter<T, VH: SelectableAdapter<T, VH>.ViewHolder>(ite
     private var canceledSelectionThisClick = false
     var onSelectListener: OnSelectListener<T>? = null
 
-    override fun submitList(list: List<T>?) {
+    override fun onCurrentListChanged(previousList: MutableList<T>, currentList: MutableList<T>) {
+        super.onCurrentListChanged(previousList, currentList)
         cancelSelection()
-        super.submitList(list)
-    }
-
-    override fun submitList(list: List<T>?, commitCallback: Runnable?) {
-        cancelSelection()
-        super.submitList(list, commitCallback)
     }
 
     fun isSelecting(): Boolean {
@@ -133,7 +128,7 @@ abstract class SelectableAdapter<T, VH: SelectableAdapter<T, VH>.ViewHolder>(ite
                 false
             }
 
-            addRootOnClickListener(object : RootOnClickListener {
+            addRootOnClickListener(object : OnRootClickListener {
                 override fun onClick(view: View) {
                     canceledSelectionThisClick = if (isSelecting()) {
                         selectPosition(adapterPosition)

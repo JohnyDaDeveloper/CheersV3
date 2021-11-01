@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
-
-    <LinearLayout
-        android:id="@+id/emptyMessageLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/emptyMessageImageView"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="144dp"
-            android:tint="?attr/colorOnSurfaceDisabled"
-            android:src="@drawable/no_items" />
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/emptyMessageTextView"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/emptyMessageLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="?spacingDefault"
-            android:text="@string/app_name"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:textAppearance="@style/TextAppearance.Cheers.Medium"
-            android:textColor="?colorOnSurfaceDisabled" />
-    </LinearLayout>
-</LinearLayout>
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/emptyMessageImageView"
+                android:layout_width="match_parent"
+                android:layout_height="144dp"
+                android:tint="?attr/colorOnSurfaceDisabled"
+                android:src="@drawable/no_items" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/emptyMessageTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="?spacingDefault"
+                android:text="@string/app_name"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.Cheers.Medium"
+                android:textColor="?colorOnSurfaceDisabled" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

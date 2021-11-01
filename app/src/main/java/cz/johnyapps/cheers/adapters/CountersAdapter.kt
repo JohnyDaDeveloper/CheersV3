@@ -1,6 +1,5 @@
 package cz.johnyapps.cheers.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +39,7 @@ class CountersAdapter: SelectableAdapter<CounterWithBeverage, CountersAdapter.Vi
 
     open inner class ViewHolder(val binding: ItemCounterBinding): SelectableAdapter<CounterWithBeverage, CountersAdapter.ViewHolder>.ViewHolder(binding.root) {
         init {
-            addRootOnClickListener(object : RootOnClickListener {
+            addRootOnClickListener(object : OnRootClickListener {
                 override fun onClick(view: View) {
                     if (allCountersDisabled) {
                         onCounterClickListener?.onClick(getItem(adapterPosition))

@@ -197,8 +197,7 @@ class BeverageDatabaseFragment: Fragment(), BackOptionFragment {
     }
 
     private fun setupRecyclerView() {
-        binding.beveragesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.beveragesRecyclerView.adapter = adapter
+        binding.beveragesRecyclerView.setAdapter(adapter, LinearLayoutManager(requireContext()))
     }
 
     private fun setupObservers() {

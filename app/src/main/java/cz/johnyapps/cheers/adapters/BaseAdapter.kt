@@ -7,12 +7,27 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapter<T, VH: BaseAdapter<T, VH>.ViewHolder>(itemCallback: DiffUtil.ItemCallback<T>): ListAdapter<T, VH>(itemCallback) {
+    var onListChangeListener: OnListChangedListener? = null
+
     fun getContext(viewHolder: VH): Context {
         return viewHolder.itemView.context
     }
 
+    override fun onCurrentListChanged(previousList: MutableList<T>, currentList: MutableList<T>) {
+        super.onCurrentListChanged(previousList, currentList)
+        onListChangeListener?.onChange(currentList.isEmpty())
+    }
+
+    interface OnRootClickListener {
+        fun onClick(view: View)
+    }
+
+    interface OnListChangedListener {
+        fun onChange(isListEmpty: Boolean)
+    }
+
     open inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private val rootOnClickListeners = ArrayList<RootOnClickListener>()
+        private val rootOnClickListeners = ArrayList<OnRootClickListener>()
 
         init {
             itemView.setOnClickListener {
@@ -22,12 +37,8 @@ abstract class BaseAdapter<T, VH: BaseAdapter<T, VH>.ViewHolder>(itemCallback: D
             }
         }
 
-        fun addRootOnClickListener(listener: RootOnClickListener) {
+        fun addRootOnClickListener(listener: OnRootClickListener) {
             rootOnClickListeners.add(listener)
         }
-    }
-
-    interface RootOnClickListener {
-        fun onClick(view: View)
     }
 }

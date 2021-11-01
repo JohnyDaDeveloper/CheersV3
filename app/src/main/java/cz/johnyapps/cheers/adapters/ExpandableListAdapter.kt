@@ -34,7 +34,7 @@ abstract class ExpandableListAdapter<T, VH: SelectableAdapter<T, VH>.ViewHolder>
 
     open inner class ViewHolder(itemView: View): SelectableAdapter<T, VH>.ViewHolder(itemView) {
         init {
-            addRootOnClickListener(object : RootOnClickListener {
+            addRootOnClickListener(object : OnRootClickListener {
                 override fun onClick(view: View) {
                     if (!isSelecting() && !canceledSelectionThisClick()) {
                         expandPosition(adapterPosition, true)
