@@ -257,26 +257,29 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
             if (time.getTime() - startTime.getTime() <= TIME_GAP) {
                 graphValues.add(keyValue);
             } else {
-                Date endTime = new Date(startTime.getTime() + TIME_GAP);
-                renders.add(new Render(graphValues,
-                        startTime,
-                        endTime,
-                        initializeText(TimeUtils.toTime(startTime)),
-                        initializeText(TimeUtils.toTime(endTime)),
-                        basePaint,
-                        renders.size(),
-                        maxValue,
-                        minValue,
-                        valueSize,
-                        debug).setOnValueClickListener(this));
+                while (time.getTime() - startTime.getTime() > TIME_GAP) {
+                    Date endTime = new Date(startTime.getTime() + TIME_GAP);
+                    renders.add(new Render(graphValues,
+                            startTime,
+                            endTime,
+                            initializeText(TimeUtils.toTime(startTime)),
+                            initializeText(TimeUtils.toTime(endTime)),
+                            basePaint,
+                            renders.size(),
+                            maxValue,
+                            minValue,
+                            valueSize,
+                            debug).setOnValueClickListener(this));
 
-                if (debug) {
-                    Logger.d(TAG, "createRenders: Render created with time %s", TimeUtils.toTime(keyValue.getValue().getTime()));
+                    if (debug) {
+                        Logger.d(TAG, "createRenders: Render created with time %s", TimeUtils.toTime(keyValue.getValue().getTime()));
+                    }
+
+                    graphValues = new ArrayList<>();
+                    startTime = new Date(startTime.getTime() + TIME_GAP);
                 }
 
-                graphValues = new ArrayList<>();
                 graphValues.add(keyValue);
-                startTime = new Date(startTime.getTime() + TIME_GAP);
             }
         }
 
