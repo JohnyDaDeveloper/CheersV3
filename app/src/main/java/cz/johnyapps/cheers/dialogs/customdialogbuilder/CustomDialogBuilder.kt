@@ -1,369 +1,297 @@
-package cz.johnyapps.cheers.dialogs.customdialogbuilder;
+package cz.johnyapps.cheers.dialogs.customdialogbuilder
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.database.Cursor;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
+import android.content.Context
+import android.content.DialogInterface
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import android.graphics.drawable.Drawable
+import androidx.annotation.StringRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.AttrRes
+import androidx.annotation.ArrayRes
+import android.content.DialogInterface.OnMultiChoiceClickListener
+import android.database.Cursor
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ListAdapter
+import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AlertDialog
 
-import androidx.annotation.ArrayRes;
-import androidx.annotation.AttrRes;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AlertDialog;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-public class CustomDialogBuilder extends MaterialAlertDialogBuilder {
-    @Nullable
-    private LargeHeaderView largeHeaderView;
-    @Nullable
-    private CharSequence title;
-    private boolean titleChanged = false;
-
-    public CustomDialogBuilder(@NonNull Context context) {
-        super(context);
-    }
-
-    @NonNull
-    public CustomDialogBuilder showLargeHeader() {
-        largeHeaderView = new LargeHeaderView(getContext());
-
+class CustomDialogBuilder(context: Context) : MaterialAlertDialogBuilder(context) {
+    private var largeHeaderView: LargeHeaderView? = null
+    private var title: CharSequence? = null
+    private var titleChanged = false
+    fun showLargeHeader(): CustomDialogBuilder {
+        largeHeaderView = LargeHeaderView(context)
         if (titleChanged) {
-            largeHeaderView.setTitle(title);
+            largeHeaderView!!.setTitle(title)
         }
-
-        setCustomTitle(largeHeaderView);
-        return this;
+        setCustomTitle(largeHeaderView)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setBackground(@Nullable Drawable background) {
-        super.setBackground(background);
-        return this;
+    override fun setBackground(background: Drawable?): CustomDialogBuilder {
+        super.setBackground(background)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setBackgroundInsetStart(int backgroundInsetStart) {
-        super.setBackgroundInsetStart(backgroundInsetStart);
-        return this;
+    override fun setBackgroundInsetStart(backgroundInsetStart: Int): CustomDialogBuilder {
+        super.setBackgroundInsetStart(backgroundInsetStart)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setBackgroundInsetTop(int backgroundInsetTop) {
-        super.setBackgroundInsetTop(backgroundInsetTop);
-        return this;
+    override fun setBackgroundInsetTop(backgroundInsetTop: Int): CustomDialogBuilder {
+        super.setBackgroundInsetTop(backgroundInsetTop)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setBackgroundInsetEnd(int backgroundInsetEnd) {
-        super.setBackgroundInsetEnd(backgroundInsetEnd);
-        return this;
+    override fun setBackgroundInsetEnd(backgroundInsetEnd: Int): CustomDialogBuilder {
+        super.setBackgroundInsetEnd(backgroundInsetEnd)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setBackgroundInsetBottom(int backgroundInsetBottom) {
-        super.setBackgroundInsetBottom(backgroundInsetBottom);
-        return this;
+    override fun setBackgroundInsetBottom(backgroundInsetBottom: Int): CustomDialogBuilder {
+        super.setBackgroundInsetBottom(backgroundInsetBottom)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setTitle(@StringRes int titleId) {
-        setTitle(getContext().getResources().getString(titleId));
-        return this;
+    override fun setTitle(@StringRes titleId: Int): CustomDialogBuilder {
+        setTitle(context.resources.getString(titleId))
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setTitle(@Nullable CharSequence title) {
-        this.title = title;
-        this.titleChanged = true;
-
+    override fun setTitle(title: CharSequence?): CustomDialogBuilder {
+        this.title = title
+        titleChanged = true
         if (largeHeaderView != null) {
-            largeHeaderView.setTitle(title);
+            largeHeaderView!!.setTitle(title)
         }
-
-        super.setTitle(title);
-        return this;
+        super.setTitle(title)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setCustomTitle(@Nullable View customTitleView) {
-        super.setCustomTitle(customTitleView);
-        return this;
+    override fun setCustomTitle(customTitleView: View?): CustomDialogBuilder {
+        super.setCustomTitle(customTitleView)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setMessage(@StringRes int messageId) {
-        super.setMessage(messageId);
-        return this;
+    override fun setMessage(@StringRes messageId: Int): CustomDialogBuilder {
+        super.setMessage(messageId)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setMessage(@Nullable CharSequence message) {
-        super.setMessage(message);
-        return this;
+    override fun setMessage(message: CharSequence?): CustomDialogBuilder {
+        super.setMessage(message)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setIcon(@DrawableRes int iconId) {
-        super.setIcon(iconId);
-        return this;
+    override fun setIcon(@DrawableRes iconId: Int): CustomDialogBuilder {
+        super.setIcon(iconId)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setIcon(@Nullable Drawable icon) {
-        super.setIcon(icon);
-        return this;
+    override fun setIcon(icon: Drawable?): CustomDialogBuilder {
+        super.setIcon(icon)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setIconAttribute(@AttrRes int attrId) {
-        super.setIconAttribute(attrId);
-        return this;
+    override fun setIconAttribute(@AttrRes attrId: Int): CustomDialogBuilder {
+        super.setIconAttribute(attrId)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setPositiveButton(@StringRes int textId,
-                                                 @Nullable DialogInterface.OnClickListener listener) {
-        super.setPositiveButton(textId, listener);
-        return this;
+    override fun setPositiveButton(
+        @StringRes textId: Int,
+        listener: DialogInterface.OnClickListener?
+    ): CustomDialogBuilder {
+        super.setPositiveButton(textId, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setPositiveButton(@Nullable CharSequence text,
-                                                 @Nullable DialogInterface.OnClickListener listener) {
-        super.setPositiveButton(text, listener);
-        return this;
+    override fun setPositiveButton(
+        text: CharSequence?,
+        listener: DialogInterface.OnClickListener?
+    ): CustomDialogBuilder {
+        super.setPositiveButton(text, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setPositiveButtonIcon(@Nullable Drawable icon) {
-        super.setPositiveButtonIcon(icon);
-        return this;
+    override fun setPositiveButtonIcon(icon: Drawable?): CustomDialogBuilder {
+        super.setPositiveButtonIcon(icon)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setNegativeButton(@StringRes int textId,
-                                                 @Nullable DialogInterface.OnClickListener listener) {
-        super.setNegativeButton(textId, listener);
-        return this;
+    override fun setNegativeButton(
+        @StringRes textId: Int,
+        listener: DialogInterface.OnClickListener?
+    ): CustomDialogBuilder {
+        super.setNegativeButton(textId, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setNegativeButton(@Nullable CharSequence text,
-                                                 @Nullable DialogInterface.OnClickListener listener) {
-        super.setNegativeButton(text, listener);
-        return this;
+    override fun setNegativeButton(
+        text: CharSequence?,
+        listener: DialogInterface.OnClickListener?
+    ): CustomDialogBuilder {
+        super.setNegativeButton(text, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setNegativeButtonIcon(@Nullable Drawable icon) {
-        super.setNegativeButtonIcon(icon);
-        return this;
+    override fun setNegativeButtonIcon(icon: Drawable?): CustomDialogBuilder {
+        super.setNegativeButtonIcon(icon)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setNeutralButton(@StringRes int textId,
-                                                @Nullable DialogInterface.OnClickListener listener) {
-        super.setNeutralButton(textId, listener);
-        return this;
+    override fun setNeutralButton(
+        @StringRes textId: Int,
+        listener: DialogInterface.OnClickListener?
+    ): CustomDialogBuilder {
+        super.setNeutralButton(textId, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setNeutralButton(@Nullable CharSequence text,
-                                                @Nullable DialogInterface.OnClickListener listener) {
-        super.setNeutralButton(text, listener);
-        return this;
+    override fun setNeutralButton(
+        text: CharSequence?,
+        listener: DialogInterface.OnClickListener?
+    ): CustomDialogBuilder {
+        super.setNeutralButton(text, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setNeutralButtonIcon(@Nullable Drawable icon) {
-        super.setNeutralButtonIcon(icon);
-        return this;
+    override fun setNeutralButtonIcon(icon: Drawable?): CustomDialogBuilder {
+        super.setNeutralButtonIcon(icon)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setCancelable(boolean cancelable) {
-        super.setCancelable(cancelable);
-        return this;
+    override fun setCancelable(cancelable: Boolean): CustomDialogBuilder {
+        super.setCancelable(cancelable)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setOnCancelListener(@Nullable DialogInterface.OnCancelListener onCancelListener) {
-        super.setOnCancelListener(onCancelListener);
-        return this;
+    override fun setOnCancelListener(onCancelListener: DialogInterface.OnCancelListener?): CustomDialogBuilder {
+        super.setOnCancelListener(onCancelListener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setOnDismissListener(@Nullable DialogInterface.OnDismissListener onDismissListener) {
-        super.setOnDismissListener(onDismissListener);
-        return this;
+    override fun setOnDismissListener(onDismissListener: DialogInterface.OnDismissListener?): CustomDialogBuilder {
+        super.setOnDismissListener(onDismissListener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setOnKeyListener(@Nullable DialogInterface.OnKeyListener onKeyListener) {
-        super.setOnKeyListener(onKeyListener);
-        return this;
+    override fun setOnKeyListener(onKeyListener: DialogInterface.OnKeyListener?): CustomDialogBuilder {
+        super.setOnKeyListener(onKeyListener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setItems(@ArrayRes int itemsId,
-                                        @Nullable DialogInterface.OnClickListener listener) {
-        super.setItems(itemsId, listener);
-        return this;
+    override fun setItems(
+        @ArrayRes itemsId: Int,
+        listener: DialogInterface.OnClickListener?
+    ): CustomDialogBuilder {
+        super.setItems(itemsId, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setItems(@Nullable CharSequence[] items,
-                                        @Nullable DialogInterface.OnClickListener listener) {
-        super.setItems(items, listener);
-        return this;
+    override fun setItems(
+        items: Array<CharSequence>?,
+        listener: DialogInterface.OnClickListener?
+    ): CustomDialogBuilder {
+        super.setItems(items, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setAdapter(@Nullable ListAdapter adapter,
-                                          @Nullable DialogInterface.OnClickListener listener) {
-        super.setAdapter(adapter, listener);
-        return this;
+    override fun setAdapter(
+        adapter: ListAdapter?,
+        listener: DialogInterface.OnClickListener?
+    ): CustomDialogBuilder {
+        super.setAdapter(adapter, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setCursor(@Nullable Cursor cursor,
-                                         @Nullable DialogInterface.OnClickListener listener,
-                                         @NonNull String labelColumn) {
-        super.setCursor(cursor, listener, labelColumn);
-        return this;
+    override fun setCursor(
+        cursor: Cursor?,
+        listener: DialogInterface.OnClickListener?,
+        labelColumn: String
+    ): CustomDialogBuilder {
+        super.setCursor(cursor, listener, labelColumn)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setMultiChoiceItems(@ArrayRes int itemsId,
-                                                   @Nullable boolean[] checkedItems,
-                                                   @Nullable DialogInterface.OnMultiChoiceClickListener listener) {
-        super.setMultiChoiceItems(itemsId, checkedItems, listener);
-        return this;
+    override fun setMultiChoiceItems(
+        @ArrayRes itemsId: Int,
+        checkedItems: BooleanArray?,
+        listener: OnMultiChoiceClickListener?
+    ): CustomDialogBuilder {
+        super.setMultiChoiceItems(itemsId, checkedItems, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setMultiChoiceItems(@Nullable CharSequence[] items,
-                                                   @Nullable boolean[] checkedItems,
-                                                   @Nullable DialogInterface.OnMultiChoiceClickListener listener) {
-        super.setMultiChoiceItems(items, checkedItems, listener);
-        return this;
+    override fun setMultiChoiceItems(
+        items: Array<CharSequence>?,
+        checkedItems: BooleanArray?,
+        listener: OnMultiChoiceClickListener?
+    ): CustomDialogBuilder {
+        super.setMultiChoiceItems(items, checkedItems, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setMultiChoiceItems(@Nullable Cursor cursor,
-                                                   @NonNull String isCheckedColumn,
-                                                   @NonNull String labelColumn,
-                                                   @Nullable DialogInterface.OnMultiChoiceClickListener listener) {
-        super.setMultiChoiceItems(cursor, isCheckedColumn, labelColumn, listener);
-        return this;
+    override fun setMultiChoiceItems(
+        cursor: Cursor?,
+        isCheckedColumn: String,
+        labelColumn: String,
+        listener: OnMultiChoiceClickListener?
+    ): CustomDialogBuilder {
+        super.setMultiChoiceItems(cursor, isCheckedColumn, labelColumn, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setSingleChoiceItems(@ArrayRes int itemsId,
-                                                    int checkedItem,
-                                                    @Nullable DialogInterface.OnClickListener listener) {
-        super.setSingleChoiceItems(itemsId, checkedItem, listener);
-        return this;
+    override fun setSingleChoiceItems(
+        @ArrayRes itemsId: Int,
+        checkedItem: Int,
+        listener: DialogInterface.OnClickListener?
+    ): CustomDialogBuilder {
+        super.setSingleChoiceItems(itemsId, checkedItem, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setSingleChoiceItems(@Nullable Cursor cursor,
-                                                    int checkedItem,
-                                                    @NonNull String labelColumn,
-                                                    @Nullable DialogInterface.OnClickListener listener) {
-        super.setSingleChoiceItems(cursor, checkedItem, labelColumn, listener);
-        return this;
+    override fun setSingleChoiceItems(
+        cursor: Cursor?,
+        checkedItem: Int,
+        labelColumn: String,
+        listener: DialogInterface.OnClickListener?
+    ): CustomDialogBuilder {
+        super.setSingleChoiceItems(cursor, checkedItem, labelColumn, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setSingleChoiceItems(@Nullable CharSequence[] items,
-                                                    int checkedItem,
-                                                    @Nullable DialogInterface.OnClickListener listener) {
-        super.setSingleChoiceItems(items, checkedItem, listener);
-        return this;
+    override fun setSingleChoiceItems(
+        items: Array<CharSequence>?,
+        checkedItem: Int,
+        listener: DialogInterface.OnClickListener?
+    ): CustomDialogBuilder {
+        super.setSingleChoiceItems(items, checkedItem, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setSingleChoiceItems(@Nullable ListAdapter adapter,
-                                                    int checkedItem,
-                                                    @Nullable DialogInterface.OnClickListener listener) {
-        super.setSingleChoiceItems(adapter, checkedItem, listener);
-        return this;
+    override fun setSingleChoiceItems(
+        adapter: ListAdapter?,
+        checkedItem: Int,
+        listener: DialogInterface.OnClickListener?
+    ): CustomDialogBuilder {
+        super.setSingleChoiceItems(adapter, checkedItem, listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setOnItemSelectedListener(@Nullable AdapterView.OnItemSelectedListener listener) {
-        super.setOnItemSelectedListener(listener);
-        return this;
+    override fun setOnItemSelectedListener(listener: AdapterView.OnItemSelectedListener?): CustomDialogBuilder {
+        super.setOnItemSelectedListener(listener)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setView(@Nullable View view) {
-        super.setView(view);
-        return this;
+    override fun setView(view: View?): CustomDialogBuilder {
+        super.setView(view)
+        return this
     }
 
-    @NonNull
-    @Override
-    public CustomDialogBuilder setView(@LayoutRes int layoutResId) {
-        super.setView(layoutResId);
-        return this;
-    }
-
-    @NonNull
-    @Override
-    public AlertDialog create() {
-        return super.create();
-    }
-
-    @Override
-    public AlertDialog show() {
-        return super.show();
+    override fun setView(@LayoutRes layoutResId: Int): CustomDialogBuilder {
+        super.setView(layoutResId)
+        return this
     }
 }

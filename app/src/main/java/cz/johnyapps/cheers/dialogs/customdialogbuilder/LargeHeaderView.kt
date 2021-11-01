@@ -1,43 +1,35 @@
-package cz.johnyapps.cheers.dialogs.customdialogbuilder;
+package cz.johnyapps.cheers.dialogs.customdialogbuilder
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.LinearLayout;
+import android.content.Context
+import android.util.AttributeSet
+import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatTextView
+import android.view.LayoutInflater
+import cz.johnyapps.cheers.R
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
+class LargeHeaderView : LinearLayout {
+    private var titleTextView: AppCompatTextView? = null
 
-import cz.johnyapps.cheers.R;
-
-public class LargeHeaderView extends LinearLayout {
-    @Nullable
-    private AppCompatTextView titleTextView;
-
-    public LargeHeaderView(@NonNull Context context) {
-        super(context);
-        init(null, 0);
+    constructor(context: Context) : super(context) {
+        init(null, 0)
     }
 
-    public LargeHeaderView(@NonNull Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(attrs, 0);
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(attrs, 0)
     }
 
-    public LargeHeaderView(@NonNull Context context, AttributeSet attrs, int theme) {
-        super(context, attrs, theme);
-        init(attrs, theme);
+    constructor(context: Context, attrs: AttributeSet?, theme: Int) : super(context, attrs, theme) {
+        init(attrs, theme)
     }
 
-    public void init(@Nullable AttributeSet attrs, int theme) {
-        LayoutInflater.from(getContext()).inflate(R.layout.view_large_header, this, true);
-        titleTextView = findViewById(R.id.titleTextView);
+    fun init(attrs: AttributeSet?, theme: Int) {
+        LayoutInflater.from(context).inflate(R.layout.view_large_header, this, true)
+        titleTextView = findViewById(R.id.titleTextView)
     }
 
-    public void setTitle(@Nullable CharSequence title) {
+    fun setTitle(title: CharSequence?) {
         if (titleTextView != null) {
-            titleTextView.setText(title);
+            titleTextView!!.text = title
         }
     }
 }
