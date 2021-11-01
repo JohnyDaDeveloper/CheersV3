@@ -3,7 +3,6 @@ package cz.johnyapps.cheers.fragments
 import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import cz.johnyapps.cheers.R
 import cz.johnyapps.cheers.SharedPrefsNames
 import cz.johnyapps.cheers.adapters.CountersAdapter
-import cz.johnyapps.cheers.databinding.FragmentBeverageCategoryNewBinding
+import cz.johnyapps.cheers.databinding.FragmentBeverageCategoryBinding
 import cz.johnyapps.cheers.entities.BeverageCategory
 import cz.johnyapps.cheers.entities.CounterWithBeverage
 import cz.johnyapps.cheers.tools.Logger
@@ -27,8 +26,8 @@ import cz.johnyapps.cheers.viewmodels.BeverageCategoriesViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
-class BeverageCategoryFragmentNew(private var viewModel: BeverageCategoriesViewModel, private var beverageCategory: BeverageCategory): Fragment(), BackOptionFragment {
-    private lateinit var binding: FragmentBeverageCategoryNewBinding
+class BeverageCategoryFragment(private var viewModel: BeverageCategoriesViewModel, private var beverageCategory: BeverageCategory): Fragment(), BackOptionFragment {
+    private lateinit var binding: FragmentBeverageCategoryBinding
     private lateinit var adapter: CountersAdapter
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
     private var peekHeightIfCounters = 0
@@ -42,7 +41,7 @@ class BeverageCategoryFragmentNew(private var viewModel: BeverageCategoriesViewM
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_beverage_category_new, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_beverage_category, container, false)
         val context = binding.root.context
 
         peekHeightIfCounters = SharedPrefsUtils.getGeneralPrefs(context).getInt(SharedPrefsNames.COUNTER_HEIGHT, 0)

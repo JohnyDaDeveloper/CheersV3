@@ -9,16 +9,16 @@ import cz.johnyapps.cheers.R
 import cz.johnyapps.cheers.adapters.BeverageFragmentAdapter
 import cz.johnyapps.cheers.database.tasks.BaseDatabaseTask
 import cz.johnyapps.cheers.database.tasks.InsertCounterWithBeverageTask
-import cz.johnyapps.cheers.databinding.FragmentBeverageCategoriesNewBinding
+import cz.johnyapps.cheers.databinding.FragmentBeverageCategoriesBinding
 import cz.johnyapps.cheers.dialogs.NewCounterDialog
 import cz.johnyapps.cheers.entities.CounterWithBeverage
 import cz.johnyapps.cheers.entities.beverage.Beverage
 import cz.johnyapps.cheers.viewmodels.BeverageCategoriesViewModel
 import java.lang.Exception
 
-class BeverageCategoriesFragmentNew: Fragment(), BackOptionFragment {
+class BeverageCategoriesFragment: Fragment(), BackOptionFragment {
     private lateinit var viewModel: BeverageCategoriesViewModel
-    private lateinit var binding: FragmentBeverageCategoriesNewBinding
+    private lateinit var binding: FragmentBeverageCategoriesBinding
     private lateinit var adapter: BeverageFragmentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +44,7 @@ class BeverageCategoriesFragmentNew: Fragment(), BackOptionFragment {
         viewModel = provider.get(BeverageCategoriesViewModel::class.java)
         adapter = BeverageFragmentAdapter(this, viewModel)
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_beverage_categories_new, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_beverage_categories, container, false)
         binding.beveragesViewPager.adapter = adapter
 
         return binding.root
@@ -62,7 +62,7 @@ class BeverageCategoriesFragmentNew: Fragment(), BackOptionFragment {
                 override fun onSuccess(counterWithBeverage: CounterWithBeverage?) {
                     if (counterWithBeverage != null) {
                         val fragment = adapter.getFragment(binding.beveragesViewPager.currentItem)
-                        if (fragment is BeverageCategoryFragmentNew) {
+                        if (fragment is BeverageCategoryFragment) {
                             fragment.selectCounter(counterWithBeverage)
                         }
                     }
