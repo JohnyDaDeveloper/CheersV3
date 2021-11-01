@@ -3,7 +3,6 @@ package cz.johnyapps.cheers
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.databinding.BindingAdapter
 import cz.johnyapps.cheers.entities.CounterWithBeverage
 import cz.johnyapps.cheers.entities.counter.CounterEntry
