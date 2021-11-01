@@ -35,6 +35,7 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
 
     private static final long TIME_GAP = 7200000;
     private static final int SPEED_MULTIPLIER = 40;
+    private static final int MAX_VALUE_MULTIPLE_OF = 250;
 
     @NonNull
     private final Paint backgroundPain = new Paint();
@@ -254,9 +255,7 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
         for (KeyValue<GraphValueSet, GraphValue> keyValue : this.graphValues) {
             Date time = keyValue.getValue().getTime();
 
-            if (time.getTime() - startTime.getTime() <= TIME_GAP) {
-                graphValues.add(keyValue);
-            } else {
+            if (time.getTime() - startTime.getTime() > TIME_GAP) {
                 while (time.getTime() - startTime.getTime() > TIME_GAP) {
                     Date endTime = new Date(startTime.getTime() + TIME_GAP);
                     renders.add(new Render(graphValues,
@@ -279,8 +278,8 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
                     startTime = new Date(startTime.getTime() + TIME_GAP);
                 }
 
-                graphValues.add(keyValue);
             }
+            graphValues.add(keyValue);
         }
 
         if (!graphValues.isEmpty()) {
@@ -470,22 +469,15 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
         }
 
         this.maxValue = NumberUtils.roundUp(maxValue);
-    }
-
-    private void findMinValue(@NonNull List<KeyValue<GraphValueSet, GraphValue>> graphValues) {
-        if (!graphValues.isEmpty()) {
-            KeyValue<GraphValueSet, GraphValue> keyValue = graphValues.get(0);
-            this.minValue = NumberUtils.roundDown(keyValue.getValue().getValue(keyValue.getKey()));
-        } else {
-            this.minValue = 0;
-        }
+        this.maxValue = MAX_VALUE_MULTIPLE_OF * (this.maxValue / MAX_VALUE_MULTIPLE_OF + 1);
+        Logger.d(TAG, "findMaxValue: %s", this.maxValue);
     }
 
     public void setGraphValueSets(@Nullable List<? extends GraphValueSet> graphValueSets) {
         this.graphValues = toValueList(graphValueSets);
 
         findMaxValue(graphValueSets);
-        findMinValue(this.graphValues);
+        this.minValue = 0;
         createRenders();
         initializeTexts();
         invalidate();
