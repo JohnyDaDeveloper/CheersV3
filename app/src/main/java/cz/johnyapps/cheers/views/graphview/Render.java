@@ -36,6 +36,8 @@ public class Render {
     @NonNull
     private final Paint debugPaint;
     @NonNull
+    private final Paint debugHighlightPaint = new Paint();
+    @NonNull
     private final Paint valuePaint = new Paint();
     @NonNull
     private final Paint valueHighlightPaint = new Paint();
@@ -56,6 +58,7 @@ public class Render {
     private float graphViewWidth;
     private final float basePaintHalfWidth;
     private final int valueSize;
+    private final int valueHitBoxSize;
 
     private float timeMarkerHalfHeight;
 
@@ -82,6 +85,7 @@ public class Render {
                   float maxValue,
                   float minValue,
                   int valueSize,
+                  int valueHitBoxSize,
                   boolean debug) {
 
         this.graphValues = graphValues;
@@ -96,8 +100,10 @@ public class Render {
         this.minValue = minValue;
         this.debug = debug;
         this.valueSize = valueSize;
+        this.valueHitBoxSize = valueHitBoxSize;
 
         debugPaint = createDebugPaint();
+        debugHighlightPaint.setColor(ThemeUtils.addAlpha(125, debugPaint.getColor()));
     }
 
     public void setPosition(float left,
@@ -121,7 +127,7 @@ public class Render {
 
     public boolean onClick(float x, float y) {
         for (Value value : values) {
-            if (Math.abs(value.getX() - x) <= valueSize && Math.abs(value.getY() - y) <= valueSize) {
+            if (distanceFrom(x, y, value.getX(), value.getY()) <= valueHitBoxSize) {
                 if (onValueClickListener != null) {
                     onValueClickListener.onValueClick(value.getGraphValueSet(), value.getGraphValue());
                 }
@@ -133,6 +139,13 @@ public class Render {
         }
 
         return false;
+    }
+
+    public double distanceFrom(float ax, float ay, float bx, float by) {
+        float dx = Math.abs(ax - bx);
+        float dy = Math.abs(ay - by);
+
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     public void deselectClicked() {
@@ -184,16 +197,19 @@ public class Render {
                 float y = bottom - height * ((renderMaxValue - minValue) / (maxValue - minValue));
                 values.add(new Value(x, y, posInList, graphValueSet, graphValue));
 
+                if (debug) {
+                    canvas.drawCircle(x, y, valueHitBoxSize, debugHighlightPaint);
+                }
+
                 if (clickedValue != null && clickedValue.getPosInList() == posInList) {
                     canvas.drawCircle(x,
                             y,
-                            valueSize * 1.5f,
+                            valueSize * 1.7f,
                             valueHighlightPaint);
                 }
 
                 valuePaint.setColor(graphValueSet.getColor());
                 canvas.drawCircle(x, y, valueSize, valuePaint);
-
                 posInList++;
             }
         } else {
@@ -238,6 +254,7 @@ public class Render {
             canvas.drawLine(left, top, left, bottom, debugPaint);
             canvas.drawLine(right, top, right, bottom, debugPaint);
 
+            //Number of render
             canvas.drawText(String.valueOf(position), left + 10, top + 50, debugPaint);
         }
     }

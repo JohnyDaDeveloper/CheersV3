@@ -63,6 +63,7 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
     @Nullable
     private String valueSuffix;
     private int valueSize = 15;
+    private int valueHitBoxSize = 30;
     private int lineWidth = 10;
 
     private float movedBy = 0;
@@ -103,8 +104,10 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
 
             debug = array.getBoolean(R.styleable.GraphView_debug, false);
             valueSuffix = array.getString(R.styleable.GraphView_valueSuffix);
-            valueSize = array.getDimensionPixelSize(R.styleable.GraphView_valueSize, ThemeUtils.dpToPx(getContext(), 10));
+            valueSize = array.getDimensionPixelSize(R.styleable.GraphView_valueSize, ThemeUtils.dpToPx(getContext(), 7));
             lineWidth = array.getDimensionPixelSize(R.styleable.GraphView_lineWidth, ThemeUtils.dpToPx(getContext(), 4));
+
+            valueHitBoxSize = Math.max(ThemeUtils.dpToPx(getContext(), 15), valueSize);
 
             array.recycle();
         }
@@ -268,6 +271,7 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
                             maxValue,
                             minValue,
                             valueSize,
+                            valueHitBoxSize,
                             debug).setOnValueClickListener(this));
 
                     if (debug) {
@@ -294,6 +298,7 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
                     maxValue,
                     minValue,
                     valueSize,
+                    valueHitBoxSize,
                     debug).setLast(true)
                     .setOnValueClickListener(this));
 

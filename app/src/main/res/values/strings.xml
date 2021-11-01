@@ -67,4 +67,6 @@
     <string name="beverage_recycler_view_item_description_rest">Last counter: %sx %sL\nTotal: %sL</string>
     <string name="beverage_recycler_view_item_description_no_data">No counter for this beverage found</string>
     <string name="description_text_view_loading">Loading…</string>
+    <string name="time_text_view_empty">00:00</string>
+    <string name="beverage_name_text_view">Nothing selected</string>
 </resources>

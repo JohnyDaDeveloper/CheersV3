@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="?spacingDefault"
+                android:text="@string/beverage_name_text_view"
                 android:textAppearance="@style/TextAppearance.Cheers.Small" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -40,6 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.Cheers.Large"
+                android:text="@string/time_text_view_empty"
                 android:gravity="center" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </RelativeLayout>
