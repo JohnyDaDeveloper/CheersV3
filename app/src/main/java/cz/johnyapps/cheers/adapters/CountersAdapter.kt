@@ -1,6 +1,8 @@
 package cz.johnyapps.cheers.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
@@ -9,8 +11,24 @@ import cz.johnyapps.cheers.databinding.ItemCounterBinding
 import cz.johnyapps.cheers.entities.CounterWithBeverage
 
 class CountersAdapter: SelectableAdapter<CounterWithBeverage, CountersAdapter.ViewHolder>(DIFF_CALLBACK) {
+    var allCountersDisabled = false
+        set(value) {
+            notifyDataSetChanged()
+            field = value
+        }
+    var onCounterClickListener: OnCounterClickListener? = null
+
+    init {
+        setHasStableIds(true)
+    }
+
+    override fun getItemId(position: Int): Long {
+        return getItem(position).counter.id
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int, selected: Boolean) {
         holder.binding.counterWithBeverage = getItem(position)
+        holder.binding.counterView.setPassClicks(allCountersDisabled)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -20,8 +38,17 @@ class CountersAdapter: SelectableAdapter<CounterWithBeverage, CountersAdapter.Vi
             false))
     }
 
-
-    open inner class ViewHolder(val binding: ItemCounterBinding): SelectableAdapter<CounterWithBeverage, CountersAdapter.ViewHolder>.ViewHolder(binding.root)
+    open inner class ViewHolder(val binding: ItemCounterBinding): SelectableAdapter<CounterWithBeverage, CountersAdapter.ViewHolder>.ViewHolder(binding.root) {
+        init {
+            addRootOnClickListener(object : RootOnClickListener {
+                override fun onClick(view: View) {
+                    if (allCountersDisabled) {
+                        onCounterClickListener?.onClick(getItem(adapterPosition))
+                    }
+                }
+            })
+        }
+    }
 
     companion object {
         private val DIFF_CALLBACK: DiffUtil.ItemCallback<CounterWithBeverage> = object: DiffUtil.ItemCallback<CounterWithBeverage>(){
@@ -34,5 +61,9 @@ class CountersAdapter: SelectableAdapter<CounterWithBeverage, CountersAdapter.Vi
             }
 
         }
+    }
+
+    interface OnCounterClickListener {
+        fun onClick(counterWithBeverage: CounterWithBeverage)
     }
 }

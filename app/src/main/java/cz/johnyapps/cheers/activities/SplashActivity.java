@@ -8,11 +8,15 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import cz.johnyapps.cheers.SharedPrefsNames;
+import cz.johnyapps.cheers.tools.SharedPrefsUtils;
 import cz.johnyapps.cheers.views.CounterView;
 
 public class SplashActivity extends BaseActivity {
     private boolean migrationsFinished = false;
     private boolean counterViewMeasured = false;
+
+    //TODO Remove
     private int counterHeight = 0;
 
     @NonNull
@@ -39,6 +43,13 @@ public class SplashActivity extends BaseActivity {
         CounterView counterView = new CounterView(this);
         counterView.setOnSizeChangedListener((width, height) -> {
             counterHeight = height;
+
+            if (height > 0) {
+                SharedPrefsUtils.getGeneralPrefs(this)
+                        .edit()
+                        .putInt(SharedPrefsNames.COUNTER_HEIGHT, height)
+                        .apply();
+            }
 
             if (migrationsFinished && !counterViewMeasured) {
                 startNextAndExit();

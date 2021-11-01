@@ -6,7 +6,11 @@ import android.util.AttributeSet;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import cz.johnyapps.cheers.tools.Logger;
+
 public class CustomCoordinatorLayout extends CoordinatorLayout {
+    private static final String TAG = "CustomCoordinatorLayout";
+
     @Nullable
     private OnSizeChangedListener onSizeChangedListener;
 

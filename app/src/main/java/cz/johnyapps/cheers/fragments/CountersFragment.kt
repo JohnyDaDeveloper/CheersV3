@@ -13,7 +13,7 @@ import cz.johnyapps.cheers.adapters.SelectableAdapter
 import cz.johnyapps.cheers.database.tasks.DeleteCountersTask
 import cz.johnyapps.cheers.database.tasks.InsertCounterWithBeverageTask
 import cz.johnyapps.cheers.database.tasks.InsertCountersTask
-import cz.johnyapps.cheers.databinding.FragmentCountersNewBinding
+import cz.johnyapps.cheers.databinding.FragmentCountersBinding
 import cz.johnyapps.cheers.dialogs.NewCounterDialog
 import cz.johnyapps.cheers.dialogs.customdialogbuilder.CustomDialogBuilder
 import cz.johnyapps.cheers.entities.CounterWithBeverage
@@ -24,7 +24,7 @@ import cz.johnyapps.cheers.viewmodels.CountersViewModel
 
 class CountersFragment: Fragment(), BackOptionFragment {
     private lateinit var viewModel: CountersViewModel
-    private lateinit var binding: FragmentCountersNewBinding
+    private lateinit var binding: FragmentCountersBinding
     private val adapter = CountersAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +45,7 @@ class CountersFragment: Fragment(), BackOptionFragment {
             }
         }
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_counters_new, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_counters, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 

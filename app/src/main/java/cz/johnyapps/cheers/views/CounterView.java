@@ -219,11 +219,15 @@ public class CounterView extends LinearLayout {
                 if (onPassClickListener != null) {
                     onPassClickListener.onClick(v);
                 }
+
+                performClick();
             });
             minusTextView.setOnClickListener(v -> {
                 if (onPassClickListener != null) {
                     onPassClickListener.onClick(v);
                 }
+
+                performClick();
             });
         } else {
             plusTextView.setOnClickListener(v -> changeCounterValue(1));

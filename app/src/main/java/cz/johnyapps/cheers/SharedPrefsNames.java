@@ -5,4 +5,5 @@ public interface SharedPrefsNames {
     String WINE_SELECTED_COUNTER = "wine_selected_counter";
     String SHOT_SELECTED_COUNTER = "shot_selected_counter";
     String LAST_START_APP_VERSION = "last_start_app_version";
+    String COUNTER_HEIGHT = "counter_height";
 }
