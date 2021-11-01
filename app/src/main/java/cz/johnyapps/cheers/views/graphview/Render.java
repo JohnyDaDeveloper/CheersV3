@@ -143,7 +143,10 @@ public class Render {
         if (right > (-startText.getWidth() / 2f) &&
                 left < (graphViewWidth + endText.getWidth() / 2f)) {
             if (renderingState == FIRST_TIME || renderingState == NOT_RENDERING) {
-                Logger.d(TAG, "draw: Render %s \tis rendering", position);
+                if (debug) {
+                    Logger.d(TAG, "draw: Render %s \tis rendering", position);
+                }
+
                 renderingState = RENDERING;
             }
 
@@ -151,7 +154,10 @@ public class Render {
             drawTimeTexts(canvas);
             drawDebug(canvas);
         } else if (renderingState == FIRST_TIME || renderingState == RENDERING) {
-            Logger.d(TAG, "draw: Render %s \tis NOT rendering", position);
+            if (debug) {
+                Logger.d(TAG, "draw: Render %s \tis NOT rendering", position);
+            }
+
             renderingState = NOT_RENDERING;
         }
     }

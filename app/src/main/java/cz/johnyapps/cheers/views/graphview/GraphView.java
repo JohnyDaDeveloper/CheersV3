@@ -248,8 +248,6 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
 
         Date startTime = graphValues.get(0).getValue().getTime();
 
-        Logger.d(TAG, "createRenders: %s", TimeUtils.toTime(graphValues.get(graphValues.size() - 1).getValue().getTime()));
-
         List<Render> renders = new ArrayList<>();
         List<KeyValue<GraphValueSet, GraphValue>> graphValues = new ArrayList<>();
 
@@ -272,7 +270,9 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
                         valueSize,
                         debug).setOnValueClickListener(this));
 
-                Logger.d(TAG, "createRenders: Render created with time %s", TimeUtils.toTime(keyValue.getValue().getTime()));
+                if (debug) {
+                    Logger.d(TAG, "createRenders: Render created with time %s", TimeUtils.toTime(keyValue.getValue().getTime()));
+                }
 
                 graphValues = new ArrayList<>();
                 graphValues.add(keyValue);
@@ -295,12 +295,17 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
                     debug).setLast(true)
                     .setOnValueClickListener(this));
 
-            Logger.d(TAG, "createRenders: One more render created");
+            if (debug) {
+                Logger.d(TAG, "createRenders: One more render created");
+            }
         } else {
             renders.get(renders.size() - 1).setLast(true);
         }
 
-        Logger.d(TAG, "createRenders: %s", renders.size());
+        if (debug) {
+            Logger.d(TAG, "createRenders: Created %s renders", renders.size());
+        }
+
         this.renders = renders;
     }
 
