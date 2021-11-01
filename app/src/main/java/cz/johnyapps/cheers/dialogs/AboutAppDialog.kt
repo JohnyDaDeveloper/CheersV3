@@ -1,50 +1,31 @@
-package cz.johnyapps.cheers.dialogs;
+package cz.johnyapps.cheers.dialogs
 
-import android.content.Context;
+import android.content.Context
+import android.content.DialogInterface
+import cz.johnyapps.cheers.dialogs.customdialogbuilder.CustomDialogBuilder
+import cz.johnyapps.cheers.R
+import androidx.appcompat.widget.AppCompatTextView
+import cz.johnyapps.cheers.BuildConfig
+import cz.johnyapps.cheers.tools.TextUtils
+import cz.johnyapps.cheers.tools.TimeUtils
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.AppCompatTextView;
-
-import cz.johnyapps.cheers.BuildConfig;
-import cz.johnyapps.cheers.R;
-import cz.johnyapps.cheers.dialogs.customdialogbuilder.CustomDialogBuilder;
-import cz.johnyapps.cheers.tools.TextUtils;
-import cz.johnyapps.cheers.tools.TimeUtils;
-
-public class AboutAppDialog {
-    @NonNull
-    private final Context context;
-
-    public AboutAppDialog(@NonNull Context context) {
-        this.context = context;
-    }
-
-    public void show() {
-        CustomDialogBuilder builder = new CustomDialogBuilder(context);
+class AboutAppDialog(private val context: Context) {
+    fun show() {
+        val builder = CustomDialogBuilder(context)
         builder.showLargeHeader()
-                .setView(R.layout.dialog_about_app)
-                .setNeutralButton(R.string.close, (dialog, which) -> {});
+            .setView(R.layout.dialog_about_app)
+            .setNeutralButton(R.string.close) { _: DialogInterface?, _: Int -> }
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        val alertDialog = builder.create()
+        alertDialog.show()
 
-        AppCompatTextView versionTextView = alertDialog.findViewById(R.id.versionTextView);
-        assert versionTextView != null;
-        versionTextView.setText(TextUtils.fromHtml(String.format("<b>%s:</b> %s",
-                context.getResources().getString(R.string.about_app_version),
-                BuildConfig.VERSION_NAME)));
+        val versionTextView = alertDialog.findViewById<AppCompatTextView>(R.id.versionTextView)!!
+        versionTextView.text = TextUtils.fromHtml("<b>${context.resources.getString(R.string.about_app_version)}: </b> ${BuildConfig.VERSION_NAME}")
 
-        AppCompatTextView buildTextView = alertDialog.findViewById(R.id.buildTextView);
-        assert buildTextView != null;
-        buildTextView.setText(TextUtils.fromHtml(String.format("<b>%s:</b> %s",
-                context.getResources().getString(R.string.about_app_build),
-                BuildConfig.VERSION_CODE)));
+        val buildTextView = alertDialog.findViewById<AppCompatTextView>(R.id.buildTextView)!!
+        buildTextView.text = TextUtils.fromHtml("<b>${context.resources.getString(R.string.about_app_build)}: </b> ${BuildConfig.VERSION_CODE}")
 
-        AppCompatTextView buildTimeTextView = alertDialog.findViewById(R.id.buildTimeTextView);
-        assert buildTimeTextView != null;
-        buildTimeTextView.setText(TextUtils.fromHtml(String.format("<b>%s:</b> %s",
-                context.getResources().getString(R.string.about_app_build_time),
-                TimeUtils.toDateAndTime(BuildConfig.BUILD_TIME))));
+        val buildTimeTextView = alertDialog.findViewById<AppCompatTextView>(R.id.buildTimeTextView)!!
+        buildTimeTextView.text = TextUtils.fromHtml("<b>${context.resources.getString(R.string.about_app_build_time)}: </b> ${TimeUtils.toDateAndTime(BuildConfig.BUILD_TIME)}")
     }
 }
