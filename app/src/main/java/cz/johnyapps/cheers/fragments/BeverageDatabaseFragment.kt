@@ -14,8 +14,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import cz.johnyapps.cheers.R
-import cz.johnyapps.cheers.adapters.BeveragesAdapter
-import cz.johnyapps.cheers.adapters.SelectableAdapter
+import cz.johnyapps.cheers.adapters.recycler.BeveragesAdapter
+import cz.johnyapps.cheers.adapters.recycler.SelectableAdapter
 import cz.johnyapps.cheers.database.tasks.InsertBeverageTask
 import cz.johnyapps.cheers.database.tasks.UpdateBeveragesTask
 import cz.johnyapps.cheers.databinding.FragmentBeverageDatabaseBinding

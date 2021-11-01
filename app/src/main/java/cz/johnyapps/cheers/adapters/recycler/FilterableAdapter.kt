@@ -1,4 +1,4 @@
-package cz.johnyapps.cheers.adapters
+package cz.johnyapps.cheers.adapters.recycler
 
 import android.widget.Filter
 import android.widget.Filterable

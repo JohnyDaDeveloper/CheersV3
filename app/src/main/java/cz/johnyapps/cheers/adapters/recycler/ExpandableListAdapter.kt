@@ -1,4 +1,4 @@
-package cz.johnyapps.cheers.adapters
+package cz.johnyapps.cheers.adapters.recycler
 
 import android.view.View
 import androidx.recyclerview.widget.DiffUtil

@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import cz.johnyapps.cheers.R
-import cz.johnyapps.cheers.adapters.BaseAdapter
+import cz.johnyapps.cheers.adapters.recycler.BaseAdapter
 import cz.johnyapps.cheers.databinding.ViewEmptyMessageRecyclerViewBinding
 
 class EmptyMessageRecyclerView: LinearLayout {

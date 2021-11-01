@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import cz.johnyapps.cheers.R
-import cz.johnyapps.cheers.adapters.BeverageFragmentAdapter
+import cz.johnyapps.cheers.adapters.recycler.BeverageFragmentAdapter
 import cz.johnyapps.cheers.database.tasks.BaseDatabaseTask
 import cz.johnyapps.cheers.database.tasks.InsertCounterWithBeverageTask
 import cz.johnyapps.cheers.databinding.FragmentBeverageCategoriesBinding

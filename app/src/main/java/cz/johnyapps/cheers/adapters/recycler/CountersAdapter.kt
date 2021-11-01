@@ -1,4 +1,4 @@
-package cz.johnyapps.cheers.adapters
+package cz.johnyapps.cheers.adapters.recycler
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,9 @@ import cz.johnyapps.cheers.R
 import cz.johnyapps.cheers.databinding.ItemCounterBinding
 import cz.johnyapps.cheers.entities.CounterWithBeverage
 
-class CountersAdapter: SelectableAdapter<CounterWithBeverage, CountersAdapter.ViewHolder>(DIFF_CALLBACK) {
+class CountersAdapter: SelectableAdapter<CounterWithBeverage, CountersAdapter.ViewHolder>(
+    DIFF_CALLBACK
+) {
     var allCountersDisabled = false
         set(value) {
             notifyDataSetChanged()
@@ -37,7 +39,7 @@ class CountersAdapter: SelectableAdapter<CounterWithBeverage, CountersAdapter.Vi
             false))
     }
 
-    open inner class ViewHolder(val binding: ItemCounterBinding): SelectableAdapter<CounterWithBeverage, CountersAdapter.ViewHolder>.ViewHolder(binding.root) {
+    open inner class ViewHolder(val binding: ItemCounterBinding): SelectableAdapter<CounterWithBeverage, ViewHolder>.ViewHolder(binding.root) {
         init {
             addRootOnClickListener(object : OnRootClickListener {
                 override fun onClick(view: View) {

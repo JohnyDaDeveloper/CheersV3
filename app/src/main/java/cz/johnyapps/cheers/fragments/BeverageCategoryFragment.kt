@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import cz.johnyapps.cheers.R
 import cz.johnyapps.cheers.SharedPrefsNames
-import cz.johnyapps.cheers.adapters.CountersAdapter
+import cz.johnyapps.cheers.adapters.recycler.CountersAdapter
 import cz.johnyapps.cheers.databinding.FragmentBeverageCategoryBinding
 import cz.johnyapps.cheers.entities.BeverageCategory
 import cz.johnyapps.cheers.entities.CounterWithBeverage

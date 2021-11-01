@@ -1,4 +1,4 @@
-package cz.johnyapps.cheers.adapters
+package cz.johnyapps.cheers.adapters.recycler
 
 import android.content.Context
 import android.view.View

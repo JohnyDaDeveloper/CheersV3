@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.johnyapps.cheers.R
-import cz.johnyapps.cheers.adapters.CountersAdapter
-import cz.johnyapps.cheers.adapters.SelectableAdapter
+import cz.johnyapps.cheers.adapters.recycler.CountersAdapter
+import cz.johnyapps.cheers.adapters.recycler.SelectableAdapter
 import cz.johnyapps.cheers.database.tasks.DeleteCountersTask
 import cz.johnyapps.cheers.database.tasks.InsertCounterWithBeverageTask
 import cz.johnyapps.cheers.database.tasks.InsertCountersTask

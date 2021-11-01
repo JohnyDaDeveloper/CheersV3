@@ -1,4 +1,4 @@
-package cz.johnyapps.cheers.adapters
+package cz.johnyapps.cheers.adapters.recycler
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
