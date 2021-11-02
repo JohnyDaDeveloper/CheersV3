@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import cz.johnyapps.cheers.entities.CounterWithBeverage
 import cz.johnyapps.cheers.repositories.BeverageRepository
 import cz.johnyapps.cheers.views.graphview.GraphValue
@@ -15,7 +16,7 @@ class StatisticsViewModel(application: Application): AndroidViewModel(applicatio
     val selectedGraphValue: MutableLiveData<GraphValue?> = MutableLiveData()
 
     init {
-        val repository = BeverageRepository(application)
+        val repository = BeverageRepository(application, viewModelScope)
         counters = repository.getAllActiveCountersWithBeverages()
     }
 

@@ -195,7 +195,13 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
 
         width = right - left;
 
-        maxMoveBy = (renders.size() - 1) * width - basePaintHalfWidth;
+        if (renders.size() > 0) {
+            maxMoveBy = (renders.size() - 1) * width - basePaintHalfWidth;
+
+            if (movedBy > maxMoveBy) {
+                movedBy = maxMoveBy;
+            }
+        }
 
         drawBottom(canvas);
         drawRenders(canvas);
@@ -475,7 +481,6 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
 
         this.maxValue = NumberUtils.roundUp(maxValue);
         this.maxValue = MAX_VALUE_MULTIPLE_OF * (this.maxValue / MAX_VALUE_MULTIPLE_OF + 1);
-        Logger.d(TAG, "findMaxValue: %s", this.maxValue);
     }
 
     public void setGraphValueSets(@Nullable List<? extends GraphValueSet> graphValueSets) {
@@ -486,6 +491,24 @@ public class GraphView extends View implements View.OnTouchListener, OnValueClic
         createRenders();
         initializeTexts();
         invalidate();
+    }
+
+    public void selectValue(@Nullable GraphValue graphValue) {
+        if (graphValue != null) {
+            for (Render render : renders) {
+                if (render.selectValue(graphValue)) {
+                    if (debug) {
+                        Logger.d(TAG, "selectValue: Found value in render %s", render.getPosition());
+                    }
+
+                    break;
+                }
+            }
+
+            invalidate();
+        } else if (debug) {
+            Logger.d(TAG, "selectValue: Value is null");
+        }
     }
 
     public void setOnValueClickListener(@Nullable OnValueClickListener onValueClickListener) {

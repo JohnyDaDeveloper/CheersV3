@@ -15,7 +15,6 @@
             app:valueSuffix="@string/milliliter"
             android:layout_marginBottom="?spacingDefault"
             android:layout_above="@id/valueEditLayout"
-            app:graphValueSets="@{viewModel.counters}"
             app:onValueClick="@{viewModel::setSetAndValue}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/valueEditLayout"

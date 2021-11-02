@@ -1,6 +1,5 @@
 package cz.johnyapps.cheers
 
-import android.util.Log
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -19,13 +18,6 @@ object BindingAdapters {
     @JvmStatic
     fun counterWithBeverage(counterView: CounterView, counterWithBeverage: CounterWithBeverage) {
         counterView.setCounter(counterWithBeverage)
-    }
-
-    @BindingAdapter("app:graphValueSets")
-    @JvmStatic
-    fun graphValueSets(graphView: GraphView, graphValueSets: List<GraphValueSet>?) {
-        Log.d("TAG", "graphValueSets: ${graphValueSets?.size}")
-        graphView.setGraphValueSets(graphValueSets)
     }
 
     @BindingAdapter("app:onValueClick")

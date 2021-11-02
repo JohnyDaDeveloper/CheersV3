@@ -14,7 +14,7 @@ class AboutAppDialog(private val context: Context) {
         val builder = CustomDialogBuilder(context)
         builder.showLargeHeader()
             .setView(R.layout.dialog_about_app)
-            .setNeutralButton(R.string.close) { _: DialogInterface?, _: Int -> }
+            .setPositiveButton(R.string.close) { _: DialogInterface?, _: Int -> }
 
         val alertDialog = builder.create()
         alertDialog.show()

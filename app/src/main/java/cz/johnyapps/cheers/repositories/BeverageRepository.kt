@@ -5,8 +5,12 @@ import androidx.lifecycle.LiveData
 import cz.johnyapps.cheers.database.CheersRoomDatabase
 import cz.johnyapps.cheers.entities.CounterWithBeverage
 import cz.johnyapps.cheers.entities.beverage.Beverage
+import cz.johnyapps.cheers.entities.counter.Counter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class BeverageRepository(context: Context) {
+class BeverageRepository(context: Context, private val scope: CoroutineScope) {
     private val database = CheersRoomDatabase.getDatabase(context)
 
     fun getAllBeverages(): LiveData<List<Beverage>> {
@@ -15,5 +19,11 @@ class BeverageRepository(context: Context) {
 
     fun getAllActiveCountersWithBeverages(): LiveData<List<CounterWithBeverage>> {
         return database.counterDao().allActiveCounterWithBeveragesLiveData
+    }
+
+    fun updateCounter(counter: Counter) {
+        scope.launch(Dispatchers.IO) {
+            database.counterDao().updateCount(counter.id, counter.counterEntries)
+        }
     }
 }

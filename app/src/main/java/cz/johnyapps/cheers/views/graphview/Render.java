@@ -128,17 +128,49 @@ public class Render {
     public boolean onClick(float x, float y) {
         for (Value value : values) {
             if (distanceFrom(x, y, value.getX(), value.getY()) <= valueHitBoxSize) {
-                if (onValueClickListener != null) {
-                    onValueClickListener.onValueClick(value.getGraphValueSet(), value.getGraphValue());
-                }
-
-                clickedValue = value;
-                valueHighlightPaint.setColor(ThemeUtils.addAlpha(125, value.getGraphValueSet().getColor()));
+                selectValue(value);
                 return true;
             }
         }
 
         return false;
+    }
+
+    public boolean selectValue(@NonNull GraphValue select) {
+        if (!graphValues.isEmpty()) {
+            int i = 0;
+
+            for (KeyValue<GraphValueSet, GraphValue> keyValue : graphValues) {
+                Date date = keyValue.getValue().getTime();
+
+                if (date.equals(select.getTime())) {
+                    selectValue(new Value(-1, -1, i, keyValue.getKey(), keyValue.getValue()));
+                    return true;
+                }
+
+                i++;
+            }
+        }
+
+        return false;
+    }
+
+    private void selectValue(@NonNull Value value) {
+        if (debug) {
+            Logger.d(TAG, "selectValue: Selected value:\ntime: %s\nvalue: %s\nx: %s y: %s\nin list: %s",
+                    value.getGraphValue().getTime(),
+                    value.getGraphValue().getValue(value.getGraphValueSet()),
+                    value.getX(),
+                    value.getY(),
+                    value.getPosInList());
+        }
+
+        if (onValueClickListener != null) {
+            onValueClickListener.onValueClick(value.getGraphValueSet(), value.getGraphValue());
+        }
+
+        clickedValue = value;
+        valueHighlightPaint.setColor(ThemeUtils.addAlpha(125, value.getGraphValueSet().getColor()));
     }
 
     public double distanceFrom(float ax, float ay, float bx, float by) {
@@ -289,5 +321,9 @@ public class Render {
 
     public boolean isRendering() {
         return renderingState == RENDERING;
+    }
+
+    public int getPosition() {
+        return position;
     }
 }

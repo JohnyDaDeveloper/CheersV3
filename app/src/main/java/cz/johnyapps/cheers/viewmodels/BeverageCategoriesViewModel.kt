@@ -3,6 +3,7 @@ package cz.johnyapps.cheers.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 
 import cz.johnyapps.cheers.entities.CounterWithBeverage
 import cz.johnyapps.cheers.entities.beverage.Beverage
@@ -13,7 +14,7 @@ class BeverageCategoriesViewModel(application: Application): AndroidViewModel(ap
     val beverages: LiveData<List<Beverage>>
 
     init {
-        val repository = BeverageRepository(application)
+        val repository = BeverageRepository(application, viewModelScope)
         countersWithBeverages = repository.getAllActiveCountersWithBeverages()
         beverages = repository.getAllBeverages()
     }

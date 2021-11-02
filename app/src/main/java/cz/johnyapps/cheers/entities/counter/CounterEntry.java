@@ -19,7 +19,7 @@ public class CounterEntry implements GraphValue {
     private static final String TIME = "time";
 
     @NonNull
-    private final Date time;
+    private Date time;
 
     public CounterEntry() {
         this.time = TimeUtils.getDate();
@@ -48,6 +48,10 @@ public class CounterEntry implements GraphValue {
     @Override
     public Date getTime() {
         return time;
+    }
+
+    public void setTime(@NonNull Date time) {
+        this.time = time;
     }
 
     @Override

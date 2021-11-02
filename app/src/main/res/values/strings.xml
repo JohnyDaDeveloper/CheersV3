@@ -56,6 +56,8 @@
 
     <string name="dialog_edit_beverage_title">Edit beverage</string>
 
+    <string name="dialog_edit_point_title">Edit point</string>
+
     <string name="about_app_author"><b>Author:</b> Jan Pejsar</string>
     <string name="about_app_version">Version</string>
     <string name="about_app_build">Build</string>
