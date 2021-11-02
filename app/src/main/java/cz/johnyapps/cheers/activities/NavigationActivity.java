@@ -1,12 +1,13 @@
 package cz.johnyapps.cheers.activities;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -80,10 +81,10 @@ public abstract class NavigationActivity extends BaseActivity {
     }
 
     private void setupToolbar() {
-        //Drawable drawable = ContextCompat.getDrawable(this, R.drawable.options_menu);
+        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.options_menu);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        //toolbar.setOverflowIcon(drawable);
+        toolbar.setOverflowIcon(drawable);
 
         NavigationUI.setupWithNavController(toolbar, getNavController(), getAppBarConfiguration());
         setSupportActionBar(toolbar);
