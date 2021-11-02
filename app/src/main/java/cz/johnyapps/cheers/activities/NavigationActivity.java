@@ -2,8 +2,8 @@ package cz.johnyapps.cheers.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -27,7 +27,7 @@ public abstract class NavigationActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
+        setContentView();
 
         setupToolbar();
         setupNavigation();
@@ -52,8 +52,7 @@ public abstract class NavigationActivity extends BaseActivity {
         }
     }
 
-    @LayoutRes
-    protected abstract int getLayoutId();
+    protected abstract void setContentView();
 
     public NavController getNavController() {
         return Navigation.findNavController(this, R.id.nav_host_fragment);
