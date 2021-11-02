@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -12,29 +14,32 @@
             android:layout_height="match_parent"
             android:visibility="gone" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/emptyMessageLayout"
+        <ImageView
+            android:id="@+id/emptyMessageImageView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="144dp"
+            android:src="@drawable/no_items"
+            app:layout_constraintBottom_toTopOf="@id/emptyMessageTextView"
+            app:layout_constraintTop_toTopOf="@id/guideline"
+            app:tint="?attr/colorOnSurfaceDisabled" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/emptyMessageTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/emptyMessageImageView"
-                android:layout_width="match_parent"
-                android:layout_height="144dp"
-                android:tint="?attr/colorOnSurfaceDisabled"
-                android:src="@drawable/no_items" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/emptyMessageTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="?spacingDefault"
-                android:text="@string/app_name"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.Cheers.Medium"
-                android:textColor="?colorOnSurfaceDisabled" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            android:padding="?spacingDefault"
+            android:text="@string/app_name"
+            app:layout_constraintTop_toBottomOf="@id/emptyMessageImageView"
+            android:textAppearance="@style/TextAppearance.Cheers.Medium"
+            app:layout_constraintBottom_toBottomOf="@id/guideline"
+            android:textColor="?colorOnSurfaceDisabled" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -13,6 +13,10 @@
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/drawable/stop_counter.xml" value="0.3769230769230769" />
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/activity_main.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/content_main.xml" value="0.18070652173913043" />
+        <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/dialog_about_app.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/dialog_color_picker.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/dialog_edit_beverage.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/dialog_new_counter.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/fragment_beverage_categories.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/fragment_beverage_categories_new.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/fragment_beverage_category.xml" value="0.17831813576494426" />
@@ -28,8 +32,12 @@
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/item_beverage_new.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/item_counter.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/item_counter_new.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/item_item_with_id.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/nav_menu_header.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/view_counter.xml" value="0.16530797101449277" />
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/view_empty_message_recycler_view.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/view_large_header.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/layout/widget_counter.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/menu/counters_menu.xml" value="0.36102564102564105" />
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/menu/nav_menu.xml" value="0.34814814814814815" />
         <entry key="..\:/Users/Johny/AndroidStudioProjects/Cheers3/app/src/main/res/menu/selected_beverage_menu.xml" value="0.36102564102564105" />

@@ -3,7 +3,7 @@ package cz.johnyapps.cheers.adapters.recycler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatTextView
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import cz.johnyapps.cheers.R
@@ -15,6 +15,10 @@ import cz.johnyapps.cheers.tools.TextUtils
 import java.lang.Exception
 
 class BeveragesAdapter: FilterableAdapter<Beverage, BeveragesAdapter.ViewHolder>(DIFF_CALLBACK) {
+    init {
+        setHasStableIds(true)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_beverage, parent, false))
     }
@@ -46,7 +50,11 @@ class BeveragesAdapter: FilterableAdapter<Beverage, BeveragesAdapter.ViewHolder>
         return item.name
     }
 
-    private fun fillDetails(descriptionTextView: AppCompatTextView,
+    override fun getItemId(position: Int): Long {
+        return getItem(position).id
+    }
+
+    private fun fillDetails(descriptionTextView: TextView,
         beverage: Beverage,
         result: GetBeverageDescriptionTask.Result?) {
         var text = ""

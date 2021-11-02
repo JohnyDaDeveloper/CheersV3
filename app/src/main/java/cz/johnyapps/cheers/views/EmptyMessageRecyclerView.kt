@@ -50,10 +50,12 @@ class EmptyMessageRecyclerView: LinearLayout {
                 override fun onChange(isListEmpty: Boolean) {
                     if (isListEmpty) {
                         binding.recyclerView.visibility = View.GONE
-                        binding.emptyMessageLayout.visibility = View.VISIBLE
+                        binding.emptyMessageImageView.visibility = View.VISIBLE
+                        binding.emptyMessageTextView.visibility = View.VISIBLE
                     } else {
                         binding.recyclerView.visibility = View.VISIBLE
-                        binding.emptyMessageLayout.visibility = View.GONE
+                        binding.emptyMessageImageView.visibility = View.GONE
+                        binding.emptyMessageTextView.visibility = View.GONE
                     }
                 }
             }

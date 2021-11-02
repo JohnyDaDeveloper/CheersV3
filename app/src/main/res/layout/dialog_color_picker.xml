@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="?spacingDefault"
     android:orientation="vertical">
 
@@ -10,22 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="?spacingDefault"
-        android:layout_marginBottom="?spacingDefault" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <View
+        android:id="@+id/colorView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="?spacingDefault"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/colorPickerWheelView" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/brightnessSeekBar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical">
-
-        <View
-            android:id="@+id/colorView"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
-
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/brightnessSeekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="?spacingDefault" />
-    </LinearLayout>
-</LinearLayout>
+        app:layout_constraintTop_toTopOf="@id/colorView"
+        app:layout_constraintStart_toEndOf="@id/colorView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/colorView"
+        android:layout_marginStart="?spacingDefault" />
+</androidx.constraintlayout.widget.ConstraintLayout>

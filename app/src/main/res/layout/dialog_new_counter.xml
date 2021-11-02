@@ -1,82 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="20dp">
 
     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
         android:id="@+id/nameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="?spacingDefault"
+        app:layout_constraintTop_toTopOf="parent"
         android:hint="@string/dialog_new_counter_name"
         android:maxLines="1"
         android:inputType="text"
         android:completionThreshold="1"
         android:textAppearance="@style/TextAppearance.Cheers.Medium" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="30dp">
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/alcoholEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="?spacingDefault"
+        android:hint="@string/dialog_new_counter_alcohol"
+        android:inputType="numberSigned|number|numberDecimal"
+        android:maxLines="1"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameEditText"
+        app:layout_constraintEnd_toStartOf="@id/percentTextView"
+        android:layout_marginTop="?spacingDefault"
+        android:gravity="end"
+        android:textAppearance="@style/TextAppearance.Cheers.Medium" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/alcoholEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="?spacingDefault"
-                android:hint="@string/dialog_new_counter_alcohol"
-                android:inputType="numberSigned|number|numberDecimal"
-                android:gravity="end"
-                android:layout_toStartOf="@id/percentTextView"
-                android:layout_centerVertical="true"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.Cheers.Medium" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/percentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/percent"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="@id/alcoholEditText"
+        app:layout_constraintBottom_toBottomOf="@id/alcoholEditText"
+        android:layout_marginEnd="?spacingDefault"
+        android:textAppearance="@style/TextAppearance.Cheers.Medium" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/percentTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/percent"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:textAppearance="@style/TextAppearance.Cheers.Medium" />
-        </RelativeLayout>
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/volumeEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/dialog_new_counter_volume"
+        android:inputType="numberSigned|number|numberDecimal"
+        android:maxLines="1"
+        app:layout_constraintVertical_weight="1"
+        android:layout_marginStart="?spacingDefault"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="@id/alcoholEditText"
+        app:layout_constraintEnd_toStartOf="@id/literTextView"
+        android:gravity="end"
+        android:layout_marginEnd="?spacingDefault"
+        android:textAppearance="@style/TextAppearance.Cheers.Medium" />
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/volumeEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/dialog_new_counter_volume"
-                android:inputType="numberSigned|number|numberDecimal"
-                android:gravity="end"
-                android:layout_marginEnd="?spacingDefault"
-                android:layout_toStartOf="@id/literTextView"
-                android:layout_centerVertical="true"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.Cheers.Medium" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/literTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/liter"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:textAppearance="@style/TextAppearance.Cheers.Medium" />
-        </RelativeLayout>
-    </LinearLayout>
-</LinearLayout>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/literTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/liter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/volumeEditText"
+        app:layout_constraintBottom_toBottomOf="@id/volumeEditText"
+        android:textAppearance="@style/TextAppearance.Cheers.Medium" />
+</androidx.constraintlayout.widget.ConstraintLayout>
