@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -56,7 +56,9 @@ public abstract class NavigationActivity extends BaseActivity {
     protected abstract void setContentView();
 
     public NavController getNavController() {
-        return Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        assert navHostFragment != null;
+        return navHostFragment.getNavController();
     }
 
     private AppBarConfiguration getAppBarConfiguration() {

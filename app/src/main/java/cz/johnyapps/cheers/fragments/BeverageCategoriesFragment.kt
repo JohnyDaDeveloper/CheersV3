@@ -42,7 +42,7 @@ class BeverageCategoriesFragment: Fragment(), BackOptionFragment {
     ): View {
         val provider = ViewModelProvider(this)
         viewModel = provider.get(BeverageCategoriesViewModel::class.java)
-        adapter = BeverageFragmentAdapter(this, viewModel)
+        adapter = BeverageFragmentAdapter(this)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_beverage_categories, container, false)
         binding.beveragesViewPager.adapter = adapter

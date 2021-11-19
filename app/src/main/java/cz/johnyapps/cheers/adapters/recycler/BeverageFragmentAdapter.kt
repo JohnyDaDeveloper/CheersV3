@@ -4,9 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import cz.johnyapps.cheers.entities.BeverageCategory
 import cz.johnyapps.cheers.fragments.BeverageCategoryFragment
-import cz.johnyapps.cheers.viewmodels.BeverageCategoriesViewModel
 
-class BeverageFragmentAdapter(fragment: Fragment, private val viewModel: BeverageCategoriesViewModel): FragmentStateAdapter(fragment) {
+class BeverageFragmentAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
     private var fragments = ArrayList<Fragment>()
 
     override fun getItemCount(): Int {
@@ -14,7 +13,7 @@ class BeverageFragmentAdapter(fragment: Fragment, private val viewModel: Beverag
     }
 
     override fun createFragment(position: Int): Fragment {
-        val fragment = BeverageCategoryFragment(viewModel, BeverageCategory.values()[position])
+        val fragment = BeverageCategoryFragment(BeverageCategory.values()[position])
         fragments.add(fragment)
         return fragment
     }

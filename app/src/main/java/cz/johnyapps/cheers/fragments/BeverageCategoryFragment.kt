@@ -11,6 +11,7 @@ import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -26,14 +27,36 @@ import cz.johnyapps.cheers.viewmodels.BeverageCategoriesViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
-class BeverageCategoryFragment(private var viewModel: BeverageCategoriesViewModel, private var beverageCategory: BeverageCategory): Fragment(), BackOptionFragment {
+class BeverageCategoryFragment(): Fragment(), BackOptionFragment {
     private lateinit var binding: FragmentBeverageCategoryBinding
     private lateinit var adapter: CountersAdapter
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
+    private lateinit var viewModel: BeverageCategoriesViewModel
     private var peekHeightIfCounters = 0
+    private var beverageCategory = BeverageCategory.BEER
+
+    constructor(beverageCategory: BeverageCategory): this() {
+        this.beverageCategory = beverageCategory
+    }
 
     companion object {
         private const val TAG = "BeverageCategoryFragment"
+        private const val BEVERAGE_CATEGORY = "beverage_category"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val name = savedInstanceState?.getString(BEVERAGE_CATEGORY)
+
+        if (name != null) {
+            Logger.d(TAG, "onCreate: Setting category to: $name")
+            beverageCategory = BeverageCategory.valueOf(name)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(BEVERAGE_CATEGORY, beverageCategory.name)
     }
 
     override fun onCreateView(
@@ -41,6 +64,9 @@ class BeverageCategoryFragment(private var viewModel: BeverageCategoriesViewMode
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val provider = ViewModelProvider(requireActivity())
+        viewModel = provider.get(BeverageCategoriesViewModel::class.java)
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_beverage_category, container, false)
         val context = binding.root.context
 
