@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -28,6 +29,9 @@ public interface CounterDao {
 
     @Query("DELETE FROM counter_table WHERE id = :counterId")
     void delete(long counterId);
+
+    @Delete
+    void delete(Counter[] counters);
 
     @Nullable
     @Query("SELECT * FROM counter_table WHERE beverageId = :beverageId")

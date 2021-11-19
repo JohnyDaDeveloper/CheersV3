@@ -2,18 +2,14 @@ package cz.johnyapps.cheers.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cz.johnyapps.cheers.entities.beverage.Beverage
 import cz.johnyapps.cheers.repositories.BeverageRepository
 
 class BeverageDatabaseViewModel(application: Application) : AndroidViewModel(application) {
-    val beverages: LiveData<List<Beverage>>
-    val selectedBeverage: MutableLiveData<Beverage> = MutableLiveData()
+    val repository = BeverageRepository(application, viewModelScope)
 
-    init {
-        val beverageRepository = BeverageRepository(application, viewModelScope)
-        beverages = beverageRepository.getAllBeverages()
-    }
+    val beverages = repository.getAllBeverages()
+    val selectedBeverage: MutableLiveData<Beverage> = MutableLiveData()
 }

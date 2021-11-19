@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cz.johnyapps.cheers.R
 import cz.johnyapps.cheers.adapters.recycler.CountersAdapter
 import cz.johnyapps.cheers.adapters.recycler.SelectableAdapter
-import cz.johnyapps.cheers.database.tasks.DeleteCountersTask
 import cz.johnyapps.cheers.database.tasks.InsertCounterWithBeverageTask
 import cz.johnyapps.cheers.database.tasks.InsertCountersTask
 import cz.johnyapps.cheers.databinding.FragmentCountersBinding
@@ -130,8 +129,7 @@ class CountersFragment: Fragment(), BackOptionFragment {
                     iterator.next().counter
                 }
 
-                val task = DeleteCountersTask(context)
-                task.execute(counters)
+                viewModel.repository.deleteCounters(counters)
             }
 
         if (selectedCounters.size == 1) {

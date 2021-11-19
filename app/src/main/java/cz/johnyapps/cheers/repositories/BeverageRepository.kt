@@ -26,4 +26,16 @@ class BeverageRepository(context: Context, private val scope: CoroutineScope) {
             database.counterDao().updateCount(counter.id, counter.counterEntries)
         }
     }
+
+    fun deleteCounters(counters: Array<Counter>) {
+        scope.launch(Dispatchers.IO) {
+            database.counterDao().delete(counters)
+        }
+    }
+
+    fun insertBeverage(beverage: Beverage) {
+        scope.launch(Dispatchers.IO) {
+            beverage.id = database.beverageDao().insert(beverage)
+        }
+    }
 }

@@ -10,13 +10,9 @@ import cz.johnyapps.cheers.entities.beverage.Beverage
 import cz.johnyapps.cheers.repositories.BeverageRepository
 
 class CountersViewModel(application: Application): AndroidViewModel(application) {
-    val countersWithBeverages: LiveData<List<CounterWithBeverage>>
-    val selectedCounters = MutableLiveData<Collection<CounterWithBeverage>>()
-    val beverages: LiveData<List<Beverage>>
+    val repository: BeverageRepository = BeverageRepository(application, viewModelScope)
 
-    init {
-        val repository = BeverageRepository(application, viewModelScope)
-        countersWithBeverages = repository.getAllActiveCountersWithBeverages()
-        beverages = repository.getAllBeverages()
-    }
+    val countersWithBeverages: LiveData<List<CounterWithBeverage>> = repository.getAllActiveCountersWithBeverages()
+    val selectedCounters = MutableLiveData<Collection<CounterWithBeverage>>()
+    val beverages: LiveData<List<Beverage>> = repository.getAllBeverages()
 }
